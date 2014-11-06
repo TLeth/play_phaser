@@ -144,7 +144,7 @@ class Text extends PIXI.Text implements GameObject {
   Rectangle _currentBounds;
 
   Text(this.game, [num x, num y, String text = '', TextStyle style])
-  : super(text, style) {
+      : super(text, style) {
 
     this.x = x;
     this.y = y;
@@ -322,10 +322,14 @@ class Text extends PIXI.Text implements GameObject {
       this._cache[3] = this.game.stage.currentRenderOrderID++;
     }
 
-    //  Update any Children
-    for (var i = 0,
-    len = this.children.length; i < len; i++) {
-      this.children[i].preUpdate();
+
+    {
+      var i = 0;
+      var len = this.children.length;
+      //  Update any Children
+      for ( ; i < len; i++) {
+        this.children[i].preUpdate();
+      }
     }
 
     return true;
@@ -355,10 +359,14 @@ class Text extends PIXI.Text implements GameObject {
       this.position.y = (this.game.camera.view.y + this.cameraOffset.y) / this.game.camera.scale.y;
     }
 
-    //  Update any Children
-    for (var i = 0,
-    len = this.children.length; i < len; i++) {
-      this.children[i].postUpdate();
+
+    {
+      var i = 0;
+      var len = this.children.length;
+      //  Update any Children
+      for ( ; i < len; i++) {
+        this.children[i].postUpdate();
+      }
     }
 
   }
@@ -553,8 +561,7 @@ class Text extends PIXI.Text implements GameObject {
 
       if (this.colors.length > 0) {
         this.updateLine(lines[i], linePosition.x, linePosition.y);
-      }
-      else {
+      } else {
         if (this.style.stroke != null && this.style.strokeThickness != 0) {
           this.context.strokeText(lines[i], linePosition.x, linePosition.y);
         }

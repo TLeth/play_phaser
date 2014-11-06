@@ -2,7 +2,10 @@ part of Phaser;
 
 class Ellipse extends PIXI.Ellipse {
   int type;
-  num x, y, width, height;
+  num x;
+  num y;
+  num width;
+  num height;
 
 
   /**
@@ -36,8 +39,7 @@ class Ellipse extends PIXI.Ellipse {
   set right(num value) {
     if (value < this.x) {
       this.width = 0;
-    }
-    else {
+    } else {
       this.width = this.x + value;
     }
   }
@@ -75,8 +77,7 @@ class Ellipse extends PIXI.Ellipse {
   set bottom(num value) {
     if (value < this.y) {
       this.height = 0;
-    }
-    else {
+    } else {
       this.height = this.y + value;
     }
   }
@@ -184,8 +185,7 @@ class Ellipse extends PIXI.Ellipse {
 
     if (output == null) {
       output = new Ellipse(this.x, this.y, this.width, this.height);
-    }
-    else {
+    } else {
       output.setTo(this.x, this.y, this.width, this.height);
     }
 

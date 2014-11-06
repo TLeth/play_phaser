@@ -86,19 +86,16 @@ class Sound {
       if (this.usingWebAudio) {
         this._muteVolume = this.gainNode.gain.value;
         this.gainNode.gain.value = 0;
-      }
-      else if (this.usingAudioTag && this._sound) {
+      } else if (this.usingAudioTag && this._sound) {
         this._muteVolume = this._sound['volume'];
         this._sound['volume'] = 0;
       }
-    }
-    else {
+    } else {
       this._muted = false;
 
       if (this.usingWebAudio) {
         this.gainNode.gain.value = this._muteVolume;
-      }
-      else if (this.usingAudioTag && this._sound) {
+      } else if (this.usingAudioTag && this._sound) {
         this._sound['volume'] = this._muteVolume;
       }
     }
@@ -116,8 +113,7 @@ class Sound {
     if (this.usingWebAudio) {
       this._volume = value;
       this.gainNode.gain.value = value;
-    }
-    else if (this.usingAudioTag && this._sound) {
+    } else if (this.usingAudioTag && this._sound) {
       //  Causes an Index size error in Firefox if you don't clamp the value
       if (value >= 0 && value <= 1) {
         this._volume = value;
@@ -126,15 +122,14 @@ class Sound {
     }
   }
 
-  Sound(this.game, String key, [ num volume=1.0, bool loop=false, bool connect]) {
+  Sound(this.game, String key, [num volume = 1.0, bool loop = false, bool connect]) {
 
     if (connect == null) {
       connect = game.sound.connectToMaster;
     }
     this.name = key;
     this.key = key;
-    this.markers = {
-    };
+    this.markers = {};
     this.context = null;
     this.autoplay = false;
 
@@ -262,14 +257,12 @@ class Sound {
       if (connect) {
         this.gainNode.connectNode(this.masterGainNode);
       }
-    }
-    else {
+    } else {
       if (this.game.cache.getSound(key) != null && this.game.cache.isSoundReady(key)) {
         this._sound = this.game.cache.getSoundData(key);
         this.totalDuration = 0.0;
         this.totalDuration = (this._sound as AudioElement).duration;
-      }
-      else {
+      } else {
         this.game.cache.onSoundUnlock.add(this.soundHasUnlocked);
       }
 
@@ -387,8 +380,7 @@ class Sound {
       this._sound = this.game.cache.getSoundData(this.key);
       if (this._sound is AudioElement) {
         this.totalDuration = (this._sound as AudioElement).duration;
-      }
-      else {
+      } else {
         this.totalDuration = (this._sound as AudioBuffer).duration;
       }
 
@@ -408,7 +400,7 @@ class Sound {
    * @param {boolean} [loop=false] - Sets if the sound will loop or not.
    */
 
-  addMarker(String name, num start, num duration, [num volume=1, bool loop=false]) {
+  addMarker(String name, num start, num duration, [num volume = 1, bool loop = false]) {
 
     if (volume == null) {
       volume = 1;
@@ -418,13 +410,13 @@ class Sound {
     }
 
     this.markers[name] = new Marker()
-      ..name = name
-      ..start = start
-      ..stop = start + duration
-      ..volume = volume
-      ..duration = duration
-      ..durationMS = duration * 1000
-      ..loop = loop;
+        ..name = name
+        ..start = start
+        ..stop = start + duration
+        ..volume = volume
+        ..duration = duration
+        ..durationMS = duration * 1000
+        ..loop = loop;
 
   }
 
@@ -472,22 +464,18 @@ class Sound {
             if (this.currentMarker == '') {
               this.currentTime = 0.0;
               this.startTime = this.game.time.now;
-            }
-            else {
+            } else {
               this.onMarkerComplete.dispatch([this.currentMarker, this]);
               this.play(this.currentMarker, 0, this.volume, true, true);
             }
-          }
-          else {
+          } else {
             this.stop();
           }
-        }
-        else {
+        } else {
           if (this.loop) {
             this.onLoop.dispatch(this);
             this.play(this.currentMarker, 0, this.volume, true, true);
-          }
-          else {
+          } else {
             this.stop();
           }
         }
@@ -506,7 +494,7 @@ class Sound {
    * @return {Phaser.Sound} This sound instance.
    */
 
-  Sound play([String marker, int position=0, num volume=1.0, bool loop=false, bool forceRestart=true]) {
+  Sound play([String marker, int position = 0, num volume = 1.0, bool loop = false, bool forceRestart = true]) {
 
     if (marker == null) {
       marker = '';
@@ -524,12 +512,10 @@ class Sound {
       if (this.usingWebAudio) {
         if (this._sound.stop == null) {
           this._sound.noteOff(0);
-        }
-        else {
+        } else {
           this._sound.stop(0);
         }
-      }
-      else if (this.usingAudioTag) {
+      } else if (this.usingAudioTag) {
         this._sound.pause();
         this._sound.currentTime = 0;
       }
@@ -558,13 +544,11 @@ class Sound {
         this._tempPosition = this.position;
         this._tempVolume = this.volume;
         this._tempLoop = this.loop;
-      }
-      else {
+      } else {
         window.console.warn("Phaser.Sound.play: audio marker " + marker + " doesn't exist");
         return this;
       }
-    }
-    else {
+    } else {
       //position = position || 0;
 
       if (volume == null) {
@@ -599,8 +583,7 @@ class Sound {
 
         if (this.externalNode != null) {
           this._sound.connectNode(this.externalNode);
-        }
-        else {
+        } else {
           this._sound.connectNode(this.gainNode);
         }
 
@@ -621,8 +604,7 @@ class Sound {
           this._sound.noteGrainOn(0, this.position, this.duration);
           // this._sound.noteGrainOn(0, this.position, this.duration / 1000);
           //this._sound.noteOn(0); // the zero is vitally important, crashes iOS6 without it
-        }
-        else {
+        } else {
           // this._sound.start(0, this.position, this.duration / 1000);
           this._sound.start(0, this.position, this.duration);
         }
@@ -632,21 +614,18 @@ class Sound {
         this.currentTime = 0.0;
         this.stopTime = this.startTime + this.durationMS;
         this.onPlay.dispatch(this);
-      }
-      else {
+      } else {
         this.pendingPlayback = true;
 
         if (this.game.cache.getSound(this.key) != null && this.game.cache.getSound(this.key)['isDecoding'] == false) {
           this.game.sound.decode(this.key, this);
         }
       }
-    }
-    else {
+    } else {
       if (this.game.cache.getSound(this.key) != null && this.game.cache.getSound(this.key)['locked']) {
         this.game.cache.reloadSound(this.key);
         this.pendingPlayback = true;
-      }
-      else {
+      } else {
         if (this._sound != null && (this.game.device.cocoonJS || this._sound.readyState == 4)) {
           this._sound.play();
           //  This doesn't become available until you call play(), wonderful ...
@@ -662,8 +641,7 @@ class Sound {
 
           if (this._muted) {
             this._sound.volume = 0;
-          }
-          else {
+          } else {
             this._sound.volume = this._volume;
           }
 
@@ -672,8 +650,7 @@ class Sound {
           this.currentTime = 0.0;
           this.stopTime = this.startTime + this.durationMS;
           this.onPlay.dispatch(this);
-        }
-        else {
+        } else {
           this.pendingPlayback = true;
         }
       }
@@ -693,7 +670,7 @@ class Sound {
    * @param {boolean} [loop=false] - Loop when it finished playing?
    */
 
-  restart([String marker = '', int position =0, double volume = 1.0, bool loop=false]) {
+  restart([String marker = '', int position = 0, double volume = 1.0, bool loop = false]) {
 //    marker = marker;
 //    position = position;
 //    volume = volume;
@@ -726,8 +703,7 @@ class Sound {
 
         if (this.externalNode != null) {
           this._sound.connectNode(this.externalNode);
-        }
-        else {
+        } else {
           this._sound.connectNode(this.gainNode);
         }
 
@@ -738,12 +714,10 @@ class Sound {
         if (this._sound.start == null) {
           this._sound.noteGrainOn(0, p, this.duration);
           //this._sound.noteOn(0); // the zero is vitally important, crashes iOS6 without it
-        }
-        else {
+        } else {
           this._sound.start(0, p, this.duration);
         }
-      }
-      else {
+      } else {
         this._sound.play();
       }
 
@@ -762,17 +736,14 @@ class Sound {
       if (this.usingWebAudio) {
         if (this._sound.stop == null) {
           this._sound.noteOff(0);
-        }
-        else {
+        } else {
           try {
             this._sound.stop(0);
-          }
-          catch (e) {
+          } catch (e) {
             //  Thanks Android 4.4
           }
         }
-      }
-      else if (this.usingAudioTag) {
+      } else if (this.usingAudioTag) {
         this._sound.pause();
         this._sound.currentTime = 0;
       }
@@ -804,7 +775,7 @@ class Sound {
    * @param {boolean} [loop=false] - Should the Sound be set to loop? Note that this doesn't cause the fade to repeat.
    */
 
-  fadeIn([num duration=1000, bool loop=false]) {
+  fadeIn([num duration = 1000, bool loop = false]) {
 
     //if (typeof duration == 'undefined') { duration = 1000; }
     //if (typeof loop == 'undefined') { loop = false; }
@@ -816,7 +787,7 @@ class Sound {
     this.play('', 0, 0, loop);
 
     Tween tween = this.game.add.tween(this).to({
-        volume: 1
+      volume: 1
     }, duration, Easing.Linear.None, true);
 
     tween.onComplete.add(this.fadeComplete);
@@ -832,7 +803,7 @@ class Sound {
    * @param {number} [duration=1000] - The time in milliseconds during which the Sound should fade out.
    */
 
-  fadeOut([num duration=1000]) {
+  fadeOut([num duration = 1000]) {
 
     if (duration == null) {
       duration = 1000;
@@ -843,7 +814,7 @@ class Sound {
     }
 
     Tween tween = this.game.add.tween(this).to({
-        volume: 0
+      volume: 0
     }, duration, Easing.Linear.None, true);
 
     tween.onComplete.add(this.fadeComplete);
@@ -868,16 +839,14 @@ class Sound {
   }
 
 
-  destroy([bool remove=true]) {
+  destroy([bool remove = true]) {
 
     this.stop();
 
     if (remove) {
       this.game.sound.remove(this);
-    }
-    else {
-      this.markers = {
-      };
+    } else {
+      this.markers = {};
       this.context = null;
       this._buffer = null;
       this.externalNode = null;

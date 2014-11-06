@@ -446,10 +446,10 @@ class Rectangle extends PIXI.Rectangle {
       out = new Rectangle();
     }
 
-    num xMax = double.MIN_POSITIVE,
-    xMin = double.MAX_FINITE,
-    yMax = double.MIN_POSITIVE,
-    yMin = double.MAX_FINITE;
+    num xMax = double.MIN_POSITIVE;
+    num yMin = double.MAX_FINITE;
+    num yMax = double.MIN_POSITIVE;
+    num xMin = double.MAX_FINITE;
 
     points.forEach((Point point) {
       if (point.x > xMax) {

@@ -4,7 +4,7 @@ typedef void TimerFunc(Timer timer);
 
 class Timer {
   Game game;
-  bool autoDestroy=true;
+  bool autoDestroy = true;
   bool running = false;
   bool expired = false;
   num elapsed = 0.0;
@@ -36,7 +36,7 @@ class Timer {
   static const double HALF = 500.0;
   static const double QUARTER = 250.0;
 
-  Timer(this.game, [bool autoDestroy=true]) {
+  Timer(this.game, [bool autoDestroy = true]) {
   }
 
   num get next => nextTick;
@@ -44,8 +44,7 @@ class Timer {
   num get duration {
     if (this.running && this.nextTick > this._now) {
       return this.nextTick - this._now;
-    }
-    else {
+    } else {
       return 0.0;
     }
   }
@@ -55,8 +54,7 @@ class Timer {
   num get ms {
     if (this.running) {
       return this._now - this._started - this._pauseTotal;
-    }
-    else {
+    } else {
       return 0.0;
     }
   }
@@ -64,8 +62,7 @@ class Timer {
   num get second {
     if (this.running) {
       return this.ms * 0.001;
-    }
-    else {
+    } else {
       return 0;
     }
   }
@@ -89,8 +86,7 @@ class Timer {
 
     if (this._now == 0) {
       tick += this.game.time.now;
-    }
-    else {
+    } else {
       tick += this._now;
     }
 
@@ -166,7 +162,7 @@ class Timer {
    * @param {number} [delay=0] - The number of milliseconds that should elapse before the Timer will start.
    */
 
-  start([int delay=0]) {
+  start([int delay = 0]) {
 
     if (this.running) {
       return;
@@ -188,7 +184,7 @@ class Timer {
    * @param {boolean} [clearEvents=true] - If true all the events in Timer will be cleared, otherwise they will remain.
    */
 
-  stop([bool clearEvents=true]) {
+  stop([bool clearEvents = true]) {
 
     this.running = false;
 
@@ -244,8 +240,7 @@ class Timer {
 
     if (a.tick < b.tick) {
       return -1;
-    }
-    else if (a.tick > b.tick) {
+    } else if (a.tick > b.tick) {
       return 1;
     }
 
@@ -277,8 +272,7 @@ class Timer {
   callback(TimerEvent events) {
     if (events.args == null) {
       events.callback();
-    }
-    else {
+    } else {
       events.callback(this.events[this._i].args);
     }
   }
@@ -329,21 +323,18 @@ class Timer {
             this.events[this._i].tick = this._newTick;
             callback(events[this._i]);
 
-          }
-          else if (this.events[this._i].repeatCount > 0) {
+          } else if (this.events[this._i].repeatCount > 0) {
             this.events[this._i].repeatCount--;
             this.events[this._i].tick = this._newTick;
             callback(events[this._i]);
-          }
-          else {
+          } else {
             this._marked++;
             this.events[this._i].pendingDelete = true;
             callback(events[this._i]);
           }
 
           this._i++;
-        }
-        else {
+        } else {
           break;
         }
       }
@@ -351,8 +342,7 @@ class Timer {
       //  Are there any events left?
       if (this.events.length > this._marked) {
         this.order();
-      }
-      else {
+      } else {
         this.expired = true;
         this.onComplete.dispatch(this);
       }
@@ -360,8 +350,7 @@ class Timer {
 
     if (this.expired && this.autoDestroy) {
       return false;
-    }
-    else {
+    } else {
       return true;
     }
 
@@ -434,8 +423,7 @@ class Timer {
 
     if (d < 0) {
       this.nextTick = this._now;
-    }
-    else {
+    } else {
       this.nextTick = this._now + d;
     }
 
@@ -474,8 +462,7 @@ class Timer {
 
     if (this._codePaused) {
       return;
-    }
-    else {
+    } else {
       this.resume();
     }
 

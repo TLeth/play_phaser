@@ -1,7 +1,10 @@
 part of Phaser;
 
 class CursorKeys {
-  Key up, down, left, right;
+  Key up;
+  Key down;
+  Key left;
+  Key right;
 }
 
 
@@ -30,8 +33,7 @@ class Keyboard {
   String get lastChar {
     if (this.event.charCode == 32) {
       return '';
-    }
-    else {
+    } else {
       return new String.fromCharCode(this.pressEvent.charCode);
     }
   }
@@ -83,15 +85,13 @@ class Keyboard {
      * @property {array<Phaser.Key>} _keys - The array the Phaser.Key objects are stored in.
      * @private
      */
-    this._keys = {
-    };
+    this._keys = {};
 
     /**
      * @property {array} _capture - The array the key capture values are stored in.
      * @private
      */
-    this._capture = {
-    };
+    this._capture = {};
 
     /**
      * @property {function} _onKeyDown
@@ -199,10 +199,10 @@ class Keyboard {
 
   CursorKeys createCursorKeys() {
     return new CursorKeys()
-      ..up = this.addKey(Keyboard.UP)
-      ..down = this.addKey(Keyboard.DOWN)
-      ..left = this.addKey(Keyboard.LEFT)
-      ..right = this.addKey(Keyboard.RIGHT);
+        ..up = this.addKey(Keyboard.UP)
+        ..down = this.addKey(Keyboard.DOWN)
+        ..left = this.addKey(Keyboard.LEFT)
+        ..right = this.addKey(Keyboard.RIGHT);
   }
 
   /**
@@ -295,8 +295,7 @@ class Keyboard {
       for (var key in (keycode as Map).keys) {
         this._capture[keycode[key]] = true;
       }
-    }
-    else {
+    } else {
       this._capture[keycode] = true;
     }
   }
@@ -322,8 +321,7 @@ class Keyboard {
 
   clearCaptures() {
 
-    this._capture = {
-    };
+    this._capture = {};
 
   }
 
@@ -441,7 +439,7 @@ class Keyboard {
    * @param {boolean} [hard=true] - A soft reset won't reset any events or callbacks that are bound to the Keys. A hard reset will.
    */
 
-  reset([bool hard=true]) {
+  reset([bool hard = true]) {
 
     //if (typeof hard === 'undefined') { hard = true; }
 
@@ -466,14 +464,13 @@ class Keyboard {
    * @return {boolean} True if the key is just pressed otherwise false.
    */
 
-  bool justPressed(keycode, [int duration=50]) {
+  bool justPressed(keycode, [int duration = 50]) {
 
     //if (typeof duration === 'undefined') { duration = 50; }
 
     if (this._keys[keycode] != null) {
       return this._keys[keycode].justPressed(duration);
-    }
-    else {
+    } else {
       return false;
     }
 
@@ -488,14 +485,13 @@ class Keyboard {
    * @return {boolean} True if the key is just released otherwise false.
    */
 
-  justReleased(int keycode, [int duration=50]) {
+  justReleased(int keycode, [int duration = 50]) {
 
 //    if (duration == null) { duration = 50; }
 
     if (this._keys[keycode] != null) {
       return this._keys[keycode].justReleased(duration);
-    }
-    else {
+    } else {
       return false;
     }
 

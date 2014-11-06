@@ -40,27 +40,27 @@ class Rope extends PIXI.Rope implements GameObject, AnimationInterface {
   var key;
 
   Point tilePosition;
-  bool _outOfBoundsFired=false;
-  Function _updateAnimation=null;
+  bool _outOfBoundsFired = false;
+  Function _updateAnimation = null;
   List<GameObject> children = [];
   GameObject get parent => super.parent;
   Rectangle _bounds;
   CanvasPattern __tilePattern;
   bool _dirty;
-  
+
   num get renderOrderID {
-      return this._cache[3];
+    return this._cache[3];
   }
   Rectangle _currentBounds;
 
   List _cache;
-  Point anchor=new Point();
+  Point anchor = new Point();
   Point cameraOffset;
   bool autoCull;
   bool alive;
   Point center;
   Body body;
-  
+
   Rope(Game game, [num x = 0, num y = 0, key, frame, List points])
       : super(null, points) {
 
@@ -212,7 +212,7 @@ class Rope extends PIXI.Rope implements GameObject, AnimationInterface {
       return this;
     }
   }
-  
+
 //Phaser.Rope.prototype = Object.create(PIXI.Rope.prototype);
 //Phaser.Rope.prototype.constructor = Phaser.Rope;
 
@@ -252,7 +252,7 @@ class Rope extends PIXI.Rope implements GameObject, AnimationInterface {
 
     //  Cache the bounds if we need it
     if (this.autoCull || this.checkWorldBounds) {
-      this._bounds=this.getBounds().clone();
+      this._bounds = this.getBounds().clone();
     }
 
     if (this.autoCull) {
@@ -292,10 +292,14 @@ class Rope extends PIXI.Rope implements GameObject, AnimationInterface {
       this.body.preUpdate();
     }
 
+
+    {
+      var i = 0;
+      var len = this.children.length;
 //  Update any Children
-    for (var i = 0,
-        len = this.children.length; i < len; i++) {
-      this.children[i].preUpdate();
+      for ( ; i < len; i++) {
+        this.children[i].preUpdate();
+      }
     }
 
     return true;
@@ -332,10 +336,14 @@ class Rope extends PIXI.Rope implements GameObject, AnimationInterface {
       this.position.y = this.game.camera.view.y + this.cameraOffset.y;
     }
 
-    //  Update any Children
-    for (var i = 0,
-        len = this.children.length; i < len; i++) {
-      this.children[i].postUpdate();
+
+    {
+      var i = 0;
+      var len = this.children.length;
+      //  Update any Children
+      for ( ; i < len; i++) {
+        this.children[i].postUpdate();
+      }
     }
   }
 
@@ -407,20 +415,14 @@ class Rope extends PIXI.Rope implements GameObject, AnimationInterface {
         this.texture.trim.width = frame.sourceSizeW;
         this.texture.trim.height = frame.sourceSizeH;
       } else {
-        this.texture.trim = new Rectangle(
-           frame.spriteSourceSizeX,
-           frame.spriteSourceSizeY,
-           frame.sourceSizeW,
-           frame.sourceSizeH);
+        this.texture.trim = new Rectangle(frame.spriteSourceSizeX, frame.spriteSourceSizeY, frame.sourceSizeW, frame.sourceSizeH);
       }
 
       this.texture.width = frame.sourceSizeW;
       this.texture.height = frame.sourceSizeH;
       this.texture.frame.width = frame.sourceSizeW;
       this.texture.frame.height = frame.sourceSizeH;
-    }
-    else if (!frame.trimmed && this.texture.trim != null)
-    {
+    } else if (!frame.trimmed && this.texture.trim != null) {
       this.texture.trim = null;
     }
 
@@ -648,7 +650,7 @@ class Rope extends PIXI.Rope implements GameObject, AnimationInterface {
 
   get exists {
 
-    return this._cache[6] ==1;
+    return this._cache[6] == 1;
 
   }
 
@@ -658,7 +660,7 @@ class Rope extends PIXI.Rope implements GameObject, AnimationInterface {
 //  exists = true
       this._cache[6] = 1;
 
-      if (this.body!= null && this.body.type == Physics.P2JS) {
+      if (this.body != null && this.body.type == Physics.P2JS) {
         this.body.addToWorld();
       }
 
@@ -667,7 +669,7 @@ class Rope extends PIXI.Rope implements GameObject, AnimationInterface {
 //  exists = false
       this._cache[6] = 0;
 
-      if (this.body!= null && this.body.type == Physics.P2JS) {
+      if (this.body != null && this.body.type == Physics.P2JS) {
         this.body.safeRemove = true;
       }
 
@@ -689,7 +691,7 @@ class Rope extends PIXI.Rope implements GameObject, AnimationInterface {
 
   get inputEnabled {
 
-    return (this.input!= null && this.input.enabled);
+    return (this.input != null && this.input.enabled);
 
   }
 
@@ -699,11 +701,11 @@ class Rope extends PIXI.Rope implements GameObject, AnimationInterface {
       if (this.input == null) {
         this.input = new InputHandler(this);
         this.input.start();
-      } else if (this.input!= null && !this.input.enabled) {
+      } else if (this.input != null && !this.input.enabled) {
         this.input.start();
       }
     } else {
-      if (this.input!= null && this.input.enabled) {
+      if (this.input != null && this.input.enabled) {
         this.input.stop();
       }
     }
@@ -730,7 +732,7 @@ class Rope extends PIXI.Rope implements GameObject, AnimationInterface {
 
     this.position.x = value;
 
-    if (this.body!= null && this.body.type == Physics.ARCADE && this.body.phase == 2) {
+    if (this.body != null && this.body.type == Physics.ARCADE && this.body.phase == 2) {
       this.body._reset = true;
     }
 
@@ -756,7 +758,7 @@ class Rope extends PIXI.Rope implements GameObject, AnimationInterface {
 
     this.position.y = value;
 
-    if (this.body!= null && this.body.type == Physics.ARCADE && this.body.phase == 2) {
+    if (this.body != null && this.body.type == Physics.ARCADE && this.body.phase == 2) {
       this.body._reset = true;
     }
 
@@ -800,10 +802,17 @@ class Rope extends PIXI.Rope implements GameObject, AnimationInterface {
 //Object.defineProperty(Phaser.Rope.prototype, "segments", {
   List<Rectangle> get segments {
     var segments = [];
-    var index, x1, y1, x2, y2, width, height, rect;
+    var index;
+    var rect;
+    var height;
+    var width;
+    var y2;
+    var x2;
+    var y1;
+    var x1;
     for (int i = 0; i < this.points.length; i++) {
       index = i * 4;
-      if (index + 4 >= this.verticies.length){
+      if (index + 4 >= this.verticies.length) {
         break;
       }
       x1 = this.verticies[index];

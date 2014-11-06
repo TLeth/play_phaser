@@ -99,8 +99,7 @@ class AnimationManager {
 
 
   String get name {
-    if (this.currentAnim != null)
-    {
+    if (this.currentAnim != null) {
       return this.currentAnim.name;
     }
     return null;

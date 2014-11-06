@@ -148,7 +148,7 @@ class AABB extends Shape {
    *
    * @method Phaser.Physics.Ninja.AABB#integrate
    */
-  integrate () {
+  integrate() {
 
     var px = this.pos.x;
     var py = this.pos.y;
@@ -173,7 +173,7 @@ class AABB extends Shape {
    * @param {number} dy - Collision normal
    * @param {number} obj - Object this AABB collided with
    */
-  reportCollisionVsWorld (num px, num py, num dx, num dy) {
+  reportCollisionVsWorld(num px, num py, num dx, num dy) {
 
     var p = this.pos;
     var o = this.oldpos;
@@ -184,18 +184,25 @@ class AABB extends Shape {
 
     //  Find component of velocity parallel to collision normal
     var dp = (vx * dx + vy * dy);
-    var nx = dp * dx;   //project velocity onto collision normal
+    var nx = dp * dx; //project velocity onto collision normal
 
-    var ny = dp * dy;   //nx,ny is normal velocity
+    var ny = dp * dy; //nx,ny is normal velocity
 
-    var tx = vx - nx;   //px,py is tangent velocity
+    var tx = vx - nx; //px,py is tangent velocity
     var ty = vy - ny;
 
     //  We only want to apply collision response forces if the object is travelling into, and not out of, the collision
-    var b, bx, by, fx, fy;
+    var b;
+    //  We only want to apply collision response forces if the object is travelling into, and not out of, the collision
+    var fy;
+    //  We only want to apply collision response forces if the object is travelling into, and not out of, the collision
+    var fx;
+    //  We only want to apply collision response forces if the object is travelling into, and not out of, the collision
+    var by;
+    //  We only want to apply collision response forces if the object is travelling into, and not out of, the collision
+    var bx;
 
-    if (dp < 0)
-    {
+    if (dp < 0) {
       fx = tx * this.body.friction;
       fy = ty * this.body.friction;
 
@@ -204,26 +211,18 @@ class AABB extends Shape {
       bx = (nx * b);
       by = (ny * b);
 
-      if (dx == 1)
-      {
+      if (dx == 1) {
         this.body.touching.left = true;
-      }
-      else if (dx == -1)
-      {
+      } else if (dx == -1) {
         this.body.touching.right = true;
       }
 
-      if (dy == 1)
-      {
+      if (dy == 1) {
         this.body.touching.up = true;
-      }
-      else if (dy == -1)
-      {
+      } else if (dy == -1) {
         this.body.touching.down = true;
       }
-    }
-    else
-    {
+    } else {
       //  Moving out of collision, do not apply forces
       bx = by = fx = fy = 0;
     }
@@ -238,29 +237,23 @@ class AABB extends Shape {
 
   }
 
-  reverse () {
+  reverse() {
 
     var vx = this.pos.x - this.oldpos.x;
     var vy = this.pos.y - this.oldpos.y;
 
-    if (this.oldpos.x < this.pos.x)
-    {
+    if (this.oldpos.x < this.pos.x) {
       this.oldpos.x = this.pos.x + vx;
       // this.oldpos.x = this.pos.x + (vx + 1 + this.body.bounce);
-    }
-    else if (this.oldpos.x > this.pos.x)
-    {
+    } else if (this.oldpos.x > this.pos.x) {
       this.oldpos.x = this.pos.x - vx;
       // this.oldpos.x = this.pos.x - (vx + 1 + this.body.bounce);
     }
 
-    if (this.oldpos.y < this.pos.y)
-    {
+    if (this.oldpos.y < this.pos.y) {
       this.oldpos.y = this.pos.y + vy;
       // this.oldpos.y = this.pos.y + (vy + 1 + this.body.bounce);
-    }
-    else if (this.oldpos.y > this.pos.y)
-    {
+    } else if (this.oldpos.y > this.pos.y) {
       this.oldpos.y = this.pos.y - vy;
       // this.oldpos.y = this.pos.y - (vy + 1 + this.body.bounce);
     }
@@ -277,15 +270,14 @@ class AABB extends Shape {
    * @param {number} dy - Collision normal
    * @param {number} obj - Object this AABB collided with
    */
-  reportCollisionVsBody (num px, num py, num dx, num dy, AABB obj) {
+  reportCollisionVsBody(num px, num py, num dx, num dy, AABB obj) {
 
-    var vx1 = this.pos.x - this.oldpos.x;   //  Calc velocity of this object
+    var vx1 = this.pos.x - this.oldpos.x; //  Calc velocity of this object
     var vy1 = this.pos.y - this.oldpos.y;
-    var dp1 = (vx1 * dx + vy1 * dy);         //  Find component of velocity parallel to collision normal
+    var dp1 = (vx1 * dx + vy1 * dy); //  Find component of velocity parallel to collision normal
 
     //  We only want to apply collision response forces if the object is travelling into, and not out of, the collision
-    if (this.body.immovable && obj.body.immovable)
-    {
+    if (this.body.immovable && obj.body.immovable) {
       //  Split the separation then return, no forces applied as they come to a stand-still
       px *= 0.5;
       py *= 0.5;
@@ -297,9 +289,7 @@ class AABB extends Shape {
       obj.oldpos.set(obj.pos.x, obj.pos.y);
 
       return;
-    }
-    else if (!this.body.immovable && !obj.body.immovable)
-    {
+    } else if (!this.body.immovable && !obj.body.immovable) {
       //  separate
       px *= 0.5;
       py *= 0.5;
@@ -307,30 +297,23 @@ class AABB extends Shape {
       this.pos.add(px, py);
       obj.pos.subtract(px, py);
 
-      if (dp1 < 0)
-      {
+      if (dp1 < 0) {
         this.reverse();
         obj.reverse();
       }
-    }
-    else if (!this.body.immovable)
-      {
-        this.pos.subtract(px, py);
+    } else if (!this.body.immovable) {
+      this.pos.subtract(px, py);
 
-        if (dp1 < 0)
-        {
-          this.reverse();
-        }
+      if (dp1 < 0) {
+        this.reverse();
       }
-      else if (!obj.body.immovable)
-        {
-          obj.pos.subtract(px, py);
+    } else if (!obj.body.immovable) {
+      obj.pos.subtract(px, py);
 
-          if (dp1 < 0)
-          {
-            obj.reverse();
-          }
-        }
+      if (dp1 < 0) {
+        obj.reverse();
+      }
+    }
   }
 
   /**
@@ -338,36 +321,28 @@ class AABB extends Shape {
    *
    * @method Phaser.Physics.Ninja.AABB#collideWorldBounds
    */
-  collideWorldBounds () {
+  collideWorldBounds() {
 
     var dx = this.system.bounds.x - (this.pos.x - this.xw);
 
-    if (0 < dx)
-    {
+    if (0 < dx) {
       this.reportCollisionVsWorld(dx, 0, 1, 0);
-    }
-    else
-    {
+    } else {
       dx = (this.pos.x + this.xw) - this.system.bounds.right;
 
-      if (0 < dx)
-      {
+      if (0 < dx) {
         this.reportCollisionVsWorld(-dx, 0, -1, 0);
       }
     }
 
     var dy = this.system.bounds.y - (this.pos.y - this.yw);
 
-    if (0 < dy)
-    {
+    if (0 < dy) {
       this.reportCollisionVsWorld(0, dy, 0, 1);
-    }
-    else
-    {
+    } else {
       dy = (this.pos.y + this.yw) - this.system.bounds.bottom;
 
-      if (0 < dy)
-      {
+      if (0 < dy) {
         this.reportCollisionVsWorld(0, -dy, 0, -1);
       }
     }
@@ -380,7 +355,7 @@ class AABB extends Shape {
    * @method Phaser.Physics.Ninja.AABB#collideAABBVsAABB
    * @param {Phaser.Physics.Ninja.AABB} aabb - The AABB to collide against.
    */
-  collideAABBVsAABB (AABB aabb) {
+  collideAABBVsAABB(AABB aabb) {
 
     Phaser.Point pos = this.pos;
     AABB c = aabb;
@@ -393,42 +368,31 @@ class AABB extends Shape {
     num dx = pos.x - tx;//tile->obj delta
     num px = (txw + this.xw) - Phaser.Math.abs(dx);//penetration depth in x
 
-    if (0 < px)
-    {
+    if (0 < px) {
       num dy = pos.y - ty;//tile->obj delta
       num py = (tyw + this.yw) - Phaser.Math.abs(dy);//pen depth in y
 
-      if (0 < py)
-      {
+      if (0 < py) {
         //object may be colliding with tile; call tile-specific collision function
 
         //calculate projection vectors
-        if (px < py)
-        {
+        if (px < py) {
           //project in x
-          if (dx < 0)
-          {
+          if (dx < 0) {
             //project to the left
             px *= -1;
             py = 0;
-          }
-          else
-          {
+          } else {
             //proj to right
             py = 0;
           }
-        }
-        else
-        {
+        } else {
           //project in y
-          if (dy < 0)
-          {
+          if (dy < 0) {
             //project up
             px = 0;
             py *= -1;
-          }
-          else
-          {
+          } else {
             //project down
             px = 0;
           }
@@ -452,45 +416,34 @@ class AABB extends Shape {
    * @method Phaser.Physics.Ninja.AABB#collideAABBVsTile
    * @param {Phaser.Physics.Ninja.Tile} tile - The Tile to collide against.
    */
-  collideAABBVsTile (Tile tile) {
+  collideAABBVsTile(Tile tile) {
 
-    var dx = this.pos.x - tile.pos.x;               //  tile->obj delta
-    var px = (tile.xw + this.xw) - Phaser.Math.abs(dx);    //  penetration depth in x
+    var dx = this.pos.x - tile.pos.x; //  tile->obj delta
+    var px = (tile.xw + this.xw) - Phaser.Math.abs(dx); //  penetration depth in x
 
-    if (0 < px)
-    {
-      var dy = this.pos.y - tile.pos.y;               //  tile->obj delta
-      var py = (tile.yw + this.yw) - Phaser.Math.abs(dy);    //  pen depth in y
+    if (0 < px) {
+      var dy = this.pos.y - tile.pos.y; //  tile->obj delta
+      var py = (tile.yw + this.yw) - Phaser.Math.abs(dy); //  pen depth in y
 
-      if (0 < py)
-      {
+      if (0 < py) {
         //  Calculate projection vectors
-        if (px < py)
-        {
+        if (px < py) {
           //  Project in x
-          if (dx < 0)
-          {
+          if (dx < 0) {
             //  Project to the left
             px *= -1;
             py = 0;
-          }
-          else
-          {
+          } else {
             //  Project to the right
             py = 0;
           }
-        }
-        else
-        {
+        } else {
           //  Project in y
-          if (dy < 0)
-          {
+          if (dy < 0) {
             //  Project up
             px = 0;
             py *= -1;
-          }
-          else
-          {
+          } else {
             //  Project down
             px = 0;
           }
@@ -515,14 +468,11 @@ class AABB extends Shape {
    * @param {Phaser.Physics.Ninja.Tile} tile - The Tile involved in the collision.
    * @return {boolean} True if the collision was processed, otherwise false.
    */
-  resolveTile (num x, num y, AABB body, Tile tile) {
+  resolveTile(num x, num y, AABB body, Tile tile) {
 
-    if (0 < tile.id)
-    {
+    if (0 < tile.id) {
       return this.aabbTileProjections[tile.type](x, y, body, tile);
-    }
-    else
-    {
+    } else {
       // console.warn("Ninja.AABB.resolveTile was called with an empty (or unknown) tile!: id=" + tile.id + ")");
       return false;
     }
@@ -539,7 +489,7 @@ class AABB extends Shape {
    * @param {Phaser.Physics.Ninja.Tile} t - The Tile involved in the collision.
    * @return {number} The result of the collision.
    */
-  projAABB_Full (num x, num y, AABB obj) {
+  projAABB_Full(num x, num y, AABB obj) {
     var l = Phaser.Math.sqrt(x * x + y * y);
     obj.reportCollisionVsWorld(x, y, x / l, y / l);
     return COL_AXIS;
@@ -555,7 +505,7 @@ class AABB extends Shape {
    * @param {Phaser.Physics.Ninja.Tile} t - The Tile involved in the collision.
    * @return {number} The result of the collision.
    */
-  projAABB_Half (num x, num y, AABB obj, Tile t) {
+  projAABB_Half(num x, num y, AABB obj, Tile t) {
 
     //signx or signy must be 0; the other must be -1 or 1
     //calculate the projection vector for the half-edge, and then
@@ -564,37 +514,33 @@ class AABB extends Shape {
     var sx = t.signx;
     var sy = t.signy;
 
-    var ox = (obj.pos.x - (sx*obj.xw)) - t.pos.x;//this gives is the coordinates of the innermost
-    var oy = (obj.pos.y - (sy*obj.yw)) - t.pos.y;//point on the AABB, relative to the tile center
+    var ox = (obj.pos.x - (sx * obj.xw)) - t.pos.x;//this gives is the coordinates of the innermost
+    var oy = (obj.pos.y - (sy * obj.yw)) - t.pos.y;//point on the AABB, relative to the tile center
 
     //we perform operations analogous to the 45deg tile, except we're using
     //an axis-aligned slope instead of an angled one..
 
     //if the dotprod of (ox,oy) and (sx,sy) is negative, the corner is in the slope
     //and we need toproject it out by the magnitude of the projection of (ox,oy) onto (sx,sy)
-    var dp = (ox*sx) + (oy*sy);
+    var dp = (ox * sx) + (oy * sy);
 
-    if (dp < 0)
-    {
+    if (dp < 0) {
       //collision; project delta onto slope and use this to displace the object
       sx *= -dp;//(sx,sy) is now the projection vector
       sy *= -dp;
 
-      var lenN = Phaser.Math.sqrt(sx*sx + sy*sy);
-      var lenP = Phaser.Math.sqrt(x*x + y*y);
+      var lenN = Phaser.Math.sqrt(sx * sx + sy * sy);
+      var lenP = Phaser.Math.sqrt(x * x + y * y);
 
-      if (lenP < lenN)
-      {
+      if (lenP < lenN) {
         //project along axis; note that we're assuming that this tile is horizontal OR vertical
         //relative to the AABB's current tile, and not diagonal OR the current tile.
-        obj.reportCollisionVsWorld(x,y,x/lenP, y/lenP);
+        obj.reportCollisionVsWorld(x, y, x / lenP, y / lenP);
 
         return COL_AXIS;
-      }
-      else
-      {
+      } else {
         //note that we could use -= instead of -dp
-        obj.reportCollisionVsWorld(sx,sy,t.signx, t.signy);
+        obj.reportCollisionVsWorld(sx, sy, t.signx, t.signy);
 
         return COL_OTHER;
       }
@@ -614,41 +560,37 @@ class AABB extends Shape {
    * @param {Phaser.Physics.Ninja.Tile} t - The Tile involved in the collision.
    * @return {number} The result of the collision.
    */
-  projAABB_45Deg (num x, num y, AABB obj, Tile t) {
+  projAABB_45Deg(num x, num y, AABB obj, Tile t) {
 
     var signx = t.signx;
     var signy = t.signy;
 
-    var ox = (obj.pos.x - (signx*obj.xw)) - t.pos.x;//this gives is the coordinates of the innermost
-    var oy = (obj.pos.y - (signy*obj.yw)) - t.pos.y;//point on the AABB, relative to the tile center
+    var ox = (obj.pos.x - (signx * obj.xw)) - t.pos.x;//this gives is the coordinates of the innermost
+    var oy = (obj.pos.y - (signy * obj.yw)) - t.pos.y;//point on the AABB, relative to the tile center
 
     var sx = t.sx;
     var sy = t.sy;
 
     //if the dotprod of (ox,oy) and (sx,sy) is negative, the corner is in the slope
     //and we need toproject it out by the magnitude of the projection of (ox,oy) onto (sx,sy)
-    var dp = (ox*sx) + (oy*sy);
+    var dp = (ox * sx) + (oy * sy);
 
-    if (dp < 0)
-    {
+    if (dp < 0) {
       //collision; project delta onto slope and use this to displace the object
       sx *= -dp;//(sx,sy) is now the projection vector
       sy *= -dp;
 
-      var lenN = Phaser.Math.sqrt(sx*sx + sy*sy);
-      var lenP = Phaser.Math.sqrt(x*x + y*y);
+      var lenN = Phaser.Math.sqrt(sx * sx + sy * sy);
+      var lenP = Phaser.Math.sqrt(x * x + y * y);
 
-      if (lenP < lenN)
-      {
+      if (lenP < lenN) {
         //project along axis
-        obj.reportCollisionVsWorld(x,y,x/lenP, y/lenP);
+        obj.reportCollisionVsWorld(x, y, x / lenP, y / lenP);
 
         return COL_AXIS;
-      }
-      else
-      {
+      } else {
         //project along slope
-        obj.reportCollisionVsWorld(sx,sy,t.sx,t.sy);
+        obj.reportCollisionVsWorld(sx, sy, t.sx, t.sy);
 
         return COL_OTHER;
       }
@@ -667,65 +609,54 @@ class AABB extends Shape {
    * @param {Phaser.Physics.Ninja.Tile} t - The Tile involved in the collision.
    * @return {number} The result of the collision.
    */
-  projAABB_22DegS (num x, num y, AABB obj, Tile t) {
+  projAABB_22DegS(num x, num y, AABB obj, Tile t) {
 
     var signx = t.signx;
     var signy = t.signy;
 
     //first we need to check to make sure we're colliding with the slope at all
-    var py = obj.pos.y - (signy*obj.yw);
+    var py = obj.pos.y - (signy * obj.yw);
     var penY = t.pos.y - py;//this is the vector from the innermost point on the box to the highest point on
     //the tile; if it is positive, this means the box is above the tile and
     //no collision is occuring
-    if (0 < (penY*signy))
-    {
-      var ox = (obj.pos.x - (signx*obj.xw)) - (t.pos.x + (signx*t.xw));//this gives is the coordinates of the innermost
-      var oy = (obj.pos.y - (signy*obj.yw)) - (t.pos.y - (signy*t.yw));//point on the AABB, relative to a point on the slope
+    if (0 < (penY * signy)) {
+      var ox = (obj.pos.x - (signx * obj.xw)) - (t.pos.x + (signx * t.xw));//this gives is the coordinates of the innermost
+      var oy = (obj.pos.y - (signy * obj.yw)) - (t.pos.y - (signy * t.yw));//point on the AABB, relative to a point on the slope
 
       var sx = t.sx;//get slope unit normal
       var sy = t.sy;
 
       //if the dotprod of (ox,oy) and (sx,sy) is negative, the corner is in the slope
       //and we need toproject it out by the magnitude of the projection of (ox,oy) onto (sx,sy)
-      var dp = (ox*sx) + (oy*sy);
+      var dp = (ox * sx) + (oy * sy);
 
-      if (dp < 0)
-      {
+      if (dp < 0) {
         //collision; project delta onto slope and use this to displace the object
         sx *= -dp;//(sx,sy) is now the projection vector
         sy *= -dp;
 
-        var lenN = Phaser.Math.sqrt(sx*sx + sy*sy);
-        var lenP = Phaser.Math.sqrt(x*x + y*y);
+        var lenN = Phaser.Math.sqrt(sx * sx + sy * sy);
+        var lenP = Phaser.Math.sqrt(x * x + y * y);
 
         var aY = Phaser.Math.abs(penY);
 
-        if (lenP < lenN)
-        {
-          if (aY < lenP)
-          {
-            obj.reportCollisionVsWorld(0, penY, 0, penY/aY);
+        if (lenP < lenN) {
+          if (aY < lenP) {
+            obj.reportCollisionVsWorld(0, penY, 0, penY / aY);
 
             return COL_OTHER;
-          }
-          else
-          {
-            obj.reportCollisionVsWorld(x,y,x/lenP, y/lenP);
+          } else {
+            obj.reportCollisionVsWorld(x, y, x / lenP, y / lenP);
 
             return COL_AXIS;
           }
-        }
-        else
-        {
-          if (aY < lenN)
-          {
-            obj.reportCollisionVsWorld(0, penY, 0, penY/aY);
+        } else {
+          if (aY < lenN) {
+            obj.reportCollisionVsWorld(0, penY, 0, penY / aY);
 
             return COL_OTHER;
-          }
-          else
-          {
-            obj.reportCollisionVsWorld(sx,sy,t.sx,t.sy);
+          } else {
+            obj.reportCollisionVsWorld(sx, sy, t.sx, t.sy);
 
             return COL_OTHER;
           }
@@ -747,39 +678,35 @@ class AABB extends Shape {
    * @param {Phaser.Physics.Ninja.Tile} t - The Tile involved in the collision.
    * @return {number} The result of the collision.
    */
-  projAABB_22DegB (num x, num y, AABB obj, Tile t) {
+  projAABB_22DegB(num x, num y, AABB obj, Tile t) {
 
     var signx = t.signx;
     var signy = t.signy;
 
-    var ox = (obj.pos.x - (signx*obj.xw)) - (t.pos.x - (signx*t.xw));//this gives is the coordinates of the innermost
-    var oy = (obj.pos.y - (signy*obj.yw)) - (t.pos.y + (signy*t.yw));//point on the AABB, relative to a point on the slope
+    var ox = (obj.pos.x - (signx * obj.xw)) - (t.pos.x - (signx * t.xw));//this gives is the coordinates of the innermost
+    var oy = (obj.pos.y - (signy * obj.yw)) - (t.pos.y + (signy * t.yw));//point on the AABB, relative to a point on the slope
 
     var sx = t.sx;//get slope unit normal
     var sy = t.sy;
 
     //if the dotprod of (ox,oy) and (sx,sy) is negative, the corner is in the slope
     //and we need toproject it out by the magnitude of the projection of (ox,oy) onto (sx,sy)
-    var dp = (ox*sx) + (oy*sy);
+    var dp = (ox * sx) + (oy * sy);
 
-    if (dp < 0)
-    {
+    if (dp < 0) {
       //collision; project delta onto slope and use this to displace the object
       sx *= -dp;//(sx,sy) is now the projection vector
       sy *= -dp;
 
-      var lenN = Phaser.Math.sqrt(sx*sx + sy*sy);
-      var lenP = Phaser.Math.sqrt(x*x + y*y);
+      var lenN = Phaser.Math.sqrt(sx * sx + sy * sy);
+      var lenP = Phaser.Math.sqrt(x * x + y * y);
 
-      if (lenP < lenN)
-      {
-        obj.reportCollisionVsWorld(x,y,x/lenP, y/lenP);
+      if (lenP < lenN) {
+        obj.reportCollisionVsWorld(x, y, x / lenP, y / lenP);
 
         return COL_AXIS;
-      }
-      else
-      {
-        obj.reportCollisionVsWorld(sx,sy,t.sx,t.sy);
+      } else {
+        obj.reportCollisionVsWorld(sx, sy, t.sx, t.sy);
 
         return COL_OTHER;
       }
@@ -800,63 +727,52 @@ class AABB extends Shape {
    * @param {Phaser.Physics.Ninja.Tile} t - The Tile involved in the collision.
    * @return {number} The result of the collision.
    */
-  projAABB_67DegS (num x, num y, AABB obj, Tile t) {
+  projAABB_67DegS(num x, num y, AABB obj, Tile t) {
 
     num signx = t.signx;
     num signy = t.signy;
 
-    num px = obj.pos.x - (signx*obj.xw);
+    num px = obj.pos.x - (signx * obj.xw);
     num penX = t.pos.x - px;
 
-    if (0 < (penX*signx))
-    {
-      var ox = (obj.pos.x - (signx*obj.xw)) - (t.pos.x - (signx*t.xw));//this gives is the coordinates of the innermost
-      var oy = (obj.pos.y - (signy*obj.yw)) - (t.pos.y + (signy*t.yw));//point on the AABB, relative to a point on the slope
+    if (0 < (penX * signx)) {
+      var ox = (obj.pos.x - (signx * obj.xw)) - (t.pos.x - (signx * t.xw));//this gives is the coordinates of the innermost
+      var oy = (obj.pos.y - (signy * obj.yw)) - (t.pos.y + (signy * t.yw));//point on the AABB, relative to a point on the slope
 
       var sx = t.sx;//get slope unit normal
       var sy = t.sy;
 
       //if the dotprod of (ox,oy) and (sx,sy) is negative, the corner is in the slope
       //and we need to project it out by the magnitude of the projection of (ox,oy) onto (sx,sy)
-      var dp = (ox*sx) + (oy*sy);
+      var dp = (ox * sx) + (oy * sy);
 
-      if (dp < 0)
-      {
+      if (dp < 0) {
         //collision; project delta onto slope and use this to displace the object
         sx *= -dp;//(sx,sy) is now the projection vector
         sy *= -dp;
 
-        var lenN = Phaser.Math.sqrt(sx*sx + sy*sy);
-        var lenP = Phaser.Math.sqrt(x*x + y*y);
+        var lenN = Phaser.Math.sqrt(sx * sx + sy * sy);
+        var lenP = Phaser.Math.sqrt(x * x + y * y);
 
         var aX = Phaser.Math.abs(penX);
 
-        if (lenP < lenN)
-        {
-          if (aX < lenP)
-          {
-            obj.reportCollisionVsWorld(penX, 0, penX/aX, 0);
+        if (lenP < lenN) {
+          if (aX < lenP) {
+            obj.reportCollisionVsWorld(penX, 0, penX / aX, 0);
 
             return COL_OTHER;
-          }
-          else
-          {
-            obj.reportCollisionVsWorld(x,y,x/lenP, y/lenP);
+          } else {
+            obj.reportCollisionVsWorld(x, y, x / lenP, y / lenP);
 
             return COL_AXIS;
           }
-        }
-        else
-        {
-          if (aX < lenN)
-          {
-            obj.reportCollisionVsWorld(penX, 0, penX/aX, 0);
+        } else {
+          if (aX < lenN) {
+            obj.reportCollisionVsWorld(penX, 0, penX / aX, 0);
 
             return COL_OTHER;
-          }
-          else
-          {
-            obj.reportCollisionVsWorld(sx,sy,t.sx,t.sy);
+          } else {
+            obj.reportCollisionVsWorld(sx, sy, t.sx, t.sy);
 
             return COL_OTHER;
           }
@@ -879,39 +795,35 @@ class AABB extends Shape {
    * @param {Phaser.Physics.Ninja.Tile} t - The Tile involved in the collision.
    * @return {number} The result of the collision.
    */
-  projAABB_67DegB (num x, num y, AABB obj, Tile t) {
+  projAABB_67DegB(num x, num y, AABB obj, Tile t) {
 
     num signx = t.signx;
     num signy = t.signy;
 
-    num ox = (obj.pos.x - (signx*obj.xw)) - (t.pos.x + (signx*t.xw));//this gives is the coordinates of the innermost
-    num oy = (obj.pos.y - (signy*obj.yw)) - (t.pos.y - (signy*t.yw));//point on the AABB, relative to a point on the slope
+    num ox = (obj.pos.x - (signx * obj.xw)) - (t.pos.x + (signx * t.xw));//this gives is the coordinates of the innermost
+    num oy = (obj.pos.y - (signy * obj.yw)) - (t.pos.y - (signy * t.yw));//point on the AABB, relative to a point on the slope
 
     num sx = t.sx;//get slope unit normal
     num sy = t.sy;
 
     //if the dotprod of (ox,oy) and (sx,sy) is negative, the corner is in the slope
     //and we need toproject it out by the magnitude of the projection of (ox,oy) onto (sx,sy)
-    num dp = (ox*sx) + (oy*sy);
+    num dp = (ox * sx) + (oy * sy);
 
-    if (dp < 0)
-    {
+    if (dp < 0) {
       //collision; project delta onto slope and use this to displace the object
       sx *= -dp;//(sx,sy) is now the projection vector
       sy *= -dp;
 
-      var lenN = Phaser.Math.sqrt(sx*sx + sy*sy);
-      var lenP = Phaser.Math.sqrt(x*x + y*y);
+      var lenN = Phaser.Math.sqrt(sx * sx + sy * sy);
+      var lenP = Phaser.Math.sqrt(x * x + y * y);
 
-      if (lenP < lenN)
-      {
-        obj.reportCollisionVsWorld(x,y,x/lenP, y/lenP);
+      if (lenP < lenN) {
+        obj.reportCollisionVsWorld(x, y, x / lenP, y / lenP);
 
         return COL_AXIS;
-      }
-      else
-      {
-        obj.reportCollisionVsWorld(sx,sy,t.sx,t.sy);
+      } else {
+        obj.reportCollisionVsWorld(sx, sy, t.sx, t.sy);
 
         return COL_OTHER;
       }
@@ -930,7 +842,7 @@ class AABB extends Shape {
    * @param {Phaser.Physics.Ninja.Tile} t - The Tile involved in the collision.
    * @return {number} The result of the collision.
    */
-  projAABB_Convex (num x, num y, AABB obj,Tile t) {
+  projAABB_Convex(num x, num y, AABB obj, Tile t) {
 
     //if distance from "innermost" corner of AABB is less than than tile radius,
     //collision is occuring and we need to project
@@ -948,16 +860,13 @@ class AABB extends Shape {
 
     num pen = rad - len;
 
-    if (((signx * ox) < 0) || ((signy * oy) < 0))
-    {
+    if (((signx * ox) < 0) || ((signy * oy) < 0)) {
       //the test corner is "outside" the 1/4 of the circle we're interested in
       var lenP = Phaser.Math.sqrt(x * x + y * y);
       obj.reportCollisionVsWorld(x, y, x / lenP, y / lenP);
 
       return COL_AXIS;//we need to report
-    }
-    else if (0 < pen)
-    {
+    } else if (0 < pen) {
       //project along corner->circle vector
       ox /= len;
       oy /= len;
@@ -980,7 +889,7 @@ class AABB extends Shape {
    * @param {Phaser.Physics.Ninja.Tile} t - The Tile involved in the collision.
    * @return {number} The result of the collision.
    */
-  projAABB_Concave (num x, num y, AABB obj, Tile t) {
+  projAABB_Concave(num x, num y, AABB obj, Tile t) {
 
     //if distance from "innermost" corner of AABB is further than tile radius,
     //collision is occuring and we need to project
@@ -998,21 +907,17 @@ class AABB extends Shape {
     num len = Phaser.Math.sqrt(ox * ox + oy * oy);
     num pen = len - rad;
 
-    if (0 < pen)
-    {
+    if (0 < pen) {
       //collision; we need to either project along the axes, or project along corner->circlecenter vector
 
       var lenP = Phaser.Math.sqrt(x * x + y * y);
 
-      if (lenP < pen)
-      {
+      if (lenP < pen) {
         //it's shorter to move along axis directions
         obj.reportCollisionVsWorld(x, y, x / lenP, y / lenP);
 
         return COL_AXIS;
-      }
-      else
-      {
+      } else {
         //project along corner->circle vector
         ox /= len;//len should never be 0, since if it IS 0, rad should be > than len
         oy /= len;//and we should never reach here
@@ -1052,13 +957,10 @@ class AABB extends Shape {
     num left = this.pos.x - this.xw - xOffset;
     num top = this.pos.y - this.yw - yOffset;
 
-    if (filled)
-    {
+    if (filled) {
       context.fillStyle = color;
       context.fillRect(left, top, this.width, this.height);
-    }
-    else
-    {
+    } else {
       context.strokeStyle = color;
       context.strokeRect(left, top, this.width, this.height);
     }

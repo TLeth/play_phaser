@@ -96,8 +96,7 @@ class PluginManager {
 //      }
 
       return plugin;
-    }
-    else {
+    } else {
       return null;
     }
   }

@@ -11,11 +11,11 @@ typedef void InputUpFunc(GameObject object, Pointer pointer, bool isOver);
 
 typedef void GroupFunc(GameObject object, Group group);
 
-typedef void AnimationFunc(GameObject object,Animation animation);
+typedef void AnimationFunc(GameObject object, Animation animation);
 
 /// The Events component is a collection of events fired by the parent [GameObject].
 class Events {
-  
+
   /// This signal is dispatched when the parent is added to a new Group.
   Signal<GroupFunc> onAddedToGroup;
   /// This signal is dispatched when the parent is removed from a Group.
@@ -33,28 +33,28 @@ class Events {
 
   /// This signal is dispatched if the parent is inputEnabled and receives an over event from a Pointer.
   Signal<InputFunc> onInputOver;
-  
+
   /// This signal is dispatched if the parent is inputEnabled and receives an out event from a Pointer.
   Signal<InputFunc> onInputOut;
-  
+
   /// This signal is dispatched if the parent is inputEnabled and receives a down event from a Pointer.
   Signal<InputFunc> onInputDown;
-  
+
   /// This signal is dispatched if the parent is inputEnabled and receives an up event from a Pointer.
   Signal<InputUpFunc> onInputUp;
-  
+
   /// This signal is dispatched if the parent is inputEnabled and receives a drag start event from a Pointer.
   Signal<InputFunc> onDragStart;
-  
+
   /// This signal is dispatched if the parent is inputEnabled and receives a drag stop event from a Pointer.
   Signal<InputFunc> onDragStop;
 
   /// This signal is dispatched when the parent has an animation that is played.
   Signal<AnimationFunc> onAnimationStart;
-  
+
   /// This signal is dispatched when the parent has an animation that finishes playing.
   Signal<AnimationFunc> onAnimationComplete;
-  
+
   /// This signal is dispatched when the parent has an animation that loops playback.
   Signal<AnimationFunc> onAnimationLoop;
 
@@ -89,7 +89,7 @@ class Events {
   destroy() {
 
     this.parent = null;
-    
+
     this.onDestroy.dispose();
     this.onAddedToGroup.dispose();
     this.onRemovedFromGroup.dispose();

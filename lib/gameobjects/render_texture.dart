@@ -8,9 +8,9 @@ class RenderTexture extends PIXI.RenderTexture {
   Game game;
 
   RenderTexture(Game game, num width, num height, [String key, PIXI.scaleModes scaleMode])
-  :super(width, height, game.renderer, scaleMode) {
+      : super(width, height, game.renderer, scaleMode) {
 
-    this.game=game;
+    this.game = game;
 
     if (key == null) {
       key = '';
@@ -54,7 +54,7 @@ class RenderTexture extends PIXI.RenderTexture {
    * @param {number} y - The y position to render the object at.
    * @param {boolean} clear - If true the texture will be cleared before the display object is drawn.
    */
-  renderXY (PIXI.DisplayObject displayObject, x, y, clear) {
+  renderXY(PIXI.DisplayObject displayObject, x, y, clear) {
 
     this._temp.set(x, y);
 

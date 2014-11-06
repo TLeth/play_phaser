@@ -103,8 +103,8 @@ class Body extends Phaser.Body {
    * @default
    */
   num maxSpeed;
-  
-  
+
+
 
 
   Body(Ninja system, [Phaser.Sprite sprite = null, int type = 1, int id = 1, num radius = 16, num x = 0, num y = 0, num width = 0, num height = 0]) {
@@ -278,26 +278,26 @@ class Body extends Phaser.Body {
   }
 
 
-    setSize(num width, num height, [num offsetX, num offsetY]) {
-      throw new Exception("Do not use it!");
-    }
-    
-    onFloor() {
-      throw new Exception("Do not use it!");
-    }
-    
-    removeFromWorld() {
-      throw new Exception("Do not use it!");
-    }
-    
-    addToWorld() {
-      throw new Exception("Do not use it!");
-    }
-    
-    updateBounds() {
-      throw new Exception("Do not use it!");
-    }
-  
+  setSize(num width, num height, [num offsetX, num offsetY]) {
+    throw new Exception("Do not use it!");
+  }
+
+  onFloor() {
+    throw new Exception("Do not use it!");
+  }
+
+  removeFromWorld() {
+    throw new Exception("Do not use it!");
+  }
+
+  addToWorld() {
+    throw new Exception("Do not use it!");
+  }
+
+  updateBounds() {
+    throw new Exception("Do not use it!");
+  }
+
   /**
    * Internal method.
    *
@@ -528,20 +528,20 @@ class Body extends Phaser.Body {
     this.shape.destroy();
     this.shape = null;
   }
-  
+
   /**
   * @name Phaser.Physics.Ninja.Body#x
   * @property {number} x - The x position.
   */
   //Object.defineProperty(Phaser.Physics.Ninja.Body.prototype, "x", {
 
-      num get x {
-          return this.shape.pos.x;
-      }
+  num get x {
+    return this.shape.pos.x;
+  }
 
-      set x (num value) {
-          this.shape.pos.x = value;
-      }
+  set x(num value) {
+    this.shape.pos.x = value;
+  }
 
   //});
 
@@ -551,13 +551,13 @@ class Body extends Phaser.Body {
   */
   //Object.defineProperty(Phaser.Physics.Ninja.Body.prototype, "y", {
 
-      num get y {
-          return this.shape.pos.y;
-      }
+  num get y {
+    return this.shape.pos.y;
+  }
 
-      set y (num value) {
-          this.shape.pos.y = value;
-      }
+  set y(num value) {
+    this.shape.pos.y = value;
+  }
 
   //});
 
@@ -568,9 +568,9 @@ class Body extends Phaser.Body {
   */
   //Object.defineProperty(Phaser.Physics.Ninja.Body.prototype, "width", {
 
-      num get width {
-          return this.shape.width;
-      }
+  num get width {
+    return this.shape.width;
+  }
 
   //});
 
@@ -581,9 +581,9 @@ class Body extends Phaser.Body {
   */
   //Object.defineProperty(Phaser.Physics.Ninja.Body.prototype, "height", {
 
-      num get height {
-          return this.shape.height;
-      }
+  num get height {
+    return this.shape.height;
+  }
 
   //});
 
@@ -594,9 +594,9 @@ class Body extends Phaser.Body {
   */
   //Object.defineProperty(Phaser.Physics.Ninja.Body.prototype, "bottom", {
 
-      num get bottom {
-          return this.shape.pos.y + this.shape.yw;
-      }
+  num get bottom {
+    return this.shape.pos.y + this.shape.yw;
+  }
 
   //});
 
@@ -607,9 +607,9 @@ class Body extends Phaser.Body {
   */
   //Object.defineProperty(Phaser.Physics.Ninja.Body.prototype, "right", {
 
-      num get right  {
-          return this.shape.pos.x + this.shape.xw;
-      }
+  num get right {
+    return this.shape.pos.x + this.shape.xw;
+  }
 
   //});
 
@@ -620,9 +620,9 @@ class Body extends Phaser.Body {
   */
   //Object.defineProperty(Phaser.Physics.Ninja.Body.prototype, "speed", {
 
-      num get speed {
-          return Phaser.Math.sqrt(this.shape.velocity.x * this.shape.velocity.x + this.shape.velocity.y * this.shape.velocity.y);
-      }
+  num get speed {
+    return Phaser.Math.sqrt(this.shape.velocity.x * this.shape.velocity.x + this.shape.velocity.y * this.shape.velocity.y);
+  }
 
   //});
 
@@ -633,9 +633,9 @@ class Body extends Phaser.Body {
   */
   //Object.defineProperty(Phaser.Physics.Ninja.Body.prototype, "angle", {
 
-      num get angle {
-          return Phaser.Math.atan2(this.shape.velocity.y, this.shape.velocity.x);
-      }
+  num get angle {
+    return Phaser.Math.atan2(this.shape.velocity.y, this.shape.velocity.x);
+  }
 
   //});
 
@@ -648,17 +648,15 @@ class Body extends Phaser.Body {
   * @param {string} [color='rgba(0,255,0,0.4)'] - color of the debug shape to be rendered. (format is css color string).
   * @param {boolean} [filled=true] - Render the shape as a filled (default, true) or a stroked (false)
   */
-  render (dom.CanvasRenderingContext2D context, [String color='rgba(0,255,0,0.4)', bool filled=true]) {
-      //color = color || 'rgba(0,255,0,0.4)';
+  render(dom.CanvasRenderingContext2D context, [String color = 'rgba(0,255,0,0.4)', bool filled = true]) {
+    //color = color || 'rgba(0,255,0,0.4)';
 
-      if (filled == null)
-      {
-          filled = true;
-      }
+    if (filled == null) {
+      filled = true;
+    }
 
-      if (this.aabb != null || this.circle != null)
-      {
-        this.shape.render(context, this.game.camera.x, this.game.camera.y, color, filled);
-      }
+    if (this.aabb != null || this.circle != null) {
+      this.shape.render(context, this.game.camera.x, this.game.camera.y, color, filled);
+    }
   }
 }

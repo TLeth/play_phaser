@@ -5,7 +5,14 @@ part of Phaser;
 //}
 
 class Bounds {
-  int x, y, width, height, subWidth, subHeight, right, bottom;
+  int x;
+  int y;
+  int width;
+  int height;
+  int subWidth;
+  int subHeight;
+  int right;
+  int bottom;
 }
 
 class QuadTree {
@@ -32,14 +39,14 @@ class QuadTree {
     this.level = level == null ? 0 : level;
 
     this.bounds = new Bounds()
-      ..x = Math.round(x)
-      ..y = Math.round(y)
-      ..width = width
-      ..height = height
-      ..subWidth = Math.floor(width / 2)
-      ..subHeight = Math.floor(height / 2)
-      ..right = Math.round(x) + Math.floor(width / 2)
-      ..bottom = Math.round(y) + Math.floor(height / 2);
+        ..x = Math.round(x)
+        ..y = Math.round(y)
+        ..width = width
+        ..height = height
+        ..subWidth = Math.floor(width / 2)
+        ..subHeight = Math.floor(height / 2)
+        ..right = Math.round(x) + Math.floor(width / 2)
+        ..bottom = Math.round(y) + Math.floor(height / 2);
 
     this.objects.clear();
     //    for(int i=0;i<this.nodes.length;i++){

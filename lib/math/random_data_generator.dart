@@ -47,7 +47,9 @@ class RandomDataGenerator {
 
   hash(data) {
 
-    int h, i, n;
+    int h;
+    int n;
+    int i;
     n = 0xefc8249d;
     data = data.toString();
 

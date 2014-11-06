@@ -518,10 +518,14 @@ class TileSprite extends PIXI.TilingSprite implements GameObject, AnimationInter
       this.body.preUpdate();
     }
 
+
+    {
+      var i = 0;
+      var len = this.children.length;
 //  Update any Children
-    for (var i = 0,
-        len = this.children.length; i < len; i++) {
-      this.children[i].preUpdate();
+      for ( ; i < len; i++) {
+        this.children[i].preUpdate();
+      }
     }
 
     return true;
@@ -558,10 +562,14 @@ class TileSprite extends PIXI.TilingSprite implements GameObject, AnimationInter
       this.position.y = this.game.camera.view.y + this.cameraOffset.y;
     }
 
-    //  Update any Children
-    for (int i = 0,
-        len = this.children.length; i < len; i++) {
-      this.children[i].postUpdate();
+
+    {
+      int i = 0;
+      int len = this.children.length;
+      //  Update any Children
+      for ( ; i < len; i++) {
+        this.children[i].postUpdate();
+      }
     }
 
   }
@@ -635,7 +643,7 @@ class TileSprite extends PIXI.TilingSprite implements GameObject, AnimationInter
       this._frame = new Rectangle().copyFrom(this.texture.frame);
     }
 
-    
+
   }
 
   /**
@@ -678,9 +686,7 @@ class TileSprite extends PIXI.TilingSprite implements GameObject, AnimationInter
       this.texture.height = frame.sourceSizeH;
       this.texture.frame.width = frame.sourceSizeW;
       this.texture.frame.height = frame.sourceSizeH;
-    }
-    else if (!frame.trimmed && this.texture.trim != null)
-    {
+    } else if (!frame.trimmed && this.texture.trim != null) {
       this.texture.trim = null;
     }
 
@@ -710,7 +716,7 @@ class TileSprite extends PIXI.TilingSprite implements GameObject, AnimationInter
     }
 
     this._cache[8] = 1;
-    
+
     if (this.events != null) {
       this.events.onDestroy.dispatch(this);
     }

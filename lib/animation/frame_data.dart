@@ -93,16 +93,20 @@ class FrameData {
         output.add(this._frames[i]);
       }
     } else {
-      //  Input array given, loop through that instead
-      for (int i = 0,
-          len = frames.length; i < len; i++) {
-        //  Does the input array contain names or indexes?
-        if (useNumericIndex) {
-          //  The actual frame
-          output.add(this.getFrame(frames[i]));
-        } else {
-          //  The actual frame
-          output.add(this.getFrameByName(frames[i]));
+
+      {
+        int i = 0;
+        int len = frames.length;
+        //  Input array given, loop through that instead
+        for ( ; i < len; i++) {
+          //  Does the input array contain names or indexes?
+          if (useNumericIndex) {
+            //  The actual frame
+            output.add(this.getFrame(frames[i]));
+          } else {
+            //  The actual frame
+            output.add(this.getFrameByName(frames[i]));
+          }
         }
       }
     }
@@ -119,21 +123,29 @@ class FrameData {
     }
 
     if (frames == null || frames.length == 0) {
-      //  No frames array, so we loop through all frames
-      for (int i = 0,
-          len = this._frames.length; i < len; i++) {
-        output.add(this._frames[i].index);
+
+      {
+        int i = 0;
+        int len = this._frames.length;
+        //  No frames array, so we loop through all frames
+        for ( ; i < len; i++) {
+          output.add(this._frames[i].index);
+        }
       }
     } else {
-      //  Input array given, loop through that instead
-      for (int i = 0,
-          len = frames.length; i < len; i++) {
-        //  Does the frames array contain names or indexes?
-        if (useNumericIndex) {
-          output.add(frames[i]);
-        } else {
-          if (this.getFrameByName(frames[i]) != null) {
-            output.add(this.getFrameByName(frames[i]).index);
+
+      {
+        int i = 0;
+        int len = frames.length;
+        //  Input array given, loop through that instead
+        for ( ; i < len; i++) {
+          //  Does the frames array contain names or indexes?
+          if (useNumericIndex) {
+            output.add(frames[i]);
+          } else {
+            if (this.getFrameByName(frames[i]) != null) {
+              output.add(this.getFrameByName(frames[i]).index);
+            }
           }
         }
       }

@@ -131,7 +131,7 @@ class Key {
       this.repeats++;
 
       if (this.onHoldCallback != null) {
-        this.onHoldCallback( this);
+        this.onHoldCallback(this);
       }
     }
 
@@ -206,7 +206,7 @@ class Key {
    * @param {boolean} [hard=true] - A soft reset won't reset any events or callbacks that are bound to this Key. A hard reset will.
    */
 
-  reset([bool hard=true]) {
+  reset([bool hard = true]) {
 
     //if (typeof hard === 'undefined') { hard = true; }
 
@@ -232,7 +232,7 @@ class Key {
    * @return {boolean} True if the key is just pressed otherwise false.
    */
 
-  bool justPressed([int duration=50]) {
+  bool justPressed([int duration = 50]) {
 
     //if (typeof duration === "undefined") { duration = 50; }
 
@@ -247,7 +247,7 @@ class Key {
    * @return {boolean} True if the key is just released otherwise false.
    */
 
-  bool justReleased([int duration=50]) {
+  bool justReleased([int duration = 50]) {
     //if (typeof duration === "undefined") { duration = 50; }
 
     return (!this.isDown && ((this.game.time.now - this.timeUp) < duration));

@@ -27,8 +27,7 @@ class FixtureList {
      * @property {object} namedFixtures - Collect all fixtures with a key
      * @private
      */
-    this.namedFixtures = {
-    };
+    this.namedFixtures = {};
 
     /**
      * @property {Array} groupedFixtures - Collect all given fixtures per group index. Notice: Every fixture with a key also belongs to a group
@@ -116,8 +115,7 @@ class FixtureList {
         }
       });
       return this.flatten(fixtures);
-    }
-    else {
+    } else {
       return this.allFixtures;
     }
   }
@@ -155,19 +153,20 @@ class FixtureList {
    */
 
   parse() {
-    var key, value;
-    List _ref, _results;
+    var key;
+    var value;
+    List _ref;
+    List _results;
     _ref = this.rawList;
     _results = [];
     for (key in _ref) {
       value = _ref[key];
       if (key is num) {
-        if(this.groupedFixtures[key] == null){
+        if (this.groupedFixtures[key] == null) {
           this.groupedFixtures[key] = {};
         }
         this.groupedFixtures[key].addAll(value);
-      }
-      else {
+      } else {
         this.namedFixtures[key] = this.flatten(value);
       }
       _results.add(this.allFixtures = this.flatten(this.groupedFixtures));

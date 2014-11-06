@@ -13,7 +13,7 @@ class Image extends PIXI.Sprite implements GameObject, SpriteInterface, Animatio
 
   bool autoCull;
   InputHandler input;
-  
+
   Body body;
 
   Point cameraOffset;
@@ -32,14 +32,14 @@ class Image extends PIXI.Sprite implements GameObject, SpriteInterface, Animatio
   bool _dirty;
 
   String _frameName;
-  bool alive=true;
-  bool debug=false;
-  
+  bool alive = true;
+  bool debug = false;
+
   GameObject get parent => super.parent;
   List<GameObject> children = [];
-  
+
   AnimationManager animations;
-  
+
   CanvasPattern __tilePattern;
 
 //  GameObject bringToTop([GameObject child]) {
@@ -47,7 +47,7 @@ class Image extends PIXI.Sprite implements GameObject, SpriteInterface, Animatio
 //      if (this.parent != null) {
 //        this.parent.bringToTop(this);
 //      }
-//      return this; 
+//      return this;
 //    }
 //    else{
 //      if (child.parent == this && this.children.indexOf(child) < this.children.length) {
@@ -119,7 +119,7 @@ class Image extends PIXI.Sprite implements GameObject, SpriteInterface, Animatio
 //
 //      if (frameData!= null && frameData.getFrameByName(value) != null) {
 //        this.setTexture(PIXI.TextureCache[frameData.getFrameByName(value).uuid]);
-//        this._frameName = value; 
+//        this._frameName = value;
 //      }
 //    }
 //  }
@@ -254,7 +254,7 @@ class Image extends PIXI.Sprite implements GameObject, SpriteInterface, Animatio
      */
     this.cameraOffset = new Point();
 
-    this.anchor=new Point();
+    this.anchor = new Point();
 
     /**
      * @property {Phaser.Rectangle} cropRect - The Rectangle used to crop the texture. Set this via Sprite.crop. Any time you modify this property directly you must call Sprite.updateCrop.
@@ -293,7 +293,7 @@ class Image extends PIXI.Sprite implements GameObject, SpriteInterface, Animatio
 //    this._frame = null;
 
     this.animations = new AnimationManager(this);
-    
+
     /**
      * @property {Phaser.Rectangle} _bounds - Internal cache var.
      * @private
@@ -339,10 +339,14 @@ class Image extends PIXI.Sprite implements GameObject, SpriteInterface, Animatio
       this._cache[3] = this.game.stage.currentRenderOrderID++;
     }
 
-    //  Update any Children
-    for (var i = 0,
-        len = this.children.length; i < len; i++) {
-      this.children[i].preUpdate();
+
+    {
+      var i = 0;
+      var len = this.children.length;
+      //  Update any Children
+      for ( ; i < len; i++) {
+        this.children[i].preUpdate();
+      }
     }
 
     return true;
@@ -380,10 +384,14 @@ class Image extends PIXI.Sprite implements GameObject, SpriteInterface, Animatio
       this.position.y = (this.game.camera.view.y + this.cameraOffset.y) / this.game.camera.scale.y;
     }
 
-    //  Update any Children
-    for (var i = 0,
-        len = this.children.length; i < len; i++) {
-      this.children[i].postUpdate();
+
+    {
+      var i = 0;
+      var len = this.children.length;
+      //  Update any Children
+      for ( ; i < len; i++) {
+        this.children[i].postUpdate();
+      }
     }
 
   }
@@ -413,8 +421,7 @@ class Image extends PIXI.Sprite implements GameObject, SpriteInterface, Animatio
       //this.key = key;
       //  This works from a reference, which probably isn't what we need here
       this.setTexture(key.texture);
-      if (this.game.cache.getFrameData(key.key, Cache.BITMAPDATA) != null)
-      {
+      if (this.game.cache.getFrameData(key.key, Cache.BITMAPDATA) != null) {
         setFrame = !this.animations.loadFrameData(this.game.cache.getFrameData(key.key, Cache.BITMAPDATA), frame);
       }
 
@@ -454,15 +461,13 @@ class Image extends PIXI.Sprite implements GameObject, SpriteInterface, Animatio
 //        }
       }
     }
-    
-    if (setFrame)
-    {
-        this._frame = new Rectangle.fromRect(this.texture.frame);
+
+    if (setFrame) {
+      this._frame = new Rectangle.fromRect(this.texture.frame);
     }
 
-    if (!smoothed)
-    {
-        this.smoothed = false;
+    if (!smoothed) {
+      this.smoothed = false;
     }
 
     //this._frame=new Rectangle().copyFrom(this.texture.frame);
@@ -478,7 +483,7 @@ class Image extends PIXI.Sprite implements GameObject, SpriteInterface, Animatio
   * @memberof Phaser.Image
   * @param {Phaser.Frame} frame - The Frame to be used by the Image texture.
   */
-  setFrame (Frame frame) {
+  setFrame(Frame frame) {
 
     this._frame = frame;
 
@@ -492,53 +497,42 @@ class Image extends PIXI.Sprite implements GameObject, SpriteInterface, Animatio
     this.texture.crop.width = frame.width;
     this.texture.crop.height = frame.height;
 
-    if (frame.trimmed)
-    {
-        if (this.texture.trim != null)
-        {
-            this.texture.trim.x = frame.spriteSourceSizeX;
-            this.texture.trim.y = frame.spriteSourceSizeY;
-            this.texture.trim.width = frame.sourceSizeW;
-            this.texture.trim.height = frame.sourceSizeH;
-        }
-        else
-        {
-            this.texture.trim = new Rectangle(frame.spriteSourceSizeX, frame.spriteSourceSizeY, frame.sourceSizeW, frame.sourceSizeH );
-        }
+    if (frame.trimmed) {
+      if (this.texture.trim != null) {
+        this.texture.trim.x = frame.spriteSourceSizeX;
+        this.texture.trim.y = frame.spriteSourceSizeY;
+        this.texture.trim.width = frame.sourceSizeW;
+        this.texture.trim.height = frame.sourceSizeH;
+      } else {
+        this.texture.trim = new Rectangle(frame.spriteSourceSizeX, frame.spriteSourceSizeY, frame.sourceSizeW, frame.sourceSizeH);
+      }
 
-        this.texture.width = frame.sourceSizeW;
-        this.texture.height = frame.sourceSizeH;
-        this.texture.frame.width = frame.sourceSizeW;
-        this.texture.frame.height = frame.sourceSizeH;
-    }
-    else if (!frame.trimmed && this.texture.trim != null)
-    {
+      this.texture.width = frame.sourceSizeW;
+      this.texture.height = frame.sourceSizeH;
+      this.texture.frame.width = frame.sourceSizeW;
+      this.texture.frame.height = frame.sourceSizeH;
+    } else if (!frame.trimmed && this.texture.trim != null) {
       this.texture.trim = null;
     }
 
-    if (this.cropRect != null)
-    {
-        this.updateCrop();
-    }
-    else
-    {
-        if (this.game.renderType == WEBGL)
-        {
-            PIXI.WebGLRenderer.updateTextureFrame(this.texture);
-        }
+    if (this.cropRect != null) {
+      this.updateCrop();
+    } else {
+      if (this.game.renderType == WEBGL) {
+        PIXI.WebGLRenderer.updateTextureFrame(this.texture);
+      }
     }
 
-}
+  }
 
 /**
 * Resets the Texture frame dimensions that the Image uses for rendering.
 */
-resetFrame () {
-    if (this._frame != null)
-    {
-        this.setFrame(this._frame);
+  resetFrame() {
+    if (this._frame != null) {
+      this.setFrame(this._frame);
     }
-}
+  }
 
 /**
 * Crop allows you to crop the texture used to display this Image.
@@ -547,36 +541,30 @@ resetFrame () {
 * Please note that the rectangle object given is not duplicated by this method, but rather the Image uses a reference to the rectangle.
 * Keep this in mind if assigning a rectangle in a for-loop, or when cleaning up for garbage collection.
 */
-crop (Rectangle rect, [bool copy=false]) {
+  crop(Rectangle rect, [bool copy = false]) {
 
-    if (copy == null) { copy = false; }
-
-    if (rect != null)
-    {
-        if (copy && this.cropRect != null)
-        {
-            this.cropRect.setTo(rect.x, rect.y, rect.width, rect.height);
-        }
-        else if (copy && this.cropRect == null)
-        {
-            this.cropRect = new Rectangle(rect.x, rect.y, rect.width, rect.height);
-        }
-        else
-        {
-            this.cropRect = rect;
-        }
-
-        this.updateCrop();
-    }
-    else
-    {
-        this._crop = null;
-        this.cropRect = null;
-
-        this.resetFrame();
+    if (copy == null) {
+      copy = false;
     }
 
-}
+    if (rect != null) {
+      if (copy && this.cropRect != null) {
+        this.cropRect.setTo(rect.x, rect.y, rect.width, rect.height);
+      } else if (copy && this.cropRect == null) {
+        this.cropRect = new Rectangle(rect.x, rect.y, rect.width, rect.height);
+      } else {
+        this.cropRect = rect;
+      }
+
+      this.updateCrop();
+    } else {
+      this._crop = null;
+      this.cropRect = null;
+
+      this.resetFrame();
+    }
+
+  }
 
 /**
 * If you have set a crop rectangle on this Image via Image.crop and since modified the Image.cropRect property (or the rectangle it references)
@@ -585,11 +573,10 @@ crop (Rectangle rect, [bool copy=false]) {
 * @method Phaser.Image#updateCrop
 * @memberof Phaser.Image
 */
-updateCrop () {
+  updateCrop() {
 
-    if (this.cropRect == null)
-    {
-        return;
+    if (this.cropRect == null) {
+      return;
     }
 
     this._crop = this.cropRect.clone();
@@ -612,12 +599,11 @@ updateCrop () {
     this.texture.width = this.texture.frame.width;
     this.texture.height = this.texture.frame.height;
 
-    if (this.game.renderType == WEBGL)
-    {
-        PIXI.WebGLRenderer.updateTextureFrame(this.texture);
+    if (this.game.renderType == WEBGL) {
+      PIXI.WebGLRenderer.updateTextureFrame(this.texture);
     }
 
-}
+  }
 
 /**
 * Brings a 'dead' Image back to life, optionally giving it the health value specified.
@@ -628,20 +614,19 @@ updateCrop () {
 * @memberof Phaser.Image
 * @return {Phaser.Image} This instance.
 */
-revive () {
+  revive() {
 
     this.alive = true;
     this.exists = true;
     this.visible = true;
 
-    if (this.events != null)
-    {
-        this.events.onRevived.dispatch(this);
+    if (this.events != null) {
+      this.events.onRevived.dispatch(this);
     }
 
     return this;
 
-}
+  }
 
 /**
 * Kills a Image. A killed Image has its alive, exists and visible properties all set to false.
@@ -653,19 +638,18 @@ revive () {
 * @memberof Phaser.Image
 * @return {Phaser.Image} This instance.
 */
-kill () {
+  kill() {
 
     this.alive = false;
     this.exists = false;
     this.visible = false;
 
-    if (this.events != null)
-    {
-        this.events.onKilled.dispatch(this);
+    if (this.events != null) {
+      this.events.onKilled.dispatch(this);
     }
 
     return this;
-}
+  }
 
 /**
 * Destroys the Image. This removes it from its parent group, destroys the input, event and animation handlers if present
@@ -675,61 +659,50 @@ kill () {
 * @memberof Phaser.Image
 * @param {boolean} [destroyChildren=true] - Should every child of this object have its destroy method called?
 */
-destroy ([bool destroyChildren=true]) {
+  destroy([bool destroyChildren = true]) {
 
-    if (this.game == null || this.destroyPhase) { return; }
+    if (this.game == null || this.destroyPhase) {
+      return;
+    }
 
 //    if (destroyChildren) { destroyChildren = true; }
 
     this._cache[8] = 1;
 
-    if (this.events != null)
-    {
-        this.events.onDestroy.dispatch(this);
+    if (this.events != null) {
+      this.events.onDestroy.dispatch(this);
     }
 
-    if (this.parent != null)
-    {
-        if (this.parent is Group)
-        {
-            (this.parent as Group).remove(this);
-        }
-        else
-        {
-            this.parent.removeChild(this);
-        }
+    if (this.parent != null) {
+      if (this.parent is Group) {
+        (this.parent as Group).remove(this);
+      } else {
+        this.parent.removeChild(this);
+      }
     }
 
-    if (this.events!= null)
-    {
-        this.events.destroy();
+    if (this.events != null) {
+      this.events.destroy();
     }
 
-    if (this.input!= null)
-    {
-        this.input.destroy();
+    if (this.input != null) {
+      this.input.destroy();
     }
 
-    if (this.animations!= null)
-    {
-        this.animations.destroy();
+    if (this.animations != null) {
+      this.animations.destroy();
     }
 
     var i = this.children.length;
 
-    if (destroyChildren)
-    {
-        while (i-- > 0)
-        {
-            this.children[i].destroy(destroyChildren);
-        }
-    }
-    else
-    {
-        while (i-- > 0)
-        {
-            this.removeChild(this.children[i]);
-        }
+    if (destroyChildren) {
+      while (i-- > 0) {
+        this.children[i].destroy(destroyChildren);
+      }
+    } else {
+      while (i-- > 0) {
+        this.removeChild(this.children[i]);
+      }
     }
 
     this.alive = false;
@@ -742,12 +715,12 @@ destroy ([bool destroyChildren=true]) {
 
     this._cache[8] = 0;
 
-}
+  }
 
 /**
 * Resets the Image. This places the Image at the given x/y world coordinates and then sets alive, exists, visible and renderable all to true.
 */
-reset (num x, num y) {
+  reset(num x, num y) {
 
     this.world.setTo(x, y);
     this.position.x = x;
@@ -759,7 +732,7 @@ reset (num x, num y) {
 
     return this;
 
-}
+  }
 
 /**
 * Brings the Image to the top of the display list it is a child of. Images that are members of a Phaser.Group are only
@@ -769,16 +742,15 @@ reset (num x, num y) {
 * @memberof Phaser.Image
 * @return {Phaser.Image} This instance.
 */
-bringToTop ([GameObject obj]) {
+  bringToTop([GameObject obj]) {
 
-    if (this.parent != null)
-    {
-        this.parent.bringToTop(this);
+    if (this.parent != null) {
+      this.parent.bringToTop(this);
     }
 
     return this;
 
-}
+  }
 
 /**
 * Indicates the rotation of the Image, in degrees, from its original orientation. Values from 0 to 180 represent clockwise rotation; values from 0 to -180 represent counterclockwise rotation.
@@ -790,15 +762,15 @@ bringToTop ([GameObject obj]) {
 */
 //Object.defineProperty(Phaser.Image.prototype, "angle", {
 
-    num get angle {
-        return Math.wrapAngle(Math.radToDeg(this.rotation));
-    }
+  num get angle {
+    return Math.wrapAngle(Math.radToDeg(this.rotation));
+  }
 
-    set angle(num value) {
+  set angle(num value) {
 
-        this.rotation = Math.degToRad(Math.wrapAngle(value));
+    this.rotation = Math.degToRad(Math.wrapAngle(value));
 
-    }
+  }
 
 //});
 
@@ -811,11 +783,11 @@ bringToTop ([GameObject obj]) {
 */
 //Object.defineProperty(Phaser.Image.prototype, "deltaX", {
 
-    num get deltaX {
+  num get deltaX {
 
-        return this.world.x - this._cache[0];
+    return this.world.x - this._cache[0];
 
-    }
+  }
 
 //});
 
@@ -828,11 +800,11 @@ bringToTop ([GameObject obj]) {
 */
 //Object.defineProperty(Phaser.Image.prototype, "deltaY", {
 
-    num get deltaY {
+  num get deltaY {
 
-        return this.world.y - this._cache[1];
+    return this.world.y - this._cache[1];
 
-    }
+  }
 
 //});
 
@@ -845,11 +817,11 @@ bringToTop ([GameObject obj]) {
 */
 //Object.defineProperty(Phaser.Image.prototype, "deltaZ", {
 
-    num get deltaZ {
+  num get deltaZ {
 
-        return this.rotation - this._cache[2];
+    return this.rotation - this._cache[2];
 
-    }
+  }
 
 //});
 
@@ -862,11 +834,11 @@ bringToTop ([GameObject obj]) {
 */
 //Object.defineProperty(Phaser.Image.prototype, "inWorld", {
 
-    get inWorld {
+  get inWorld {
 
-        return this.game.world.bounds.intersects(this.getBounds());
+    return this.game.world.bounds.intersects(this.getBounds());
 
-    }
+  }
 
 //});
 
@@ -879,11 +851,11 @@ bringToTop ([GameObject obj]) {
 */
 //Object.defineProperty(Phaser.Image.prototype, "inCamera", {
 
-    get inCamera {
+  get inCamera {
 
-        return this.game.world.camera.screenView.intersects(this.getBounds());
+    return this.game.world.camera.screenView.intersects(this.getBounds());
 
-    }
+  }
 
 //});
 
@@ -893,14 +865,14 @@ bringToTop ([GameObject obj]) {
 */
 //Object.defineProperty(Phaser.Image.prototype, "frame", {
 
-    int get frame {
-      return this.animations.frame;
-    }
+  int get frame {
+    return this.animations.frame;
+  }
 
-    set frame(int value) {
-      this.animations.frame = value;
-    }
-    
+  set frame(int value) {
+    this.animations.frame = value;
+  }
+
 //    num get frame{
 //        return this._frame;
 //    }
@@ -928,26 +900,24 @@ bringToTop ([GameObject obj]) {
 */
 //Object.defineProperty(Phaser.Image.prototype, "frameName", {
 
-    String get frameName {
+  String get frameName {
 
-        return this._frameName;
+    return this._frameName;
 
+  }
+
+  set frameName(String value) {
+
+    if (value != this.frameName) {
+      var frameData = this.game.cache.getFrameData(this.key);
+
+      if (frameData && frameData.getFrameByName(value)) {
+        this.setTexture(PIXI.TextureCache[frameData.getFrameByName(value).uuid]);
+        this._frameName = value;
+      }
     }
 
-    set frameName(String value) {
-
-        if (value != this.frameName)
-        {
-            var frameData = this.game.cache.getFrameData(this.key);
-
-            if (frameData && frameData.getFrameByName(value))
-            {
-                this.setTexture(PIXI.TextureCache[frameData.getFrameByName(value).uuid]);
-                this._frameName = value;
-            }
-        }
-
-    }
+  }
 
 //});
 
@@ -958,9 +928,9 @@ bringToTop ([GameObject obj]) {
 */
 //Object.defineProperty(Phaser.Image.prototype, "renderOrderID", {
 
-    num get renderOrderID {
-        return this._cache[3];
-    }
+  num get renderOrderID {
+    return this._cache[3];
+  }
 
 //});
 
@@ -973,34 +943,27 @@ bringToTop ([GameObject obj]) {
 */
 //Object.defineProperty(Phaser.Image.prototype, "inputEnabled", {
 
-    bool get inputEnabled {
+  bool get inputEnabled {
 
-        return (this.input != null && this.input.enabled);
+    return (this.input != null && this.input.enabled);
 
+  }
+
+  set inputEnabled(bool value) {
+
+    if (value) {
+      if (this.input == null) {
+        this.input = new InputHandler(this);
+        this.input.start();
+      } else if (this.input != null && !this.input.enabled) {
+        this.input.start();
+      }
+    } else {
+      if (this.input != null && this.input.enabled) {
+        this.input.stop();
+      }
     }
-
-    set inputEnabled (bool value) {
-
-        if (value)
-        {
-            if (this.input == null)
-            {
-                this.input = new InputHandler(this);
-                this.input.start();
-            }
-            else if (this.input!= null && !this.input.enabled)
-            {
-                this.input.start();
-            }
-        }
-        else
-        {
-            if (this.input!= null && this.input.enabled)
-            {
-                this.input.stop();
-            }
-        }
-    }
+  }
 
 //});
 
@@ -1014,24 +977,21 @@ bringToTop ([GameObject obj]) {
 */
 //Object.defineProperty(Phaser.Image.prototype, "fixedToCamera", {
 
-    bool get fixedToCamera {
+  bool get fixedToCamera {
 
-        return this._cache[7] == 1;
+    return this._cache[7] == 1;
 
+  }
+
+  set fixedToCamera(bool value) {
+
+    if (value) {
+      this._cache[7] = 1;
+      this.cameraOffset.set(this.x, this.y);
+    } else {
+      this._cache[7] = 0;
     }
-
-    set fixedToCamera (bool value) {
-
-        if (value)
-        {
-            this._cache[7] = 1;
-            this.cameraOffset.set(this.x, this.y);
-        }
-        else
-        {
-            this._cache[7] = 0;
-        }
-    }
+  }
 
 //});
 
@@ -1043,29 +1003,24 @@ bringToTop ([GameObject obj]) {
 */
 //Object.defineProperty(Phaser.Image.prototype, "smoothed", {
 
-    bool get smoothed {
+  bool get smoothed {
 
-        return this.texture.baseTexture.scaleMode == 0;
+    return this.texture.baseTexture.scaleMode == 0;
 
+  }
+
+  set smoothed(bool value) {
+
+    if (value) {
+      if (this.texture != null) {
+        this.texture.baseTexture.scaleMode = PIXI.scaleModes.DEFAULT;
+      }
+    } else {
+      if (this.texture != null) {
+        this.texture.baseTexture.scaleMode = PIXI.scaleModes.LINEAR;
+      }
     }
-
-    set smoothed (bool value) {
-
-        if (value)
-        {
-            if (this.texture != null)
-            {
-                this.texture.baseTexture.scaleMode = PIXI.scaleModes.DEFAULT;
-            }
-        }
-        else
-        {
-            if (this.texture != null)
-            {
-                this.texture.baseTexture.scaleMode = PIXI.scaleModes.LINEAR;
-            }
-        }
-    }
+  }
 
 //});
 
@@ -1075,15 +1030,15 @@ bringToTop ([GameObject obj]) {
 */
 //Object.defineProperty(Phaser.Image.prototype, "destroyPhase", {
 
-    get destroyPhase {
+  get destroyPhase {
 
-        return this._cache[8] == 1;
+    return this._cache[8] == 1;
 
-    }
+  }
 
 //});
-  
-  
+
+
   /**
    * Resets the Texture frame dimensions that the Image uses for rendering.
    *

@@ -405,10 +405,14 @@ class Sprite<T extends Body> extends PIXI.Sprite implements GameObject, SpriteIn
       this.body.preUpdate();
     }
 
-    //  Update any Children
-    for (var i = 0,
-        len = this.children.length; i < len; i++) {
-      this.children[i].preUpdate();
+
+    {
+      var i = 0;
+      var len = this.children.length;
+      //  Update any Children
+      for ( ; i < len; i++) {
+        this.children[i].preUpdate();
+      }
     }
 
     return true;
@@ -450,10 +454,14 @@ class Sprite<T extends Body> extends PIXI.Sprite implements GameObject, SpriteIn
       this.position.y = (this.game.camera.view.y + this.cameraOffset.y) / this.game.camera.scale.y;
     }
 
-    //  Update any Children
-    for (var i = 0,
-        len = this.children.length; i < len; i++) {
-      this.children[i].postUpdate();
+
+    {
+      var i = 0;
+      var len = this.children.length;
+      //  Update any Children
+      for ( ; i < len; i++) {
+        this.children[i].postUpdate();
+      }
     }
 
   }
@@ -484,8 +492,7 @@ class Sprite<T extends Body> extends PIXI.Sprite implements GameObject, SpriteIn
       this.setTexture(key);
     } else if (key is BitmapData) {
       this.setTexture(key.texture);
-      if (this.game.cache.getFrameData(key.key, Cache.BITMAPDATA)!= null)
-      {
+      if (this.game.cache.getFrameData(key.key, Cache.BITMAPDATA) != null) {
         setFrame = !this.animations.loadFrameData(this.game.cache.getFrameData(key.key, Cache.BITMAPDATA), frame);
       }
 
@@ -554,9 +561,7 @@ class Sprite<T extends Body> extends PIXI.Sprite implements GameObject, SpriteIn
       this.texture.frame.height = frame.sourceSizeH;
     } else if (!frame.trimmed && this.texture.trim != null) {
       this.texture.trim = null;
-    }
-    else if (!frame.trimmed && this.texture.trim != null)
-    {
+    } else if (!frame.trimmed && this.texture.trim != null) {
       this.texture.trim = null;
     }
 

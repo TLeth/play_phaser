@@ -647,7 +647,7 @@ class Body extends Phaser.Body {
 
   moveDown(num speed) {
     this.velocity.y += Phaser.Math.max(speed, maxVelocity.y);
-  } 
+  }
 
   /**
    * Removes this bodies reference to its parent sprite, freeing it up for gc.

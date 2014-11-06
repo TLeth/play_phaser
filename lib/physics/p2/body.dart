@@ -34,7 +34,7 @@ class Body extends Phaser.Body {
 //    _force.x = value.x;
 //    _force.y = value.y;
 //  }
-  
+
   Phaser.Point gravity;
   Phaser.Signal onBeginContact;
   Phaser.Signal onEndContact;
@@ -56,12 +56,12 @@ class Body extends Phaser.Body {
 
   num height;
   Phaser.Point tilePadding;
-  setSize(num x, num y, num width, num height){
+  setSize(num x, num y, num width, num height) {
     throw new Exception("Should not be called in P2!");
   }
-  
-  
-  
+
+
+
   bool get static {
 
     return (this.data.type == p2.Body.STATIC);
@@ -686,8 +686,8 @@ class Body extends Phaser.Body {
     if (this._collideWorldBounds) {
       mask = this.game.physics.p2.boundsCollisionGroup.mask;
     }
-    
-    this.collidesWith.forEach((CollisionGroup c){
+
+    this.collidesWith.forEach((CollisionGroup c) {
       mask = mask | c.mask;
     });
 //
@@ -796,8 +796,8 @@ class Body extends Phaser.Body {
 
     if (group is List) {
       for (int i = 0; i < group.length; i++) {
-        
-        if(!this.collidesWith.contains(group[i])){
+
+        if (!this.collidesWith.contains(group[i])) {
           this.collidesWith.add(group[i]);
           if (callback != null) {
             this.createGroupCallback(group[i], callback);
@@ -805,7 +805,7 @@ class Body extends Phaser.Body {
         }
       }
     } else {
-      if(!this.collidesWith.contains(group)){
+      if (!this.collidesWith.contains(group)) {
         this.collidesWith.add(group);
         if (callback != null) {
           this.createGroupCallback(group, callback);
@@ -1412,10 +1412,14 @@ class Body extends Phaser.Body {
     } else if (points[0] is List) {
       path = points.toList();
     } else if (points[0] is num) {
-      //  We've a list of numbers
-      for (var i = 0,
-          len = points.length; i < len; i += 2) {
-        path.add([points[i], points[i + 1]]);
+
+      {
+        var i = 0;
+        var len = points.length;
+        //  We've a list of numbers
+        for ( ; i < len; i += 2) {
+          path.add([points[i], points[i + 1]]);
+        }
       }
     }
 

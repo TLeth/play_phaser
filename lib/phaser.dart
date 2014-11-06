@@ -14,7 +14,7 @@ import "dart:js";
 //@MirrorsUsed(targets: 'Phaser',  override: '*')
 //@MirrorsUsed(targets: const [GameObject, Sprite, Text, Particle], symbols: const ["*",'x','y'],  override: '*')
 //@MirrorsUsed(symbols: "*", override: '*')
-@MirrorsUsed(targets:const ['PIXI', 'Phaser'], override: '*')
+@MirrorsUsed(targets: const ['PIXI', 'Phaser'], override: '*')
 import "dart:mirrors";
 
 import "package:play_pixi/pixi.dart" as PIXI;

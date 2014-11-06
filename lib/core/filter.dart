@@ -81,27 +81,32 @@ class Filter {
      * @property {object} uniforms - Default uniform mappings.
      */
     this.uniforms = {
-        'time': {
-            'type': '1f', 'value': 0
-        },
-        'resolution': {
-            'type': '2f', 'value': {
-                'x': 256, 'y': 256
-            }
-        },
-        'mouse': {
-            'type': '2f', 'value': {
-                'x': 0.0, 'y': 0.0
-            }
+      'time': {
+        'type': '1f',
+        'value': 0
+      },
+      'resolution': {
+        'type': '2f',
+        'value': {
+          'x': 256,
+          'y': 256
         }
+      },
+      'mouse': {
+        'type': '2f',
+        'value': {
+          'x': 0.0,
+          'y': 0.0
+        }
+      }
     };
 
     /**
      * @property {array} fragmentSrc - The fragment shader code.
      */
     this.fragmentSrc = fragmentSrc;
-    if(this.fragmentSrc == null){
-      this.fragmentSrc=[];
+    if (this.fragmentSrc == null) {
+      this.fragmentSrc = [];
     }
 
   }

@@ -2,17 +2,17 @@ part of Phaser;
 
 class Particle extends Sprite {
   bool autoScale;
-  List<Map<String,num>> scaleData;
+  List<Map<String, num>> scaleData;
   int _s;
   bool autoAlpha;
-  List<Map<String,num>> alphaData;
+  List<Map<String, num>> alphaData;
   int _a;
 
 
 
 
-  Particle(Game game, num x,num y,String key,num frame)
-  :super(game, x, y, key, frame) {
+  Particle(Game game, num x, num y, String key, num frame)
+      : super(game, x, y, key, frame) {
     /**
      * @property {boolean} autoScale - If this Particle automatically scales this is set to true by Particle.setScaleData.
      * @protected
@@ -52,32 +52,24 @@ class Particle extends Sprite {
 
   update() {
 
-    if (this.autoScale)
-    {
+    if (this.autoScale) {
       this._s--;
 
-      if (this._s >= 0)
-      {
+      if (this._s >= 0) {
         //this.scale.set(0.5,0.5);
         this.scale.set(this.scaleData[this._s]['x'], this.scaleData[this._s]['y']);
         //print(this._s);
-      }
-      else
-      {
+      } else {
         this.autoScale = false;
       }
     }
 
-    if (this.autoAlpha)
-    {
+    if (this.autoAlpha) {
       this._a--;
 
-      if (this._a >= 0)
-      {
+      if (this._a >= 0) {
         this.alpha = this.alphaData[this._a]['v'];
-      }
-      else
-      {
+      } else {
         this.autoAlpha = false;
       }
     }
@@ -99,7 +91,7 @@ class Particle extends Sprite {
    * @method Phaser.Particle#setAlphaData
    * @memberof Phaser.Particle
    */
-  setAlphaData (List<Map<String,num>> data) {
+  setAlphaData(List<Map<String, num>> data) {
 
     this.alphaData = data;
     this._a = data.length - 1;
@@ -114,7 +106,7 @@ class Particle extends Sprite {
    * @method Phaser.Particle#setScaleData
    * @memberof Phaser.Particle
    */
-  setScaleData (List<Map<String,num>> data) {
+  setScaleData(List<Map<String, num>> data) {
 
     this.scaleData = data;
     this._s = data.length - 1;
@@ -135,9 +127,11 @@ class Particle extends Sprite {
    * @param {number} [health=1] - The health to give the Particle.
    * @return (Phaser.Particle) This instance.
    */
-  Particle reset (num x, num y, [num health=1]) {
+  Particle reset(num x, num y, [num health = 1]) {
 
-    if ( health == null) { health = 1; }
+    if (health == null) {
+      health = 1;
+    }
 
     this.world.setTo(x, y);
     this.position.x = x;
@@ -150,8 +144,7 @@ class Particle extends Sprite {
 
     this.health = health;
 
-    if (this.body != null)
-    {
+    if (this.body != null) {
       this.body.reset(x, y, false, false);
     }
 

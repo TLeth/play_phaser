@@ -9,7 +9,7 @@ class RequestAnimationFrame {
   Function _onLoop;
   int _timeOutID;
 
-  RequestAnimationFrame(this.game, [bool forceSetTimeOut=false]) {
+  RequestAnimationFrame(this.game, [bool forceSetTimeOut = false]) {
     this.isRunning = false;
 
     /**

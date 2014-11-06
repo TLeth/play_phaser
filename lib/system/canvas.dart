@@ -62,8 +62,8 @@ class Canvas {
     return canvas;
   }
 
-  static CanvasElement setTouchAction (CanvasElement canvas, [String value='none']) {
-    canvas.style.touchAction=value;
+  static CanvasElement setTouchAction(CanvasElement canvas, [String value = 'none']) {
+    canvas.style.touchAction = value;
     return canvas;
   }
 
@@ -153,7 +153,7 @@ class Canvas {
 //          }
 
   }
-  
+
   // TODO
   getSmoothingEnabled(Map context) {
     return (context['imageSmoothingEnabled'] || context['mozImageSmoothingEnabled'] || context['oImageSmoothingEnabled'] || context['webkitImageSmoothingEnabled'] || context['msImageSmoothingEnabled']);

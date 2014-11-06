@@ -235,7 +235,7 @@ class Touch {
       return;
     }
 
-    
+
     if (this.preventDefault) {
       event.preventDefault();
     }
@@ -424,7 +424,7 @@ class Touch {
     if (game.device.cocoonJS) {
       JsObject ev = new JsObject.fromBrowserObject(event);
       JsArray changedTouches = new JsArray.from(ev["changedTouches"]);
-      
+
       //  For touch end its a list of the touch points that have been removed from the surface
       //  https://developer.mozilla.org/en-US/docs/DOM/TouchList
       //  event.changedTouches = the touches that CHANGED in this event, not the total number of them
@@ -432,7 +432,7 @@ class Touch {
         JsObject touchEvent = new JsObject.fromBrowserObject(changedTouches[i]);
         this.game.input.stopPointer(touchEvent);
       }
-      
+
     } else {
 
 

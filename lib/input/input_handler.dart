@@ -10,7 +10,7 @@ class InputHandler {
   bool isDragged;
   bool allowHorizontalDrag;
   bool allowVerticalDrag;
-  bool bringToTop; 
+  bool bringToTop;
   Point snapOffset;
   bool snapOnDrag;
   bool snapOnRelease;
@@ -1241,9 +1241,8 @@ class InputHandler {
    * @method Phaser.InputHandler#globalToLocalX
    * @param {number} x
    */
-  globalToLocalX (num x) {
-    if (this.scaleLayer)
-    {
+  globalToLocalX(num x) {
+    if (this.scaleLayer) {
       x -= this.game.scale.grid.boundsFluid.x;
       x *= this.game.scale.grid.scaleFluidInversed.x;
     }
@@ -1255,9 +1254,8 @@ class InputHandler {
    * @method Phaser.InputHandler#globalToLocalY
    * @param {number} y
    */
-  globalToLocalY (num y) {
-    if (this.scaleLayer)
-    {
+  globalToLocalY(num y) {
+    if (this.scaleLayer) {
       y -= this.game.scale.grid.boundsFluid.y;
       y *= this.game.scale.grid.scaleFluidInversed.y;
     }

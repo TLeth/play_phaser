@@ -4,11 +4,15 @@ class GearConstraint extends p2.GearConstraint {
   Phaser.Game game;
   P2 world;
 
-  GearConstraint(P2 world, p2.Body bodyA, p2.Body bodyB, [num angle=0, num ratio=1])
-  :super(bodyA, bodyB, angle:angle, ratio: ratio){
+  GearConstraint(P2 world, p2.Body bodyA, p2.Body bodyB, [num angle = 0, num ratio = 1])
+      : super(bodyA, bodyB, angle: angle, ratio: ratio) {
 
-    if (angle == null) { angle = 0; }
-    if (ratio == null) { ratio = 1; }
+    if (angle == null) {
+      angle = 0;
+    }
+    if (ratio == null) {
+      ratio = 1;
+    }
 
     /**
      * @property {Phaser.Game} game - Local reference to game.

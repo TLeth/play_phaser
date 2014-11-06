@@ -2,7 +2,10 @@ part of Phaser;
 
 class TilemapData {
   String name;
-  num width, height, tileWidth, tileHeight;
+  num width;
+  num height;
+  num tileWidth;
+  num tileHeight;
   String orientation;
 
 
@@ -30,8 +33,8 @@ class Tilemap {
   static const int TILED_JSON = 1;
 
   static const Map<String, int> Format = const {
-      "CSV": 0,
-      "TILED_JSON": 1,
+    "CSV": 0,
+    "TILED_JSON": 1,
   };
 
   static const int NORTH = 0;
@@ -100,8 +103,7 @@ class Tilemap {
 
   bool preventingRecalculate = false;
 
-  Map needToRecalculate = {
-  };
+  Map needToRecalculate = {};
 
   List data;
 
@@ -230,8 +232,7 @@ class Tilemap {
     /**
      * @property {array} debugMap - Map data used for debug values only.
      */
-    this.debugMap = {
-    };
+    this.debugMap = {};
 
     /**
      * @property {array} _results - Internal var.
@@ -370,8 +371,7 @@ class Tilemap {
       this.tilesets[tileset].setImage(this.game.cache.getImage(key));
       return this.tilesets[tileset];
     } else {
-      Tileset newSet = new Tileset(key, gid, tileWidth, tileHeight, tileMargin, tileSpacing, {
-      });
+      Tileset newSet = new Tileset(key, gid, tileWidth, tileHeight, tileMargin, tileSpacing, {});
 
       newSet.setImage(this.game.cache.getImage(key));
 
@@ -388,8 +388,7 @@ class Tilemap {
       for (int t = gid; t < gid + newSet.total; t++) {
         if (this.tiles.length > t) {
           this.tiles[t] = [x, y, i];
-        }
-        else {
+        } else {
           this.tiles.add([x, y, i]);
         }
 
@@ -468,31 +467,34 @@ class Tilemap {
 
     var sprite;
 
-    for (int i = 0,
-    len = this.objects[name].length; i < len; i++) {
-      if (this.objects[name][i].gid == gid) {
-        sprite = reflectClass(CustomClass).newInstance(null, [this.game, this.objects[name][i].x, this.objects[name][i].y, key, frame]).reflectee;
+    {
+      int i = 0;
+      int len = this.objects[name].length;
+      for ( ; i < len; i++) {
+        if (this.objects[name][i].gid == gid) {
+          sprite = reflectClass(CustomClass).newInstance(null, [this.game, this.objects[name][i].x, this.objects[name][i].y, key, frame]).reflectee;
 
-        //sprite = new CustomClass(this.game, this.objects[name][i].x, this.objects[name][i].y, key, frame);
+          //sprite = new CustomClass(this.game, this.objects[name][i].x, this.objects[name][i].y, key, frame);
 
-        sprite.name = this.objects[name][i].name;
-        sprite.visible = this.objects[name][i].visible;
-        sprite.autoCull = autoCull;
-        sprite.exists = exists;
+          sprite.name = this.objects[name][i].name;
+          sprite.visible = this.objects[name][i].visible;
+          sprite.autoCull = autoCull;
+          sprite.exists = exists;
 
-        if (adjustY) {
-          sprite.y -= sprite.height;
-        }
+          if (adjustY) {
+            sprite.y -= sprite.height;
+          }
 
-        group.add(sprite);
+          group.add(sprite);
 
-        for (String property in this.objects[name][i].properties.keys) {
-          throw new Exception('Not yet implement');
-          //group.forEach((Sprite sprite){
+          for (String property in this.objects[name][i].properties.keys) {
+            throw new Exception('Not yet implement');
+            //group.forEach((Sprite sprite){
 
-          //group.set(sprite, property, this.objects[name][i].properties[property], false, false, 0);
-          //});
-          //group.set(sprite, property, this.objects[name][i].properties[property], false, false, 0);
+            //group.set(sprite, property, this.objects[name][i].properties[property], false, false, 0);
+            //});
+            //group.set(sprite, property, this.objects[name][i].properties[property], false, false, 0);
+          }
         }
       }
     }
@@ -568,21 +570,20 @@ class Tilemap {
 
     TilemapLayerData layer = new TilemapLayerData()
 
-      ..name = name
-      ..x = 0
-      ..y = 0
-      ..width = width
-      ..height = height
-      ..widthInPixels = width * tileWidth
-      ..heightInPixels = height * tileHeight
-      ..alpha = 1
-      ..visible = true
-      ..properties = {
-    }
-      ..indexes = []
-      ..callbacks = []
-      ..bodies = []
-      ..data = null;
+        ..name = name
+        ..x = 0
+        ..y = 0
+        ..width = width
+        ..height = height
+        ..widthInPixels = width * tileWidth
+        ..heightInPixels = height * tileHeight
+        ..alpha = 1
+        ..visible = true
+        ..properties = {}
+        ..indexes = []
+        ..callbacks = []
+        ..bodies = []
+        ..data = null;
 
 
     List<Tile> row;
@@ -709,9 +710,12 @@ class Tilemap {
       //  less than having to iterate through the callbacks array hunting down tile indexes each frame, so I'll take the small memory hit.
       this.layers[layer].callbacks[indexes] = callback;
     } else {
-      for (var i = 0,
-      len = indexes.length; i < len; i++) {
-        this.layers[layer].callbacks[indexes[i]] = callback;
+      {
+        var i = 0;
+        var len = indexes.length;
+        for ( ; i < len; i++) {
+          this.layers[layer].callbacks[indexes[i]] = callback;
+        }
       }
     }
   }
@@ -767,10 +771,14 @@ class Tilemap {
     if (indexes is int) {
       return this.setCollisionByIndex(indexes, collides, layer, true);
     } else {
-      //  Collide all of the IDs given in the indexes array
-      for (var i = 0,
-      len = indexes.length; i < len; i++) {
-        this.setCollisionByIndex(indexes[i], collides, layer, false);
+
+      {
+        var i = 0;
+        var len = indexes.length;
+        //  Collide all of the IDs given in the indexes array
+        for ( ; i < len; i++) {
+          this.setCollisionByIndex(indexes[i], collides, layer, false);
+        }
       }
 
       if (recalculate) {
@@ -842,11 +850,15 @@ class Tilemap {
 
     layer = this.getLayer(layer);
 
-    //  Collide everything, except the IDs given in the indexes array
-    for (var i = 0,
-    len = this.tiles.length; i < len; i++) {
-      if (indexes.indexOf(i) == -1) {
-        this.setCollisionByIndex(i, collides, layer, false);
+
+    {
+      var i = 0;
+      var len = this.tiles.length;
+      //  Collide everything, except the IDs given in the indexes array
+      for ( ; i < len; i++) {
+        if (indexes.indexOf(i) == -1) {
+          this.setCollisionByIndex(i, collides, layer, false);
+        }
       }
     }
 
@@ -932,8 +944,7 @@ class Tilemap {
 
     if (layer == null) {
       layer = this.currentLayer;
-    }
-    // else if (typeof layer === 'number')
+    } // else if (typeof layer === 'number')
     // {
     //     layer = layer;
     // }
@@ -959,8 +970,7 @@ class Tilemap {
   setPreventRecalculate(bool value) {
     if ((value == true) && (this.preventingRecalculate != true)) {
       this.preventingRecalculate = true;
-      this.needToRecalculate = {
-      };
+      this.needToRecalculate = {};
     }
     if ((value == false) && (this.preventingRecalculate == true)) {
       this.preventingRecalculate = false;
@@ -991,43 +1001,49 @@ class Tilemap {
     var left = null;
     var right = null;
 
-    for (int y = 0,
-    h = this.layers[layer].height; y < h; y++) {
-      for (int x = 0,
-      w = this.layers[layer].width; x < w; x++) {
-        Tile tile = this.layers[layer].data[y][x];
+    {
+      int y = 0;
+      int h = this.layers[layer].height;
+      for ( ; y < h; y++) {
+        {
+          int x = 0;
+          int w = this.layers[layer].width;
+          for ( ; x < w; x++) {
+            Tile tile = this.layers[layer].data[y][x];
 
-        if (tile != null) {
-          above = this.getTileAbove(layer, x, y);
-          below = this.getTileBelow(layer, x, y);
-          left = this.getTileLeft(layer, x, y);
-          right = this.getTileRight(layer, x, y);
+            if (tile != null) {
+              above = this.getTileAbove(layer, x, y);
+              below = this.getTileBelow(layer, x, y);
+              left = this.getTileLeft(layer, x, y);
+              right = this.getTileRight(layer, x, y);
 
-          if (tile.collides != null) {
-            tile.faceTop = true;
-            tile.faceBottom = true;
-            tile.faceLeft = true;
-            tile.faceRight = true;
-          }
+              if (tile.collides != null) {
+                tile.faceTop = true;
+                tile.faceBottom = true;
+                tile.faceLeft = true;
+                tile.faceRight = true;
+              }
 
-          if (above != null && above.collides) {
-            //  There is a tile above this one that also collides, so the top of this tile is no longer interesting
-            tile.faceTop = false;
-          }
+              if (above != null && above.collides) {
+                //  There is a tile above this one that also collides, so the top of this tile is no longer interesting
+                tile.faceTop = false;
+              }
 
-          if (below != null && below.collides) {
-            //  There is a tile below this one that also collides, so the bottom of this tile is no longer interesting
-            tile.faceBottom = false;
-          }
+              if (below != null && below.collides) {
+                //  There is a tile below this one that also collides, so the bottom of this tile is no longer interesting
+                tile.faceBottom = false;
+              }
 
-          if (left != null && left.collides) {
-            //  There is a tile left this one that also collides, so the left of this tile is no longer interesting
-            tile.faceLeft = false;
-          }
+              if (left != null && left.collides) {
+                //  There is a tile left this one that also collides, so the left of this tile is no longer interesting
+                tile.faceLeft = false;
+              }
 
-          if (right != null && right.collides) {
-            //  There is a tile right this one that also collides, so the right of this tile is no longer interesting
-            tile.faceRight = false;
+              if (right != null && right.collides) {
+                //  There is a tile right this one that also collides, so the right of this tile is no longer interesting
+                tile.faceRight = false;
+              }
+            }
           }
         }
       }
@@ -1445,11 +1461,11 @@ class Tilemap {
     this._results.length = 0;
 
     this._results.add({
-        'x': x,
-        'y': y,
-        'width': width,
-        'height': height,
-        'layer': layer
+      'x': x,
+      'y': y,
+      'width': width,
+      'height': height,
+      'layer': layer
     });
 
     for (var ty = y; ty < y + height; ty++) {

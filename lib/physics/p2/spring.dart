@@ -7,8 +7,7 @@ class Spring {
   P2 world;
   p2.LinearSpring data;
 
-  Spring(P2 world, p2.Body bodyA, p2.Body bodyB, [num restLength, num stiffness, num damping, List worldA, List worldB, List localA, List localB])
-      {
+  Spring(P2 world, p2.Body bodyA, p2.Body bodyB, [num restLength, num stiffness, num damping, List worldA, List worldB, List localA, List localB]) {
 
     this.game = world.game;
     this.world = world;
@@ -50,15 +49,7 @@ class Spring {
     /**
      * @property {p2.LinearSpring} data - The actual p2 spring object.
      */
-    this.data = new p2.LinearSpring(bodyA,
-        bodyB,
-        stiffness: stiffness,
-        damping: damping,
-        worldAnchorA:new p2.vec2(world.pxm(worldA[0]), world.pxm(worldA[1])),
-        worldAnchorB:new p2.vec2(world.pxm(worldB[0]), world.pxm(worldB[1])),
-        localAnchorA:new p2.vec2(world.pxm(localA[0]), world.pxm(localA[1])),
-        localAnchorB:new p2.vec2(world.pxm(localB[0]), world.pxm(localB[1]))
-        );
+    this.data = new p2.LinearSpring(bodyA, bodyB, stiffness: stiffness, damping: damping, worldAnchorA: new p2.vec2(world.pxm(worldA[0]), world.pxm(worldA[1])), worldAnchorB: new p2.vec2(world.pxm(worldB[0]), world.pxm(worldB[1])), localAnchorA: new p2.vec2(world.pxm(localA[0]), world.pxm(localA[1])), localAnchorB: new p2.vec2(world.pxm(localB[0]), world.pxm(localB[1])));
 
     this.data.parent = this;
 

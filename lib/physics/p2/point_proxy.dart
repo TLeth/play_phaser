@@ -4,7 +4,7 @@ class PointProxy {
 
   /// Local reference to the P2 World.
   P2 world;
-  
+
   List destination;
 
   PointProxy(P2 world, List destination) {

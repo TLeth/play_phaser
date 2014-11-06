@@ -6,7 +6,8 @@ typedef void ResizeFunc(num width, num height);
 
 class ScaleManager {
   Game game;
-  num width, height;
+  num width;
+  num height;
 
   num minWidth;
   num maxWidth;
@@ -213,8 +214,8 @@ class ScaleManager {
   Function _checkResize;
 
   Function _fullScreenChange;
-  
-  bool isPortrait=true;
+
+  bool isPortrait = true;
 
   /**
    * @constant
@@ -1279,7 +1280,7 @@ class ScaleManager {
 //    }
 
     this.fullScreenTarget.requestFullscreen();
-    
+
   }
 
   /**

@@ -6,9 +6,11 @@ class SpriteBatch extends Group {
 
   //Game game;
   SpriteBatch(Game game, parent, name, addToStage)
-  :super(game){
+      : super(game) {
 
-    if ( parent == null) { parent = game.world; }
+    if (parent == null) {
+      parent = game.world;
+    }
 
     //PIXI.SpriteBatch.call(this);
 

@@ -713,9 +713,12 @@ class Tween {
         this.isRunning = false;
         this.onComplete.dispatch(this._object);
 
-        for (var i = 0,
-            numChainedTweens = this._chainedTweens.length; i < numChainedTweens; i++) {
-          this._chainedTweens[i].start();
+        {
+          var i = 0;
+          var numChainedTweens = this._chainedTweens.length;
+          for ( ; i < numChainedTweens; i++) {
+            this._chainedTweens[i].start();
+          }
         }
 
         return false;

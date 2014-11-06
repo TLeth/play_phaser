@@ -2,13 +2,22 @@ part of Phaser;
 
 class Color {
 
-  int r, g, b, a;
+  int r;
+  int g;
+  int b;
+  int a;
 
-  int red, green, blue, alpha;
+  int red;
+  int green;
+  int blue;
+  int alpha;
   int color;
   String rgba;
- 
-  double h, s, l, v;
+
+  double h;
+  double s;
+  double l;
+  double v;
 
 //  Color._() {
 //  }
@@ -29,10 +38,9 @@ class Color {
 
   static int packPixel(int r, int g, int b, int a) {
     if (Device.LITTLE_ENDIAN) {
-      return ( (a << 24) | (b << 16) | (g << 8) | r ) >> 0;
-    }
-    else {
-      return ( (r << 24) | (g << 16) | (b << 8) | a ) >> 0;
+      return ((a << 24) | (b << 16) | (g << 8) | r) >> 0;
+    } else {
+      return ((r << 24) | (g << 16) | (b << 8) | a) >> 0;
     }
   }
 
@@ -56,7 +64,7 @@ class Color {
    * @return {object} An object with the red, green and blue values set in the r, g and b properties.
    */
 
-  static Color unpackPixel(int rgba, [Color out, bool hsl=false, bool hsv=false]) {
+  static Color unpackPixel(int rgba, [Color out, bool hsl = false, bool hsv = false]) {
     if (out == null) {
       out = Color.createColor();
     }
@@ -69,8 +77,7 @@ class Color {
       out.b = ((rgba & 0x00ff0000) >> 16);
       out.g = ((rgba & 0x0000ff00) >> 8);
       out.r = ((rgba & 0x000000ff));
-    }
-    else {
+    } else {
       out.r = ((rgba & 0xff000000) >> 24);
       out.g = ((rgba & 0x00ff0000) >> 16);
       out.b = ((rgba & 0x0000ff00) >> 8);
@@ -159,7 +166,9 @@ class Color {
       out = Color.createColor(r, g, b, 255);
     }
 
-    double dr = r / 255.0, dg = g / 255.0, db = b / 255.0;
+    double dr = r / 255.0;
+    double db = b / 255.0;
+    double dg = g / 255.0;
     //g /= 255;
     //b /= 255;
 
@@ -178,13 +187,11 @@ class Color {
 
       if (max == dr) {
         out.h = (dg - db) / d + (dg < db ? 6 : 0);
-      }
-      else if (max == dg) {
+      } else if (max == dg) {
         out.h = (db - dr) / d + 2;
+      } else if (max == db) {
+        out.h = (dr - dg) / d + 4;
       }
-      else if (max == db) {
-          out.h = (dr - dg) / d + 4;
-        }
 
       out.h /= 6;
     }
@@ -220,7 +227,23 @@ class Color {
     ////      out.b = l;
 //    }
 
-    double dr = l, dg = l, db = l;
+    double dr = l;
+//    else {
+//      // achromatic by default
+    ////      out.r = l;
+    ////      out.g = l;
+    ////      out.b = l;
+//    }
+
+    double db = l;
+//    else {
+//      // achromatic by default
+    ////      out.r = l;
+    ////      out.g = l;
+    ////      out.b = l;
+//    }
+
+    double dg = l;
     if (s != 0) {
       double q = l < 0.5 ? l * (1 + s) : l + s - l * s;
       double p = 2 * l - q;
@@ -276,13 +299,11 @@ class Color {
     if (max != min) {
       if (max == r) {
         out.h = (g - b) / d + (g < b ? 6 : 0);
-      }
-      else if (max == g) {
+      } else if (max == g) {
         out.h = (b - r) / d + 2;
+      } else if (max == b) {
+        out.h = (r - g) / d + 4;
       }
-      else if (max == b) {
-          out.h = (r - g) / d + 4;
-        }
 
       out.h /= 6;
     }
@@ -312,7 +333,9 @@ class Color {
       out = Color.createColor(0, 0, 0, 255, h, s, 0.0, v);
     }
 
-    var r, g, b;
+    var r;
+    var b;
+    var g;
     var i = Math.floor(h * 6);
     var f = h * 6 - i;
     var p = v * (1 - s);
@@ -420,7 +443,7 @@ class Color {
    * @return {object} The resulting object with r, g, b, a properties and h, s, l and v.
    */
 
-  static Color createColor([int r =0, int g =0, int b=0, int a=255, double h=0.0, double s=0.0, double l=0.0, double v=0.0]) {
+  static Color createColor([int r = 0, int g = 0, int b = 0, int a = 255, double h = 0.0, double s = 0.0, double l = 0.0, double v = 0.0]) {
 
     //var out = { r: r || 0, g: g || 0, b: b || 0, a: a || 1, h: h || 0, s: s || 0, l: l || 0, v: v || 0, color: 0 };
     Color out = new Color();
@@ -501,15 +524,14 @@ class Color {
    * @return {string} A string containing the color values. If prefix was '#' it will be in the format `#RRGGBB` otherwise `0xAARRGGBB`.
    */
 
-  static String RGBtoString(int r, int g, int b, [int a=255, String prefix='#']) {
+  static String RGBtoString(int r, int g, int b, [int a = 255, String prefix = '#']) {
 
 //    if (typeof a == 'undefined') { a = 255; }
 //    if (typeof prefix == 'undefined') { prefix = '#'; }
 
     if (prefix == '#') {
       return '#' + ((1 << 24) + (r << 16) + (g << 8) + b).toInt().toRadixString(16).substring(1);
-    }
-    else {
+    } else {
       return '0x' + Color.componentToHex(a) + Color.componentToHex(r) + Color.componentToHex(g) + Color.componentToHex(b);
     }
 
@@ -552,17 +574,17 @@ class Color {
     }
 
     // Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
-    RegExp shorthandRegex = new RegExp("^#?([a-f\d])([a-f\d])([a-f\d])\$", caseSensitive:true);
+    RegExp shorthandRegex = new RegExp("^#?([a-f\d])([a-f\d])([a-f\d])\$", caseSensitive: true);
 
     hex = hex.replaceFirst(shorthandRegex, r"$1$1$2$2$3$3");
 
-    var result = new RegExp("^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})\$", caseSensitive:true).firstMatch(hex);
+    var result = new RegExp("^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})\$", caseSensitive: true).firstMatch(hex);
 
     if (result) {
 
-      out.r = int.parse(result[1], radix:16);
-      out.g = int.parse(result[2], radix:16);
-      out.b = int.parse(result[3], radix:16);
+      out.r = int.parse(result[1], radix: 16);
+      out.g = int.parse(result[2], radix: 16);
+      out.b = int.parse(result[3], radix: 16);
     }
 
     return out;
@@ -593,7 +615,7 @@ class Color {
    * @return {array} An array containing 360 elements corresponding to the HSV color wheel.
    */
 
-  static List HSVColorWheel([double s=1.0, double v=1.0]) {
+  static List HSVColorWheel([double s = 1.0, double v = 1.0]) {
 
 //  if (typeof s === 'undefined') { s = 1.0; }
 //  if (typeof v === 'undefined') { v = 1.0; }
@@ -618,7 +640,7 @@ class Color {
    * @return {array} An array containing 360 elements corresponding to the HSL color wheel.
    */
 
-  static List HSLColorWheel([double s=0.5, double l=0.5]) {
+  static List HSLColorWheel([double s = 0.5, double l = 0.5]) {
 
 //  if (typeof s === 'undefined') { s = 0.5; }
 //  if (typeof l === 'undefined') { l = 0.5; }
@@ -646,7 +668,7 @@ class Color {
    * @returns {number} The interpolated color value.
    */
 
-  static int interpolateColor(color1, color2, steps, currentStep, [int alpha=255]) {
+  static int interpolateColor(color1, color2, steps, currentStep, [int alpha = 255]) {
 
 //  if ( alpha == "undefined") { alpha = 255; }
 
@@ -723,7 +745,7 @@ class Color {
    * @returns {number} 32-bit color value with alpha.
    */
 
-  static int getRandomColor([int min=0, int max=255, int alpha=255]) {
+  static int getRandomColor([int min = 0, int max = 255, int alpha = 255]) {
 
 //  if (typeof min === "undefined") { min = 0; }
 //  if (typeof max === "undefined") { max = 255; }
@@ -777,8 +799,7 @@ class Color {
 //          g: color >> 8 & 0xFF,
 //          b: color & 0xFF
 //      };
-    }
-    else {
+    } else {
       c.a = 255;
       c.r = color >> 16 & 0xFF;
       c.g = color >> 8 & 0xFF;
@@ -815,8 +836,7 @@ class Color {
 
     if (color is Color) {
       return 'rgba(' + color.r.toString() + ',' + color.g.toString() + ',' + color.b.toString() + ',' + (color.a / 255).toString() + ')';
-    }
-    else {
+    } else {
       var rgb = Color.getRGB(color);
       return 'rgba(' + rgb.r.toString() + ',' + rgb.g.toString() + ',' + rgb.b.toString() + ',' + (rgb.a / 255).toString() + ')';
     }
@@ -887,7 +907,7 @@ class Color {
   static int getBlue(int color) {
     return color & 0xFF;
   }
-  
+
 //
 ////   The following are all DEPRECATED
 //

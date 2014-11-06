@@ -62,19 +62,17 @@ class Net {
     }
 
     var output = '';
-    var re = new RegExp("([?|&])" + key + "=.*?(&|#|\$)(.*)", multiLine:true, caseSensitive: true);
+    var re = new RegExp("([?|&])" + key + "=.*?(&|#|\$)(.*)", multiLine: true, caseSensitive: true);
     var re2 = new RegExp("(&|\?)\$");
 
 
     if (re.hasMatch(url)) {
       if (value != null && value != null) {
         output = url.replaceAll(re, '\$1$key=$value\$2\$3');
-      }
-      else {
+      } else {
         output = url.replaceAll(re, '\$1\$3').replaceAll(re2, '');
       }
-    }
-    else {
+    } else {
       if (value != null) {
         var separator = url.indexOf('?') != -1 ? '&' : '?';
         var hash = url.split('#');
@@ -86,8 +84,7 @@ class Net {
 
         output = url;
 
-      }
-      else {
+      } else {
         output = url;
       }
     }
@@ -95,8 +92,7 @@ class Net {
     if (redirect) {
       window.location.href = output;
       return null;
-    }
-    else {
+    } else {
       return output;
     }
 
@@ -117,18 +113,16 @@ class Net {
       parameter = '';
     }
 
-    var output = {
-    };
+    var output = {};
     var keyValues = window.location.search.substring(1).split('&');
 
     for (var i in keyValues) {
       var key = keyValues[i].split('=');
 
       if (key.length > 1) {
-        if (parameter!=null && parameter == this.decodeURI(key[0])) {
+        if (parameter != null && parameter == this.decodeURI(key[0])) {
           return this.decodeURI(key[1]);
-        }
-        else {
+        } else {
           output[this.decodeURI(key[0])] = this.decodeURI(key[1]);
         }
       }

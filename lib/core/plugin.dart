@@ -61,7 +61,7 @@ class Plugin {
    * It is only called if active is set to true.
    * @method Phaser.Plugin#preUpdate
    */
-  preUpdate () {
+  preUpdate() {
   }
 
   /**
@@ -69,7 +69,7 @@ class Plugin {
    * It is only called if active is set to true.
    * @method Phaser.Plugin#update
    */
-  update () {
+  update() {
   }
 
   /**
@@ -77,7 +77,7 @@ class Plugin {
    * It is only called if visible is set to true.
    * @method Phaser.Plugin#render
    */
-  render () {
+  render() {
   }
 
   /**
@@ -85,10 +85,10 @@ class Plugin {
    * It is only called if visible is set to true.
    * @method Phaser.Plugin#postRender
    */
-  postRender () {
+  postRender() {
   }
 
-  postUpdate(){
+  postUpdate() {
 
   }
 
@@ -96,7 +96,7 @@ class Plugin {
    * Clear down this Plugin and null out references
    * @method Phaser.Plugin#destroy
    */
-  destroy () {
+  destroy() {
     this.game = null;
     this.parent = null;
     this.active = false;

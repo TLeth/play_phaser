@@ -44,10 +44,9 @@ class Physics {
   static const int CHIPMUNK = 5;
 
 
-  Physics(game, [Map config = const {
-  }]) {
-    if(config == null){
-      config={};
+  Physics(game, [Map config = const {}]) {
+    if (config == null) {
+      config = {};
     }
     /**
      * @property {Phaser.Game} game - Local reference to game.
@@ -84,7 +83,7 @@ class Physics {
      */
     //this.chipmunk = null;
     //if(config != null){
-      this.parseConfig();
+    this.parseConfig();
     //}
 
   }
@@ -104,11 +103,11 @@ class Physics {
     }
 
     //if (this.config.containsKey('ninja') && this.config['ninja'] == true ) {
-      //this.ninja = new Physics.Ninja(this.game);
+    //this.ninja = new Physics.Ninja(this.game);
     //}
 
     //if (this.config.containsKey('p2') && this.config['p2'] == true) {
-      //this.p2 = new Physics.P2(this.game, this.config);
+    //this.p2 = new Physics.P2(this.game, this.config);
     //}
 
   }
@@ -125,12 +124,11 @@ class Physics {
    * @param {number} The physics system to start.
    */
 
-  startSystem(int system, {p2js.Solver solver, List gravity:const [0.0,0.0], bool doProfiling: false, p2js.Broadphase broadphase, bool islandSplit: false, bool fake: false}) {
+  startSystem(int system, {p2js.Solver solver, List gravity: const [0.0, 0.0], bool doProfiling: false, p2js.Broadphase broadphase, bool islandSplit: false, bool fake: false}) {
 
     if (system == Physics.ARCADE) {
       this.arcade = new Arcade.Arcade(this.game);
-    }
-    else if (system == Physics.P2JS) {
+    } else if (system == Physics.P2JS) {
       this.p2 = new P2.P2(this.game, solver: solver, gravity: gravity, doProfiling: doProfiling, broadphase: broadphase, islandSplit: islandSplit, fake: fake);
     }
     if (system == Physics.NINJA) {
@@ -177,13 +175,11 @@ class Physics {
 
     if (system == Physics.ARCADE) {
       this.arcade.enable(object);
-    }
-    else if (system == Physics.P2JS && this.p2!= null) {
+    } else if (system == Physics.P2JS && this.p2 != null) {
       this.p2.enable(object, debug);
+    } else if (system == Physics.NINJA && this.ninja != null) {
+      this.ninja.enableAABB(object);
     }
-    else if (system == Physics.NINJA && this.ninja!= null) {
-        this.ninja.enableAABB(object);
-      }
 
   }
 
@@ -196,7 +192,7 @@ class Physics {
 
   preUpdate() {
     //  ArcadePhysics / Ninja don't have a core to preUpdate
-    if (this.p2!= null) {
+    if (this.p2 != null) {
       this.p2.preUpdate();
     }
   }
@@ -210,7 +206,7 @@ class Physics {
 
   update() {
     //  ArcadePhysics / Ninja don't have a core to update
-    if (this.p2!= null) {
+    if (this.p2 != null) {
       this.p2.update();
     }
   }
@@ -228,11 +224,11 @@ class Physics {
       this.arcade.setBoundsToWorld();
     }
 
-    if (this.ninja!= null) {
+    if (this.ninja != null) {
       this.ninja.setBoundsToWorld();
     }
 
-    if (this.p2!= null) {
+    if (this.p2 != null) {
       this.p2.setBoundsToWorld();
     }
 
@@ -247,7 +243,7 @@ class Physics {
 
   clear() {
 
-    if (this.p2!= null) {
+    if (this.p2 != null) {
       this.p2.clear();
     }
 
@@ -261,7 +257,7 @@ class Physics {
 
   destroy() {
 
-    if (this.p2!= null) {
+    if (this.p2 != null) {
       this.p2.destroy();
     }
 

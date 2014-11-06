@@ -1,26 +1,26 @@
 part of Phaser;
 
 class MapCache {
-  num cw,
-  ch,
-  ga = 1,
-  dx = 0,
-  dy = 0,
-  dw = 0,
-  dh = 0,
-  tx = 0,
-  ty = 0,
-  tw = 0,
-  th = 0,
-  tl = 0,
-  maxX = 0,
-  maxY = 0,
-  startX = 0,
-  startY = 0,
-  x = 0,
-  y = 0,
-  prevX = 0,
-  prevY = 0;
+  num cw;
+  num ch;
+  num ga = 1;
+  num dx = 0;
+  num dy = 0;
+  num dw = 0;
+  num dh = 0;
+  num tx = 0;
+  num ty = 0;
+  num tw = 0;
+  num th = 0;
+  num tl = 0;
+  num maxX = 0;
+  num maxY = 0;
+  num startX = 0;
+  num startY = 0;
+  num x = 0;
+  num y = 0;
+  num prevX = 0;
+  num prevY = 0;
 }
 
 class TilemapLayerData {
@@ -76,7 +76,7 @@ class TilemapLayer extends Image {
   List _results;
 
   List<Tile> _column;
-  
+
 
 
   /**
@@ -164,7 +164,7 @@ class TilemapLayer extends Image {
   //});
 
   TilemapLayer(Game game, [Tilemap tilemap, int index, num width, num height])
-  : super(game) {
+      : super(game) {
 
     /**
      * @property {Phaser.Game} game - A reference to the currently running Game.
@@ -316,8 +316,8 @@ class TilemapLayer extends Image {
      * @private
      */
     this._mc = new MapCache()
-      ..cw = tilemap.tileWidth
-      ..ch = tilemap.tileHeight;
+        ..cw = tilemap.tileWidth
+        ..ch = tilemap.tileHeight;
 
 
     /**
@@ -650,55 +650,61 @@ class TilemapLayer extends Image {
       this.context.globalAlpha = this.debugAlpha;
     }
 
-    for (int y = this._mc.startY,
-    lenY = this._mc.startY + this._mc.maxY; y < lenY; y++) {
-      this._column = null;
+    {
+      int y = this._mc.startY;
+      int lenY = this._mc.startY + this._mc.maxY;
+      for ( ; y < lenY; y++) {
+        this._column = null;
 
-      if (y < 0 && this.wrap) {
-        this._column = this.layer.data[y + this.map.height];
-      } else if (y >= this.map.height && this.wrap) {
-        this._column = this.layer.data[y - this.map.height];
-      } else if (this.layer.data.length > y) {
-        this._column = this.layer.data[y];
-      }
+        if (y < 0 && this.wrap) {
+          this._column = this.layer.data[y + this.map.height];
+        } else if (y >= this.map.height && this.wrap) {
+          this._column = this.layer.data[y - this.map.height];
+        } else if (this.layer.data.length > y) {
+          this._column = this.layer.data[y];
+        }
 
-      if (this._column != null) {
-        for (int x = this._mc.startX,
-        lenX = this._mc.startX + this._mc.maxX; x < lenX; x++) {
-          tile = null;
+        if (this._column != null) {
+          {
+            int x = this._mc.startX;
+            int lenX = this._mc.startX + this._mc.maxX;
+            for ( ; x < lenX; x++) {
+              tile = null;
 
-          if (x < 0 && this.wrap) {
-            tile = this._column[x + this.map.width];
-          } else if (x >= this.map.width && this.wrap) {
-            tile = this._column[x - this.map.width];
-          } else if (this._column.length > x) {
-            tile = this._column[x];
-          }
+              if (x < 0 && this.wrap) {
+                tile = this._column[x + this.map.width];
+              } else if (x >= this.map.width && this.wrap) {
+                tile = this._column[x - this.map.width];
+              } else if (this._column.length > x) {
+                tile = this._column[x];
+              }
 
-          if (tile != null && tile.index > -1 && tile.index < this.map.tiles.length ) {
-            set = this.map.tilesets[this.map.tiles[tile.index.toInt()][2]];
+              if (tile != null && tile.index > -1 && tile.index < this.map.tiles.length) {
+                set = this.map.tilesets[this.map.tiles[tile.index.toInt()][2]];
 
-            if (this.debug == false && tile.alpha != this.context.globalAlpha) {
-              this.context.globalAlpha = tile.alpha;
+                if (this.debug == false && tile.alpha != this.context.globalAlpha) {
+                  this.context.globalAlpha = tile.alpha;
+                }
+
+                set.draw(this.context, Math.floor(this._mc.tx), Math.floor(this._mc.ty), tile.index.toInt());
+
+                if (tile.debug) {
+                  this.context.fillStyle = 'rgba(0, 255, 0, 0.4)';
+                  this.context.fillRect(Math.floor(this._mc.tx), Math.floor(this._mc.ty), this.map.tileWidth, this.map.tileHeight);
+                }
+              }
+
+              this._mc.tx += this.map.tileWidth;
+
             }
-
-            set.draw(this.context, Math.floor(this._mc.tx), Math.floor(this._mc.ty), tile.index.toInt());
-
-            if (tile.debug) {
-              this.context.fillStyle = 'rgba(0, 255, 0, 0.4)';
-              this.context.fillRect(Math.floor(this._mc.tx), Math.floor(this._mc.ty), this.map.tileWidth, this.map.tileHeight);
-            }
           }
-
-          this._mc.tx += this.map.tileWidth;
 
         }
 
+        this._mc.tx = this._mc.dx;
+        this._mc.ty += this.map.tileHeight;
+
       }
-
-      this._mc.tx = this._mc.dx;
-      this._mc.ty += this.map.tileHeight;
-
     }
 
     if (this.debug) {
@@ -732,71 +738,77 @@ class TilemapLayer extends Image {
     this.context.strokeStyle = this.debugColor;
     this.context.fillStyle = this.debugFillColor;
 
-    for (int y = this._mc.startY,
-    lenY = this._mc.startY + this._mc.maxY; y < lenY; y++) {
-      this._column = null;
+    {
+      int y = this._mc.startY;
+      int lenY = this._mc.startY + this._mc.maxY;
+      for ( ; y < lenY; y++) {
+        this._column = null;
 
-      if (y < 0 && this.wrap) {
-        this._column = this.layer.data[y + this.map.height];
-      } else if (y >= this.map.height && this.wrap) {
-        this._column = this.layer.data[y - this.map.height];
-      } else if (this.layer.data.length > y) {
-        this._column = this.layer.data[y];
-      }
-
-      if (this._column != null) {
-        for (int x = this._mc.startX,
-        lenX = this._mc.startX + this._mc.maxX; x < lenX; x++) {
-          Tile tile = null;
-
-          if (x < 0 && this.wrap) {
-            tile = this._column[x + this.map.width];
-          } else if (x >= this.map.width && this.wrap) {
-            tile = this._column[x - this.map.width];
-          } else if (this._column.length > x) {
-            tile = this._column[x];
-          }
-
-          if (tile != null && (tile.faceTop || tile.faceBottom || tile.faceLeft || tile.faceRight)) {
-            this._mc.tx = Math.floor(this._mc.tx);
-
-            if (this.debugFill) {
-              this.context.fillRect(this._mc.tx, this._mc.ty, this._mc.cw, this._mc.ch);
-            }
-
-            this.context.beginPath();
-
-            if (tile.faceTop) {
-              this.context.moveTo(this._mc.tx, this._mc.ty);
-              this.context.lineTo(this._mc.tx + this._mc.cw, this._mc.ty);
-            }
-
-            if (tile.faceBottom) {
-              this.context.moveTo(this._mc.tx, this._mc.ty + this._mc.ch);
-              this.context.lineTo(this._mc.tx + this._mc.cw, this._mc.ty + this._mc.ch);
-            }
-
-            if (tile.faceLeft) {
-              this.context.moveTo(this._mc.tx, this._mc.ty);
-              this.context.lineTo(this._mc.tx, this._mc.ty + this._mc.ch);
-            }
-
-            if (tile.faceRight) {
-              this.context.moveTo(this._mc.tx + this._mc.cw, this._mc.ty);
-              this.context.lineTo(this._mc.tx + this._mc.cw, this._mc.ty + this._mc.ch);
-            }
-
-            this.context.stroke();
-          }
-
-          this._mc.tx += this.map.tileWidth;
-
+        if (y < 0 && this.wrap) {
+          this._column = this.layer.data[y + this.map.height];
+        } else if (y >= this.map.height && this.wrap) {
+          this._column = this.layer.data[y - this.map.height];
+        } else if (this.layer.data.length > y) {
+          this._column = this.layer.data[y];
         }
+
+        if (this._column != null) {
+          {
+            int x = this._mc.startX;
+            int lenX = this._mc.startX + this._mc.maxX;
+            for ( ; x < lenX; x++) {
+              Tile tile = null;
+
+              if (x < 0 && this.wrap) {
+                tile = this._column[x + this.map.width];
+              } else if (x >= this.map.width && this.wrap) {
+                tile = this._column[x - this.map.width];
+              } else if (this._column.length > x) {
+                tile = this._column[x];
+              }
+
+              if (tile != null && (tile.faceTop || tile.faceBottom || tile.faceLeft || tile.faceRight)) {
+                this._mc.tx = Math.floor(this._mc.tx);
+
+                if (this.debugFill) {
+                  this.context.fillRect(this._mc.tx, this._mc.ty, this._mc.cw, this._mc.ch);
+                }
+
+                this.context.beginPath();
+
+                if (tile.faceTop) {
+                  this.context.moveTo(this._mc.tx, this._mc.ty);
+                  this.context.lineTo(this._mc.tx + this._mc.cw, this._mc.ty);
+                }
+
+                if (tile.faceBottom) {
+                  this.context.moveTo(this._mc.tx, this._mc.ty + this._mc.ch);
+                  this.context.lineTo(this._mc.tx + this._mc.cw, this._mc.ty + this._mc.ch);
+                }
+
+                if (tile.faceLeft) {
+                  this.context.moveTo(this._mc.tx, this._mc.ty);
+                  this.context.lineTo(this._mc.tx, this._mc.ty + this._mc.ch);
+                }
+
+                if (tile.faceRight) {
+                  this.context.moveTo(this._mc.tx + this._mc.cw, this._mc.ty);
+                  this.context.lineTo(this._mc.tx + this._mc.cw, this._mc.ty + this._mc.ch);
+                }
+
+                this.context.stroke();
+              }
+
+              this._mc.tx += this.map.tileWidth;
+
+            }
+          }
+        }
+
+        this._mc.tx = this._mc.dx;
+        this._mc.ty += this.map.tileHeight;
+
       }
-
-      this._mc.tx = this._mc.dx;
-      this._mc.ty += this.map.tileHeight;
-
     }
 
   }

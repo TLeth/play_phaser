@@ -119,8 +119,7 @@ class RetroFont extends RenderTexture {
 
     if (this.autoUpperCase) {
       newText = value.toUpperCase();
-    }
-    else {
+    } else {
       newText = value;
     }
 
@@ -177,7 +176,7 @@ class RetroFont extends RenderTexture {
 
   String _text;
 
-  List grabData ;
+  List grabData;
 
   /**
    * @class Phaser.RetroFont
@@ -195,10 +194,8 @@ class RetroFont extends RenderTexture {
    * @param {number} [yOffset=0] - If the font set doesn't start at the top left of the given image, specify the Y coordinate offset here.
    */
 
-  RetroFont(Game game, String key, num characterWidth, num characterHeight,
-            String chars,
-            [num charsPerRow, int xSpacing, int ySpacing, int xOffset, int yOffset])
-  :super(game, 100, 100, '', PIXI.scaleModes.NEAREST) {
+  RetroFont(Game game, String key, num characterWidth, num characterHeight, String chars, [num charsPerRow, int xSpacing, int ySpacing, int xOffset, int yOffset])
+      : super(game, 100, 100, '', PIXI.scaleModes.NEAREST) {
     if (!game.cache.checkImageKey(key)) {
       throw new Exception("error!");
     }
@@ -311,10 +308,10 @@ class RetroFont extends RenderTexture {
       this.grabData[chars.codeUnitAt(c)] = frame.index;
 
       PIXI.TextureCache[uuid] = new PIXI.Texture(PIXI.BaseTextureCache[key], new PIXI.Rectangle()
-        ..x = currentX
-        ..y = currentY
-        ..width = this.characterWidth
-        ..height = this.characterHeight);
+          ..x = currentX
+          ..y = currentY
+          ..width = this.characterWidth
+          ..height = this.characterHeight);
       //});
 
       r++;
@@ -323,8 +320,7 @@ class RetroFont extends RenderTexture {
         r = 0;
         currentX = this.offsetX;
         currentY += this.characterHeight + this.characterSpacingY;
-      }
-      else {
+      } else {
         currentX += this.characterWidth + this.characterSpacingX;
       }
     }
@@ -356,7 +352,7 @@ class RetroFont extends RenderTexture {
    * @param {string} [lineAlignment='left'] - Align the text within this width. Set to RetroFont.ALIGN_LEFT (default), RetroFont.ALIGN_RIGHT or RetroFont.ALIGN_CENTER.
    */
 
-  setFixedWidth(num width, [String lineAlignment='left']) {
+  setFixedWidth(num width, [String lineAlignment = 'left']) {
 
     if (lineAlignment == null) {
       lineAlignment = 'left';
@@ -380,7 +376,7 @@ class RetroFont extends RenderTexture {
    * @param {boolean} [allowLowerCase=false] - Lots of bitmap font sets only include upper-case characters, if yours needs to support lower case then set this to true.
    */
 
-  setText(String content, [bool multiLine=false, num characterSpacing =0, int lineSpacing=0, String lineAlignment='left', bool allowLowerCase=false]) {
+  setText(String content, [bool multiLine = false, num characterSpacing = 0, int lineSpacing = 0, String lineAlignment = 'left', bool allowLowerCase = false]) {
 
     //this.multiLine = multiLine || false;
     //this.customSpacingX = characterSpacing || 0;
@@ -389,8 +385,7 @@ class RetroFont extends RenderTexture {
 
     if (allowLowerCase) {
       this.autoUpperCase = false;
-    }
-    else {
+    } else {
       this.autoUpperCase = true;
     }
 
@@ -419,8 +414,7 @@ class RetroFont extends RenderTexture {
 
       if (this.fixedWidth > 0) {
         this.resize(this.fixedWidth, (lines.length * (this.characterHeight + this.customSpacingY)) - this.customSpacingY, true);
-      }
-      else {
+      } else {
         this.resize(this.getLongestLine() * (this.characterWidth + this.customSpacingX), (lines.length * (this.characterHeight + this.customSpacingY)) - this.customSpacingY, true);
       }
 
@@ -451,12 +445,10 @@ class RetroFont extends RenderTexture {
 
         cy += this.characterHeight + this.customSpacingY;
       }
-    }
-    else {
+    } else {
       if (this.fixedWidth > 0) {
         this.resize(this.fixedWidth, this.characterHeight, true);
-      }
-      else {
+      } else {
         this.resize(this._text.length * (this.characterWidth + this.customSpacingX), this.characterHeight, true);
       }
 
@@ -502,8 +494,7 @@ class RetroFont extends RenderTexture {
       //  If it's a space then there is no point copying, so leave a blank space
       if (line[c] == " ") {
         x += this.characterWidth + customSpacingX;
-      }
-      else {
+      } else {
         //  If the character doesn't exist in the font then we don't want a blank space, we just want to skip it
         if (this.grabData[line.codeUnitAt(c)] >= 0) {
           this.stamp.frame = this.grabData[line.codeUnitAt(c)];
@@ -564,7 +555,7 @@ class RetroFont extends RenderTexture {
       var code = aChar.codeUnitAt(0);
 
       if (this.grabData[code] >= 0 || (!stripCR && aChar == "\n")) {
-        newString = newString+(aChar);
+        newString = newString + (aChar);
       }
     }
 
@@ -583,7 +574,7 @@ class RetroFont extends RenderTexture {
    * @param {number} [yOffset=0] - If the font set doesn't start at the top left of the given image, specify the Y coordinate offset here.
    */
 
-  updateOffset([num x=0, num y=0]) {
+  updateOffset([num x = 0, num y = 0]) {
 
     if (this.offsetX == x && this.offsetY == y) {
       return;

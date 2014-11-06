@@ -99,8 +99,7 @@ class TweenManager {
     while (i < numTweens) {
       if (this._tweens[i].update(this.game.time.now)) {
         i++;
-      }
-      else {
+      } else {
         this._tweens.removeAt(i);
         numTweens--;
       }

@@ -356,21 +356,33 @@ class Arcade {
     this._total = 0;
 
     if (object1 is! List && object2 is List) {
-      for (var i = 0,
-          len = object2.length; i < len; i++) {
-        this.collideHandler(object1, object2[i], overlapCallback, processCallback, true);
+      {
+        var i = 0;
+        var len = object2.length;
+        for ( ; i < len; i++) {
+          this.collideHandler(object1, object2[i], overlapCallback, processCallback, true);
+        }
       }
     } else if (object1 is List && object2 is! List) {
-      for (var i = 0,
-          len = object1.length; i < len; i++) {
-        this.collideHandler(object1[i], object2, overlapCallback, processCallback, true);
+      {
+        var i = 0;
+        var len = object1.length;
+        for ( ; i < len; i++) {
+          this.collideHandler(object1[i], object2, overlapCallback, processCallback, true);
+        }
       }
     } else if (object1 is List && object2 is List) {
-      for (var i = 0,
-          len = object1.length; i < len; i++) {
-        for (var j = 0,
-            len2 = object2.length; j < len2; j++) {
-          this.collideHandler(object1[i], object2[j], overlapCallback, processCallback, true);
+      {
+        var i = 0;
+        var len = object1.length;
+        for ( ; i < len; i++) {
+          {
+            var j = 0;
+            var len2 = object2.length;
+            for ( ; j < len2; j++) {
+              this.collideHandler(object1[i], object2[j], overlapCallback, processCallback, true);
+            }
+          }
         }
       }
     } else {
@@ -409,21 +421,33 @@ class Arcade {
     this._total = 0;
 
     if (object1 is! List && object2 is List) {
-      for (var i = 0,
-          len = object2.length; i < len; i++) {
-        this.collideHandler(object1, object2[i], collideCallback, processCallback, false);
+      {
+        var i = 0;
+        var len = object2.length;
+        for ( ; i < len; i++) {
+          this.collideHandler(object1, object2[i], collideCallback, processCallback, false);
+        }
       }
     } else if (object1 is List && object2 is! List) {
-      for (var i = 0,
-          len = object1.length; i < len; i++) {
-        this.collideHandler(object1[i], object2, collideCallback, processCallback, false);
+      {
+        var i = 0;
+        var len = object1.length;
+        for ( ; i < len; i++) {
+          this.collideHandler(object1[i], object2, collideCallback, processCallback, false);
+        }
       }
     } else if (object1 is List && object2 is List) {
-      for (var i = 0,
-          len1 = object1.length; i < len1; i++) {
-        for (var j = 0,
-            len2 = object2.length; j < len2; j++) {
-          this.collideHandler(object1[i], object2[j], collideCallback, processCallback, false);
+      {
+        var i = 0;
+        var len1 = object1.length;
+        for ( ; i < len1; i++) {
+          {
+            var j = 0;
+            var len2 = object2.length;
+            for ( ; j < len2; j++) {
+              this.collideHandler(object1[i], object2[j], collideCallback, processCallback, false);
+            }
+          }
         }
       }
     } else {
@@ -549,10 +573,13 @@ class Arcade {
     //  What is the sprite colliding with in the quadtree?
     //this.quadTree.clear();
     if (sprite.body.skipQuadTree || this.skipQuadTree) {
-      for (var i = 0,
-          len = group.children.length; i < len; i++) {
-        if (group.children[i] && group.children[i].exists) {
-          this.collideSpriteVsSprite(sprite, group.children[i], collideCallback, processCallback, overlapOnly);
+      {
+        var i = 0;
+        var len = group.children.length;
+        for ( ; i < len; i++) {
+          if (group.children[i] && group.children[i].exists) {
+            this.collideSpriteVsSprite(sprite, group.children[i], collideCallback, processCallback, overlapOnly);
+          }
         }
       }
     } else {
@@ -566,15 +593,18 @@ class Arcade {
 
       this._potentials = this.quadTree.retrieve(sprite);
 
-      for (var i = 0,
-          len = this._potentials.length; i < len; i++) {
-        //  We have our potential suspects, are they in this group?
-        if (this.separate(sprite.body, this._potentials[i], processCallback, overlapOnly)) {
-          if (collideCallback != null) {
-            collideCallback(sprite, this._potentials[i].sprite);
-          }
+      {
+        var i = 0;
+        var len = this._potentials.length;
+        for ( ; i < len; i++) {
+          //  We have our potential suspects, are they in this group?
+          if (this.separate(sprite.body, this._potentials[i], processCallback, overlapOnly)) {
+            if (collideCallback != null) {
+              collideCallback(sprite, this._potentials[i].sprite);
+            }
 
-          this._total++;
+            this._total++;
+          }
         }
       }
     }
@@ -632,14 +662,17 @@ class Arcade {
       return false;
     }
 
-    for (var i = 0,
-        len = group1.children.length; i < len; i++) {
-      if (group1.children[i].exists) {
-        //this.collideSpriteVsGroup(group1.children[i], group2, collideCallback, processCallback, overlapOnly);
-        if (group1.children[i].type == Phaser.GROUP) {
-          this.collideGroupVsGroup(group1.children[i], group2, collideCallback, processCallback, overlapOnly);
-        } else {
-          this.collideSpriteVsGroup(group1.children[i], group2, collideCallback, processCallback, overlapOnly);
+    {
+      var i = 0;
+      var len = group1.children.length;
+      for ( ; i < len; i++) {
+        if (group1.children[i].exists) {
+          //this.collideSpriteVsGroup(group1.children[i], group2, collideCallback, processCallback, overlapOnly);
+          if (group1.children[i].type == Phaser.GROUP) {
+            this.collideGroupVsGroup(group1.children[i], group2, collideCallback, processCallback, overlapOnly);
+          } else {
+            this.collideSpriteVsGroup(group1.children[i], group2, collideCallback, processCallback, overlapOnly);
+          }
         }
       }
     }
@@ -717,10 +750,13 @@ class Arcade {
       return false;
     }
 
-    for (var i = 0,
-        len = group.children.length; i < len; i++) {
-      if (group.children[i].exists) {
-        this.collideSpriteVsTilemapLayer(group.children[i], tilemapLayer, collideCallback, processCallback);
+    {
+      var i = 0;
+      var len = group.children.length;
+      for ( ; i < len; i++) {
+        if (group.children[i].exists) {
+          this.collideSpriteVsTilemapLayer(group.children[i], tilemapLayer, collideCallback, processCallback);
+        }
       }
     }
 
@@ -1267,14 +1303,17 @@ class Arcade {
 
     this._potentials = this.quadTree.retrieve(rect);
 
-    for (int i = 0,
-        len = this._potentials.length; i < len; i++) {
-      if (this._potentials[i].hitTest(pointer.x, pointer.y)) {
-        if (callback != null) {
-          callback(pointer, this._potentials[i].sprite);
-        }
+    {
+      int i = 0;
+      int len = this._potentials.length;
+      for ( ; i < len; i++) {
+        if (this._potentials[i].hitTest(pointer.x, pointer.y)) {
+          if (callback != null) {
+            callback(pointer, this._potentials[i].sprite);
+          }
 
-        output.add(this._potentials[i].sprite);
+          output.add(this._potentials[i].sprite);
+        }
       }
     }
 

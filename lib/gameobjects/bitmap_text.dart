@@ -1,6 +1,6 @@
 part of Phaser;
 
-class BitmapText extends PIXI.BitmapText implements GameObject  {
+class BitmapText extends PIXI.BitmapText implements GameObject {
   Game game;
 
   num get x {
@@ -10,7 +10,7 @@ class BitmapText extends PIXI.BitmapText implements GameObject  {
   set x(num value) {
     this.position.x = value;
   }
- 
+
   num get y {
     return this.position.y;
   }
@@ -47,7 +47,7 @@ class BitmapText extends PIXI.BitmapText implements GameObject  {
 
 
   Point anchor;
-  
+
   Point get center {
     return new Point(x + width / 2, y + height / 2);
   }
@@ -61,8 +61,7 @@ class BitmapText extends PIXI.BitmapText implements GameObject  {
         this.parent.bringToTop(this);
       }
       return this;
-    }
-    else {
+    } else {
       if (child.parent == this && this.children.indexOf(child) < this.children.length) {
         this.removeChild(child);
         this.addChild(child);
@@ -226,12 +225,10 @@ class BitmapText extends PIXI.BitmapText implements GameObject  {
       if (this.input == null) {
         this.input = new InputHandler(this);
         this.input.start();
-      }
-      else if (this.input != null && !this.input.enabled) {
+      } else if (this.input != null && !this.input.enabled) {
         this.input.start();
       }
-    }
-    else {
+    } else {
       if (this.input != null && this.input.enabled) {
         this.input.stop();
       }
@@ -260,8 +257,7 @@ class BitmapText extends PIXI.BitmapText implements GameObject  {
     if (value) {
       this._cache[7] = 1;
       this.cameraOffset.set(this.x, this.y);
-    }
-    else {
+    } else {
       this._cache[7] = 0;
     }
   }
@@ -278,9 +274,8 @@ class BitmapText extends PIXI.BitmapText implements GameObject  {
   }
 
 
-  BitmapText(game, [num x, num y, String font=null, String text='', int size=32])
-  : super(text, new PIXI.TextStyle()
-    ..font = font) {
+  BitmapText(game, [num x, num y, String font = null, String text = '', int size = 32])
+      : super(text, new PIXI.TextStyle()..font = font) {
 
 //    x = x || 0;
 //    y = y || 0;
@@ -399,8 +394,7 @@ class BitmapText extends PIXI.BitmapText implements GameObject  {
 
   setStyle([PIXI.TextStyle style]) {
     super.setStyle(style);
-    this.style
-      ..align = this._align;
+    this.style..align = this._align;
     this._font = this.fontName;
     this._fontSize = this.fontSize;
     //this.dirty = true;
@@ -483,8 +477,7 @@ class BitmapText extends PIXI.BitmapText implements GameObject  {
     if (this.parent != null) {
       if (this.parent is Group) {
         (this.parent as Group).remove(this);
-      }
-      else {
+      } else {
         this.parent.removeChild(this);
       }
     }
@@ -504,8 +497,7 @@ class BitmapText extends PIXI.BitmapText implements GameObject  {
         }
 
       }
-    }
-    else {
+    } else {
       while (i-- > 0) {
         this.removeChild(this.children[i]);
       }

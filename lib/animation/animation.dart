@@ -336,7 +336,7 @@ class Animation {
         if (this.loop) {
           this._frameIndex %= this._frames.length;
           this.currentFrame = this._frameData.getFrame(this._frames[this._frameIndex]);
-          
+
           this.loopCount++;
           this._parent.events.onAnimationLoop.dispatch([this._parent, this]);
           this.onLoop.dispatch([this._parent, this]);

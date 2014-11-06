@@ -1,6 +1,6 @@
 part of Ninja;
 
-class Circle extends Shape{
+class Circle extends Shape {
   ///property {Phaser.Physics.Ninja.Body} system - A reference to the body that owns this shape.
   Body body;
 
@@ -164,7 +164,7 @@ class Circle extends Shape{
    *
    * @method Phaser.Physics.Ninja.Circle#integrate
    */
-  integrate () {
+  integrate() {
 
     var px = this.pos.x;
     var py = this.pos.y;
@@ -189,7 +189,7 @@ class Circle extends Shape{
    * @param {number} dy - Collision normal
    * @param {number} obj - Object this Circle collided with
    */
-  reportCollisionVsWorld (num px, num py, num dx, num dy) {
+  reportCollisionVsWorld(num px, num py, num dx, num dy) {
 
     Phaser.Point p = this.pos;
     Phaser.Point o = this.oldpos;
@@ -200,18 +200,25 @@ class Circle extends Shape{
 
     //  Find component of velocity parallel to collision normal
     num dp = (vx * dx + vy * dy);
-    num nx = dp * dx;   //project velocity onto collision normal
+    num nx = dp * dx; //project velocity onto collision normal
 
-    num ny = dp * dy;   //nx,ny is normal velocity
+    num ny = dp * dy; //nx,ny is normal velocity
 
-    num tx = vx - nx;   //px,py is tangent velocity
+    num tx = vx - nx; //px,py is tangent velocity
     num ty = vy - ny;
 
     //  We only want to apply collision response forces if the object is travelling into, and not out of, the collision
-    num b, bx, by, fx, fy;
+    num b;
+    //  We only want to apply collision response forces if the object is travelling into, and not out of, the collision
+    num fy;
+    //  We only want to apply collision response forces if the object is travelling into, and not out of, the collision
+    num fx;
+    //  We only want to apply collision response forces if the object is travelling into, and not out of, the collision
+    num by;
+    //  We only want to apply collision response forces if the object is travelling into, and not out of, the collision
+    num bx;
 
-    if (dp < 0)
-    {
+    if (dp < 0) {
       fx = tx * this.body.friction;
       fy = ty * this.body.friction;
 
@@ -220,26 +227,18 @@ class Circle extends Shape{
       bx = (nx * b);
       by = (ny * b);
 
-      if (dx == 1)
-      {
+      if (dx == 1) {
         this.body.touching.left = true;
-      }
-      else if (dx == -1)
-      {
+      } else if (dx == -1) {
         this.body.touching.right = true;
       }
 
-      if (dy == 1)
-      {
+      if (dy == 1) {
         this.body.touching.up = true;
-      }
-      else if (dy == -1)
-      {
+      } else if (dy == -1) {
         this.body.touching.down = true;
       }
-    }
-    else
-    {
+    } else {
       //  Moving out of collision, do not apply forces
       bx = by = fx = fy = 0;
     }
@@ -259,36 +258,28 @@ class Circle extends Shape{
    *
    * @method Phaser.Physics.Ninja.Circle#collideWorldBounds
    */
-  collideWorldBounds () {
+  collideWorldBounds() {
 
     var dx = this.system.bounds.x - (this.pos.x - this.radius);
 
-    if (0 < dx)
-    {
+    if (0 < dx) {
       this.reportCollisionVsWorld(dx, 0, 1, 0);
-    }
-    else
-    {
+    } else {
       dx = (this.pos.x + this.radius) - this.system.bounds.right;
 
-      if (0 < dx)
-      {
+      if (0 < dx) {
         this.reportCollisionVsWorld(-dx, 0, -1, 0);
       }
     }
 
     var dy = this.system.bounds.y - (this.pos.y - this.radius);
 
-    if (0 < dy)
-    {
+    if (0 < dy) {
       this.reportCollisionVsWorld(0, dy, 0, 1);
-    }
-    else
-    {
+    } else {
       dy = (this.pos.y + this.radius) - this.system.bounds.bottom;
 
-      if (0 < dy)
-      {
+      if (0 < dy) {
         this.reportCollisionVsWorld(0, -dy, 0, -1);
       }
     }
@@ -302,7 +293,7 @@ class Circle extends Shape{
    * @param {Phaser.Physics.Ninja.Tile} t - The Tile involved in the collision.
    * @return {boolean} True if they collide, otherwise false.
    */
-  collideCircleVsTile (tile) {
+  collideCircleVsTile(tile) {
 
     var pos = this.pos;
     var r = this.radius;
@@ -313,40 +304,32 @@ class Circle extends Shape{
     var txw = c.xw;
     var tyw = c.yw;
 
-    var dx = pos.x - tx;    //  tile->obj delta
-    var px = (txw + r) - Phaser.Math.abs(dx);  //  penetration depth in x
+    var dx = pos.x - tx; //  tile->obj delta
+    var px = (txw + r) - Phaser.Math.abs(dx); //  penetration depth in x
 
-    if (0 < px)
-    {
-      var dy = pos.y - ty;    //  tile->obj delta
-      var py = (tyw + r) - Phaser.Math.abs(dy);  //  pen depth in y
+    if (0 < px) {
+      var dy = pos.y - ty; //  tile->obj delta
+      var py = (tyw + r) - Phaser.Math.abs(dy); //  pen depth in y
 
-      if (0 < py)
-      {
+      if (0 < py) {
         //  object may be colliding with tile
 
         //  determine grid/voronoi region of circle center
         this.oH = 0;
         this.oV = 0;
 
-        if (dx < -txw)
-        {
+        if (dx < -txw) {
           //  circle is on left side of tile
           this.oH = -1;
-        }
-        else if (txw < dx)
-        {
+        } else if (txw < dx) {
           //  circle is on right side of tile
           this.oH = 1;
         }
 
-        if (dy < -tyw)
-        {
+        if (dy < -tyw) {
           //  circle is on top side of tile
           this.oV = -1;
-        }
-        else if (tyw < dy)
-        {
+        } else if (tyw < dy) {
           //  circle is on bottom side of tile
           this.oV = 1;
         }
@@ -369,14 +352,11 @@ class Circle extends Shape{
    * @param {Phaser.Physics.Ninja.Tile} t - The Tile involved in the collision.
    * @return {number} The result of the collision.
    */
-  resolveCircleTile (x, y, oH, oV, obj, t) {
+  resolveCircleTile(x, y, oH, oV, obj, t) {
 
-    if (0 < t.id)
-    {
+    if (0 < t.id) {
       return this.circleTileProjections[t.type](x, y, oH, oV, obj, t);
-    }
-    else
-    {
+    } else {
       return false;
     }
 
@@ -394,69 +374,52 @@ class Circle extends Shape{
    * @param {Phaser.Physics.Ninja.Tile} t - The Tile involved in the collision.
    * @return {number} The result of the collision.
    */
-  projCircle_Full (num x, num y, num oH, num oV, Circle obj, Tile t) {
+  projCircle_Full(num x, num y, num oH, num oV, Circle obj, Tile t) {
 
     //if we're colliding vs. the current cell, we need to project along the
     //smallest penetration vector.
     //if we're colliding vs. horiz. or vert. neighb, we simply project horiz/vert
     //if we're colliding diagonally, we need to collide vs. tile corner
 
-    if (oH == 0)
-    {
-      if (oV == 0)
-      {
+    if (oH == 0) {
+      if (oV == 0) {
         //collision with current cell
-        if (x < y)
-        {
+        if (x < y) {
           //penetration in x is smaller; project in x
           var dx = obj.pos.x - t.pos.x;//get sign for projection along x-axis
 
           //NOTE: should we handle the delta === 0 case?! and how? (project towards oldpos?)
-          if (dx < 0)
-          {
+          if (dx < 0) {
             obj.reportCollisionVsWorld(-x, 0, -1, 0);
             return COL_AXIS;
-          }
-          else
-          {
+          } else {
             obj.reportCollisionVsWorld(x, 0, 1, 0);
             return COL_AXIS;
           }
-        }
-        else
-        {
+        } else {
           //penetration in y is smaller; project in y
           var dy = obj.pos.y - t.pos.y;//get sign for projection along y-axis
 
           //NOTE: should we handle the delta === 0 case?! and how? (project towards oldpos?)
-          if (dy < 0)
-          {
+          if (dy < 0) {
             obj.reportCollisionVsWorld(0, -y, 0, -1);
             return COL_AXIS;
-          }
-          else
-          {
+          } else {
             obj.reportCollisionVsWorld(0, y, 0, 1);
             return COL_AXIS;
           }
         }
-      }
-      else
-      {
+      } else {
         //collision with vertical neighbor
         obj.reportCollisionVsWorld(0, y * oV, 0, oV);
 
         return COL_AXIS;
       }
-    }
-    else if (oV == 0)
-    {
+    } else if (oV == 0) {
       //collision with horizontal neighbor
       obj.reportCollisionVsWorld(x * oH, 0, oH, 0);
       return COL_AXIS;
-    }
-    else
-    {
+    } else {
       //diagonal collision
 
       //get diag vertex position
@@ -469,17 +432,13 @@ class Circle extends Shape{
       var len = Phaser.Math.sqrt(dx * dx + dy * dy);
       var pen = obj.radius - len;
 
-      if (0 < pen)
-      {
+      if (0 < pen) {
         //vertex is in the circle; project outward
-        if (len == 0)
-        {
+        if (len == 0) {
           //project out by 45deg
           dx = oH / Phaser.Math.SQRT2;
           dy = oV / Phaser.Math.SQRT2;
-        }
-        else
-        {
+        } else {
           dx /= len;
           dy /= len;
         }
@@ -519,10 +478,8 @@ class Circle extends Shape{
     num signy = t.signy;
     num lenP;
 
-    if (oH == 0)
-    {
-      if (oV == 0)
-      {
+    if (oH == 0) {
+      if (oV == 0) {
         //colliding with current tile
 
         num sx = t.sx;
@@ -535,67 +492,53 @@ class Circle extends Shape{
         //and we need toproject it out by the magnitude of the projection of (ox,oy) onto (sx,sy)
         num dp = (ox * sx) + (oy * sy);
 
-        if (dp < 0)
-        {
+        if (dp < 0) {
           //collision; project delta onto slope and use this as the slope penetration vector
           sx *= -dp;//(sx,sy) is now the penetration vector
           sy *= -dp;
 
           //find the smallest axial projection vector
-          if (x < y)
-          {
+          if (x < y) {
             //penetration in x is smaller
             lenP = x;
             y = 0;
 
             //get sign for projection along x-axis
-            if ((obj.pos.x - t.pos.x) < 0)
-            {
+            if ((obj.pos.x - t.pos.x) < 0) {
               x *= -1;
             }
-          }
-          else
-          {
+          } else {
             //penetration in y is smaller
             lenP = y;
             x = 0;
 
             //get sign for projection along y-axis
-            if ((obj.pos.y - t.pos.y) < 0)
-            {
+            if ((obj.pos.y - t.pos.y) < 0) {
               y *= -1;
             }
           }
 
           var lenN = Phaser.Math.sqrt(sx * sx + sy * sy);
 
-          if (lenP < lenN)
-          {
+          if (lenP < lenN) {
             obj.reportCollisionVsWorld(x, y, x / lenP, y / lenP);
 
             return COL_AXIS;
-          }
-          else
-          {
+          } else {
             obj.reportCollisionVsWorld(sx, sy, t.sx, t.sy);
 
             return COL_OTHER;
           }
         }
 
-      }
-      else
-      {
+      } else {
         //colliding vertically
-        if ((signy * oV) < 0)
-        {
+        if ((signy * oV) < 0) {
           //colliding with face/edge
           obj.reportCollisionVsWorld(0, y * oV, 0, oV);
 
           return COL_AXIS;
-        }
-        else
-        {
+        } else {
           //we could only be colliding vs the slope OR a vertex
           //look at the vector form the closest vert to the circle to decide
 
@@ -611,13 +554,11 @@ class Circle extends Shape{
           //note that this is simply a VERY tricky/weird method of determining
           //if the circle is in side the slope/face's voronoi region, or that of the vertex.
           var perp = (ox * -sy) + (oy * sx);
-          if (0 < (perp * signx * signy))
-          {
+          if (0 < (perp * signx * signy)) {
             //collide vs. vertex
             var len = Phaser.Math.sqrt(ox * ox + oy * oy);
             var pen = obj.radius - len;
-            if (0 < pen)
-            {
+            if (0 < pen) {
               //note: if len=0, then perp=0 and we'll never reach here, so don't worry about div-by-0
               ox /= len;
               oy /= len;
@@ -626,9 +567,7 @@ class Circle extends Shape{
 
               return COL_OTHER;
             }
-          }
-          else
-          {
+          } else {
             //collide vs. slope
 
             //if the component of (ox,oy) parallel to the normal is less than the circle radius, we're
@@ -637,8 +576,7 @@ class Circle extends Shape{
             //because we know the circle is in a neighboring cell
             var dp = (ox * sx) + (oy * sy);
             var pen = obj.radius - Phaser.Math.abs(dp);//note: we don't need the abs because we know the dp will be positive, but just in case..
-            if (0 < pen)
-            {
+            if (0 < pen) {
               //collision; circle out along normal by penetration amount
               obj.reportCollisionVsWorld(sx * pen, sy * pen, sx, sy);
 
@@ -647,19 +585,14 @@ class Circle extends Shape{
           }
         }
       }
-    }
-    else if (oV == 0)
-    {
+    } else if (oV == 0) {
       //colliding horizontally
-      if ((signx * oH) < 0)
-      {
+      if ((signx * oH) < 0) {
         //colliding with face/edge
         obj.reportCollisionVsWorld(x * oH, 0, oH, 0);
 
         return COL_AXIS;
-      }
-      else
-      {
+      } else {
         //we could only be colliding vs the slope OR a vertex
         //look at the vector form the closest vert to the circle to decide
 
@@ -680,13 +613,11 @@ class Circle extends Shape{
         //note that this is simply a VERY tricky/weird method of determining
         //if the circle is in side the slope/face's voronio region, or that of the vertex.
         var perp = (ox * -sy) + (oy * sx);
-        if ((perp * signx * signy) < 0)
-        {
+        if ((perp * signx * signy) < 0) {
           //collide vs. vertex
           var len = Phaser.Math.sqrt(ox * ox + oy * oy);
           var pen = obj.radius - len;
-          if (0 < pen)
-          {
+          if (0 < pen) {
             //note: if len=0, then perp=0 and we'll never reach here, so don't worry about div-by-0
             ox /= len;
             oy /= len;
@@ -695,9 +626,7 @@ class Circle extends Shape{
 
             return COL_OTHER;
           }
-        }
-        else
-        {
+        } else {
           //collide vs. slope
 
           //if the component of (ox,oy) parallel to the normal is less than the circle radius, we're
@@ -706,8 +635,7 @@ class Circle extends Shape{
           //because we know the circle is in a neighboring cell
           var dp = (ox * sx) + (oy * sy);
           var pen = obj.radius - Phaser.Math.abs(dp);//note: we don't need the abs because we know the dp will be positive, but just in case..
-          if (0 < pen)
-          {
+          if (0 < pen) {
             //collision; circle out along normal by penetration amount
             obj.reportCollisionVsWorld(sx * pen, sy * pen, sx, sy);
 
@@ -715,19 +643,14 @@ class Circle extends Shape{
           }
         }
       }
-    }
-    else
-    {
+    } else {
       //colliding diagonally
-      if (0 < ((signx * oH) + (signy * oV)))
-      {
+      if (0 < ((signx * oH) + (signy * oV))) {
         //the dotprod of slope normal and cell offset is strictly positive,
         //therefore obj is in the diagonal neighb pointed at by the normal, and
         //it cannot possibly reach/touch/penetrate the slope
         return COL_NONE;
-      }
-      else
-      {
+      } else {
         //collide vs. vertex
         //get diag vertex position
         var vx = t.pos.x + (oH * t.xw);
@@ -738,17 +661,13 @@ class Circle extends Shape{
 
         var len = Phaser.Math.sqrt(dx * dx + dy * dy);
         var pen = obj.radius - len;
-        if (0 < pen)
-        {
+        if (0 < pen) {
           //vertex is in the circle; project outward
-          if (len == 0)
-          {
+          if (len == 0) {
             //project out by 45deg
             dx = oH / Phaser.Math.SQRT2;
             dy = oV / Phaser.Math.SQRT2;
-          }
-          else
-          {
+          } else {
             dx /= len;
             dy /= len;
           }
@@ -776,7 +695,7 @@ class Circle extends Shape{
    * @param {Phaser.Physics.Ninja.Tile} t - The Tile involved in the collision.
    * @return {number} The result of the collision.
    */
-  projCircle_Concave (num x, num y, num oH, num oV, Circle obj, Tile t) {
+  projCircle_Concave(num x, num y, num oH, num oV, Circle obj, Tile t) {
 
     //if we're colliding diagonally:
     //  -if obj is in the diagonal pointed to by the slope normal: we can't collide, do nothing
@@ -789,10 +708,8 @@ class Circle extends Shape{
     var signy = t.signy;
     var lenP;
 
-    if (oH == 0)
-    {
-      if (oV == 0)
-      {
+    if (oH == 0) {
+      if (oV == 0) {
         //colliding with current tile
 
         var ox = (t.pos.x + (signx * t.xw)) - obj.pos.x;//(ox,oy) is the vector from the circle to
@@ -805,43 +722,34 @@ class Circle extends Shape{
         var len = Phaser.Math.sqrt(ox * ox + oy * oy);
         var pen = (len + obj.radius) - trad;
 
-        if (0 < pen)
-        {
+        if (0 < pen) {
           //find the smallest axial projection vector
-          if (x < y)
-          {
+          if (x < y) {
             //penetration in x is smaller
             lenP = x;
             y = 0;
 
             //get sign for projection along x-axis
-            if ((obj.pos.x - t.pos.x) < 0)
-            {
+            if ((obj.pos.x - t.pos.x) < 0) {
               x *= -1;
             }
-          }
-          else
-          {
+          } else {
             //penetration in y is smaller
             lenP = y;
             x = 0;
 
             //get sign for projection along y-axis
-            if ((obj.pos.y - t.pos.y) < 0)
-            {
+            if ((obj.pos.y - t.pos.y) < 0) {
               y *= -1;
             }
           }
 
 
-          if (lenP < pen)
-          {
+          if (lenP < pen) {
             obj.reportCollisionVsWorld(x, y, x / lenP, y / lenP);
 
             return COL_AXIS;
-          }
-          else
-          {
+          } else {
             //we can assume that len >0, because if we're here then
             //(len + obj.radius) > trad, and since obj.radius <= trad
             //len MUST be > 0
@@ -852,25 +760,18 @@ class Circle extends Shape{
 
             return COL_OTHER;
           }
-        }
-        else
-        {
+        } else {
           return COL_NONE;
         }
 
-      }
-      else
-      {
+      } else {
         //colliding vertically
-        if ((signy * oV) < 0)
-        {
+        if ((signy * oV) < 0) {
           //colliding with face/edge
           obj.reportCollisionVsWorld(0, y * oV, 0, oV);
 
           return COL_AXIS;
-        }
-        else
-        {
+        } else {
           //we could only be colliding vs the vertical tip
 
           //get diag vertex position
@@ -882,17 +783,13 @@ class Circle extends Shape{
 
           var len = Phaser.Math.sqrt(dx * dx + dy * dy);
           var pen = obj.radius - len;
-          if (0 < pen)
-          {
+          if (0 < pen) {
             //vertex is in the circle; project outward
-            if (len == 0)
-            {
+            if (len == 0) {
               //project out vertically
               dx = 0;
               dy = oV;
-            }
-            else
-            {
+            } else {
               dx /= len;
               dy /= len;
             }
@@ -903,19 +800,14 @@ class Circle extends Shape{
           }
         }
       }
-    }
-    else if (oV == 0)
-    {
+    } else if (oV == 0) {
       //colliding horizontally
-      if ((signx * oH) < 0)
-      {
+      if ((signx * oH) < 0) {
         //colliding with face/edge
         obj.reportCollisionVsWorld(x * oH, 0, oH, 0);
 
         return COL_AXIS;
-      }
-      else
-      {
+      } else {
         //we could only be colliding vs the horizontal tip
 
         //get diag vertex position
@@ -927,17 +819,13 @@ class Circle extends Shape{
 
         var len = Phaser.Math.sqrt(dx * dx + dy * dy);
         var pen = obj.radius - len;
-        if (0 < pen)
-        {
+        if (0 < pen) {
           //vertex is in the circle; project outward
-          if (len == 0)
-          {
+          if (len == 0) {
             //project out horizontally
             dx = oH;
             dy = 0;
-          }
-          else
-          {
+          } else {
             dx /= len;
             dy /= len;
           }
@@ -947,19 +835,14 @@ class Circle extends Shape{
           return COL_OTHER;
         }
       }
-    }
-    else
-    {
+    } else {
       //colliding diagonally
-      if (0 < ((signx * oH) + (signy * oV)))
-      {
+      if (0 < ((signx * oH) + (signy * oV))) {
         //the dotprod of slope normal and cell offset is strictly positive,
         //therefore obj is in the diagonal neighb pointed at by the normal, and
         //it cannot possibly reach/touch/penetrate the slope
         return COL_NONE;
-      }
-      else
-      {
+      } else {
         //collide vs. vertex
         //get diag vertex position
         var vx = t.pos.x + (oH * t.xw);
@@ -970,17 +853,13 @@ class Circle extends Shape{
 
         var len = Phaser.Math.sqrt(dx * dx + dy * dy);
         var pen = obj.radius - len;
-        if (0 < pen)
-        {
+        if (0 < pen) {
           //vertex is in the circle; project outward
-          if (len == 0)
-          {
+          if (len == 0) {
             //project out by 45deg
             dx = oH / Phaser.Math.SQRT2;
             dy = oV / Phaser.Math.SQRT2;
-          }
-          else
-          {
+          } else {
             dx /= len;
             dy /= len;
           }
@@ -1010,7 +889,7 @@ class Circle extends Shape{
    * @param {Phaser.Physics.Ninja.Tile} t - The Tile involved in the collision.
    * @return {number} The result of the collision.
    */
-  projCircle_Convex (num x, num y, num oH, num oV, Circle obj, Tile t) {
+  projCircle_Convex(num x, num y, num oH, num oV, Circle obj, Tile t) {
 
     //if the object is horiz AND/OR vertical neighbor in the normal (signx,signy)
     //direction, collide vs. tile-circle only.
@@ -1023,10 +902,8 @@ class Circle extends Shape{
     var signy = t.signy;
     var lenP;
 
-    if (oH == 0)
-    {
-      if (oV == 0)
-      {
+    if (oH == 0) {
+      if (oV == 0) {
         //colliding with current tile
 
 
@@ -1040,43 +917,34 @@ class Circle extends Shape{
         var len = Phaser.Math.sqrt(ox * ox + oy * oy);
         var pen = (trad + obj.radius) - len;
 
-        if (0 < pen)
-        {
+        if (0 < pen) {
           //find the smallest axial projection vector
-          if (x < y)
-          {
+          if (x < y) {
             //penetration in x is smaller
             lenP = x;
             y = 0;
 
             //get sign for projection along x-axis
-            if ((obj.pos.x - t.pos.x) < 0)
-            {
+            if ((obj.pos.x - t.pos.x) < 0) {
               x *= -1;
             }
-          }
-          else
-          {
+          } else {
             //penetration in y is smaller
             lenP = y;
             x = 0;
 
             //get sign for projection along y-axis
-            if ((obj.pos.y - t.pos.y) < 0)
-            {
+            if ((obj.pos.y - t.pos.y) < 0) {
               y *= -1;
             }
           }
 
 
-          if (lenP < pen)
-          {
+          if (lenP < pen) {
             obj.reportCollisionVsWorld(x, y, x / lenP, y / lenP);
 
             return COL_AXIS;
-          }
-          else
-          {
+          } else {
             //note: len should NEVER be === 0, because if it is,
             //projeciton by an axis shoudl always be shorter, and we should
             //never arrive here
@@ -1089,19 +957,14 @@ class Circle extends Shape{
 
           }
         }
-      }
-      else
-      {
+      } else {
         //colliding vertically
-        if ((signy * oV) < 0)
-        {
+        if ((signy * oV) < 0) {
           //colliding with face/edge
           obj.reportCollisionVsWorld(0, y * oV, 0, oV);
 
           return COL_AXIS;
-        }
-        else
-        {
+        } else {
           //obj in neighboring cell pointed at by tile normal;
           //we could only be colliding vs the tile-circle surface
 
@@ -1115,8 +978,7 @@ class Circle extends Shape{
           var len = Phaser.Math.sqrt(ox * ox + oy * oy);
           var pen = (trad + obj.radius) - len;
 
-          if (0 < pen)
-          {
+          if (0 < pen) {
 
             //note: len should NEVER be === 0, because if it is,
             //obj is not in a neighboring cell!
@@ -1129,19 +991,14 @@ class Circle extends Shape{
           }
         }
       }
-    }
-    else if (oV == 0)
-    {
+    } else if (oV == 0) {
       //colliding horizontally
-      if ((signx * oH) < 0)
-      {
+      if ((signx * oH) < 0) {
         //colliding with face/edge
         obj.reportCollisionVsWorld(x * oH, 0, oH, 0);
 
         return COL_AXIS;
-      }
-      else
-      {
+      } else {
         //obj in neighboring cell pointed at by tile normal;
         //we could only be colliding vs the tile-circle surface
 
@@ -1155,8 +1012,7 @@ class Circle extends Shape{
         var len = Phaser.Math.sqrt(ox * ox + oy * oy);
         var pen = (trad + obj.radius) - len;
 
-        if (0 < pen)
-        {
+        if (0 < pen) {
 
           //note: len should NEVER be === 0, because if it is,
           //obj is not in a neighboring cell!
@@ -1168,12 +1024,9 @@ class Circle extends Shape{
           return COL_OTHER;
         }
       }
-    }
-    else
-    {
+    } else {
       //colliding diagonally
-      if (0 < ((signx * oH) + (signy * oV)))
-      {
+      if (0 < ((signx * oH) + (signy * oV))) {
         //obj in diag neighb cell pointed at by tile normal;
         //we could only be colliding vs the tile-circle surface
 
@@ -1187,8 +1040,7 @@ class Circle extends Shape{
         var len = Phaser.Math.sqrt(ox * ox + oy * oy);
         var pen = (trad + obj.radius) - len;
 
-        if (0 < pen)
-        {
+        if (0 < pen) {
 
           //note: len should NEVER be === 0, because if it is,
           //obj is not in a neighboring cell!
@@ -1199,9 +1051,7 @@ class Circle extends Shape{
 
           return COL_OTHER;
         }
-      }
-      else
-      {
+      } else {
         //collide vs. vertex
         //get diag vertex position
         var vx = t.pos.x + (oH * t.xw);
@@ -1212,17 +1062,13 @@ class Circle extends Shape{
 
         var len = Phaser.Math.sqrt(dx * dx + dy * dy);
         var pen = obj.radius - len;
-        if (0 < pen)
-        {
+        if (0 < pen) {
           //vertex is in the circle; project outward
-          if (len == 0)
-          {
+          if (len == 0) {
             //project out by 45deg
             dx = oH / Phaser.Math.SQRT2;
             dy = oV / Phaser.Math.SQRT2;
-          }
-          else
-          {
+          } else {
             dx /= len;
             dy /= len;
           }
@@ -1252,7 +1098,7 @@ class Circle extends Shape{
    * @param {Phaser.Physics.Ninja.Tile} t - The Tile involved in the collision.
    * @return {number} The result of the collision.
    */
-  projCircle_Half (num x, num y,num oH, num oV, Circle obj, Tile t) {
+  projCircle_Half(num x, num y, num oH, num oV, Circle obj, Tile t) {
 
     //if obj is in a neighbor pointed at by the halfedge normal,
     //we'll never collide (i.e if the normal is (0,1) and the obj is in the DL.D, or R neighbors)
@@ -1269,20 +1115,16 @@ class Circle extends Shape{
     num signx = t.signx;
     num signy = t.signy;
 
-    num celldp = (oH*signx + oV*signy);//this tells us about the configuration of cell-offset relative to tile normal
-    if (0 < celldp)
-    {
+    num celldp = (oH * signx + oV * signy);//this tells us about the configuration of cell-offset relative to tile normal
+    if (0 < celldp) {
       //obj is in "far" (pointed-at-by-normal) neighbor of halffull tile, and will never hit
       return COL_NONE;
-    }
-    else if (oH == 0)
-    {
-      if (oV == 0)
-      {
+    } else if (oH == 0) {
+      if (oV == 0) {
         //colliding with current tile
         num r = obj.radius;
-        num ox = (obj.pos.x - (signx*r)) - t.pos.x;//this gives is the coordinates of the innermost
-        num oy = (obj.pos.y - (signy*r)) - t.pos.y;//point on the circle, relative to the tile center
+        num ox = (obj.pos.x - (signx * r)) - t.pos.x;//this gives is the coordinates of the innermost
+        num oy = (obj.pos.y - (signy * r)) - t.pos.y;//point on the circle, relative to the tile center
 
 
         //we perform operations analogous to the 45deg tile, except we're using
@@ -1292,183 +1134,149 @@ class Circle extends Shape{
 
         //if the dotprod of (ox,oy) and (sx,sy) is negative, the corner is in the slope
         //and we need toproject it out by the magnitude of the projection of (ox,oy) onto (sx,sy)
-        num dp = (ox*sx) + (oy*sy);
-        if (dp < 0)
-        {
+        num dp = (ox * sx) + (oy * sy);
+        if (dp < 0) {
           //collision; project delta onto slope and use this to displace the object
           sx *= -dp;//(sx,sy) is now the projection vector
           sy *= -dp;
 
 
-          var lenN = Phaser.Math.sqrt(sx*sx + sy*sy);
-          var lenP = Phaser.Math.sqrt(x*x + y*y);
+          var lenN = Phaser.Math.sqrt(sx * sx + sy * sy);
+          var lenP = Phaser.Math.sqrt(x * x + y * y);
 
-          if (lenP < lenN)
-          {
-            obj.reportCollisionVsWorld(x,y,x/lenP, y/lenP);
+          if (lenP < lenN) {
+            obj.reportCollisionVsWorld(x, y, x / lenP, y / lenP);
 
             return COL_AXIS;
-          }
-          else
-          {
-            obj.reportCollisionVsWorld(sx,sy,t.signx,t.signy);
+          } else {
+            obj.reportCollisionVsWorld(sx, sy, t.signx, t.signy);
 
             return COL_OTHER;
           }
           return true;
         }
 
-      }
-      else
-      {
+      } else {
         //colliding vertically
 
-        if (celldp == 0)
-        {
+        if (celldp == 0) {
 
           var dx = obj.pos.x - t.pos.x;
 
           //we're in a cell perpendicular to the normal, and can collide vs. halfedge vertex
           //or halfedge side
-          if ((dx*signx) < 0)
-          {
+          if ((dx * signx) < 0) {
             //collision with halfedge side
-            obj.reportCollisionVsWorld(0,y*oV,0,oV);
+            obj.reportCollisionVsWorld(0, y * oV, 0, oV);
 
             return COL_AXIS;
-          }
-          else
-          {
+          } else {
             //collision with halfedge vertex
-            var dy = obj.pos.y - (t.pos.y + oV*t.yw);//(dx,dy) is now the vector from the appropriate halfedge vertex to the circle
+            var dy = obj.pos.y - (t.pos.y + oV * t.yw);//(dx,dy) is now the vector from the appropriate halfedge vertex to the circle
 
-            var len = Phaser.Math.sqrt(dx*dx + dy*dy);
+            var len = Phaser.Math.sqrt(dx * dx + dy * dy);
             var pen = obj.radius - len;
-            if (0 < pen)
-            {
+            if (0 < pen) {
               //vertex is in the circle; project outward
-              if (len == 0)
-              {
+              if (len == 0) {
                 //project out by 45deg
                 dx = signx / Phaser.Math.SQRT2;
                 dy = oV / Phaser.Math.SQRT2;
-              }
-              else
-              {
+              } else {
                 dx /= len;
                 dy /= len;
               }
 
-              obj.reportCollisionVsWorld(dx*pen, dy*pen, dx, dy);
+              obj.reportCollisionVsWorld(dx * pen, dy * pen, dx, dy);
 
               return COL_OTHER;
             }
 
           }
-        }
-        else
-        {
+        } else {
           //due to the first conditional (celldp >0), we know we're in the cell "opposite" the normal, and so
           //we can only collide with the cell edge
           //collision with vertical neighbor
-          obj.reportCollisionVsWorld(0,y*oV,0,oV);
+          obj.reportCollisionVsWorld(0, y * oV, 0, oV);
 
           return COL_AXIS;
         }
 
       }
-    }
-    else if (oV == 0)
-      {
-        //colliding horizontally
-        if (celldp == 0)
-        {
+    } else if (oV == 0) {
+      //colliding horizontally
+      if (celldp == 0) {
 
-          var dy = obj.pos.y - t.pos.y;
+        var dy = obj.pos.y - t.pos.y;
 
-          //we're in a cell perpendicular to the normal, and can collide vs. halfedge vertex
-          //or halfedge side
-          if ((dy*signy) < 0)
-          {
-            //collision with halfedge side
-            obj.reportCollisionVsWorld(x*oH,0,oH,0);
+        //we're in a cell perpendicular to the normal, and can collide vs. halfedge vertex
+        //or halfedge side
+        if ((dy * signy) < 0) {
+          //collision with halfedge side
+          obj.reportCollisionVsWorld(x * oH, 0, oH, 0);
 
-            return COL_AXIS;
-          }
-          else
-          {
-            //collision with halfedge vertex
-            var dx = obj.pos.x - (t.pos.x + oH*t.xw);//(dx,dy) is now the vector from the appropriate halfedge vertex to the circle
+          return COL_AXIS;
+        } else {
+          //collision with halfedge vertex
+          var dx = obj.pos.x - (t.pos.x + oH * t.xw);//(dx,dy) is now the vector from the appropriate halfedge vertex to the circle
 
-            var len = Phaser.Math.sqrt(dx*dx + dy*dy);
-            var pen = obj.radius - len;
-            if (0 < pen)
-            {
-              //vertex is in the circle; project outward
-              if (len == 0)
-              {
-                //project out by 45deg
-                dx = signx / Phaser.Math.SQRT2;
-                dy = oV / Phaser.Math.SQRT2;
-              }
-              else
-              {
-                dx /= len;
-                dy /= len;
-              }
-
-              obj.reportCollisionVsWorld(dx*pen, dy*pen, dx, dy);
-
-              return COL_OTHER;
+          var len = Phaser.Math.sqrt(dx * dx + dy * dy);
+          var pen = obj.radius - len;
+          if (0 < pen) {
+            //vertex is in the circle; project outward
+            if (len == 0) {
+              //project out by 45deg
+              dx = signx / Phaser.Math.SQRT2;
+              dy = oV / Phaser.Math.SQRT2;
+            } else {
+              dx /= len;
+              dy /= len;
             }
 
-          }
-        }
-        else
-        {
-          //due to the first conditional (celldp >0), we know w're in the cell "opposite" the normal, and so
-          //we can only collide with the cell edge
-          obj.reportCollisionVsWorld(x*oH, 0, oH, 0);
+            obj.reportCollisionVsWorld(dx * pen, dy * pen, dx, dy);
 
-          return COL_AXIS;
+            return COL_OTHER;
+          }
+
         }
+      } else {
+        //due to the first conditional (celldp >0), we know w're in the cell "opposite" the normal, and so
+        //we can only collide with the cell edge
+        obj.reportCollisionVsWorld(x * oH, 0, oH, 0);
+
+        return COL_AXIS;
       }
-      else
-      {
-        //colliding diagonally; we know, due to the initial (celldp >0) test which has failed
-        //if we've reached this point, that we're in a diagonal neighbor on the non-normal side, so
-        //we could only be colliding with the cell vertex, if at all.
+    } else {
+      //colliding diagonally; we know, due to the initial (celldp >0) test which has failed
+      //if we've reached this point, that we're in a diagonal neighbor on the non-normal side, so
+      //we could only be colliding with the cell vertex, if at all.
 
-        //get diag vertex position
-        var vx = t.pos.x + (oH*t.xw);
-        var vy = t.pos.y + (oV*t.yw);
+      //get diag vertex position
+      var vx = t.pos.x + (oH * t.xw);
+      var vy = t.pos.y + (oV * t.yw);
 
-        var dx = obj.pos.x - vx;//calc vert->circle vector
-        var dy = obj.pos.y - vy;
+      var dx = obj.pos.x - vx;//calc vert->circle vector
+      var dy = obj.pos.y - vy;
 
-        var len = Phaser.Math.sqrt(dx*dx + dy*dy);
-        var pen = obj.radius - len;
-        if (0 < pen)
-        {
-          //vertex is in the circle; project outward
-          if (len == 0)
-          {
-            //project out by 45deg
-            dx = oH / Phaser.Math.SQRT2;
-            dy = oV / Phaser.Math.SQRT2;
-          }
-          else
-          {
-            dx /= len;
-            dy /= len;
-          }
-
-          obj.reportCollisionVsWorld(dx*pen, dy*pen, dx, dy);
-
-          return COL_OTHER;
+      var len = Phaser.Math.sqrt(dx * dx + dy * dy);
+      var pen = obj.radius - len;
+      if (0 < pen) {
+        //vertex is in the circle; project outward
+        if (len == 0) {
+          //project out by 45deg
+          dx = oH / Phaser.Math.SQRT2;
+          dy = oV / Phaser.Math.SQRT2;
+        } else {
+          dx /= len;
+          dy /= len;
         }
 
+        obj.reportCollisionVsWorld(dx * pen, dy * pen, dx, dy);
+
+        return COL_OTHER;
       }
+
+    }
 
     return COL_NONE;
 
@@ -1486,7 +1294,7 @@ class Circle extends Shape{
    * @param {Phaser.Physics.Ninja.Tile} t - The Tile involved in the collision.
    * @return {number} The result of the collision.
    */
-  projCircle_22DegS (num x, num y, num oH, num oV,Circle obj, Tile t) {
+  projCircle_22DegS(num x, num y, num oH, num oV, Circle obj, Tile t) {
 
     //if the object is in a cell pointed at by signy, no collision will ever occur
     //otherwise,
@@ -1504,16 +1312,12 @@ class Circle extends Shape{
     num signx = t.signx;
     num signy = t.signy;
 
-    if (0 < (signy*oV))
-    {
+    if (0 < (signy * oV)) {
       //object will never collide vs tile, it can't reach that far
 
       return COL_NONE;
-    }
-    else if (oH == 0)
-    {
-      if (oV == 0)
-      {
+    } else if (oH == 0) {
+      if (oV == 0) {
         //colliding with current tile
         //we could only be colliding vs the slope OR a vertex
         //look at the vector form the closest vert to the circle to decide
@@ -1522,7 +1326,7 @@ class Circle extends Shape{
         num sy = t.sy;
 
         num r = obj.radius;
-        num ox = obj.pos.x - (t.pos.x - (signx*t.xw));//this gives is the coordinates of the innermost
+        num ox = obj.pos.x - (t.pos.x - (signx * t.xw));//this gives is the coordinates of the innermost
         num oy = obj.pos.y - t.pos.y;//point on the circle, relative to the tile corner
 
         //if the component of (ox,oy) parallel to the normal's righthand normal
@@ -1531,74 +1335,61 @@ class Circle extends Shape{
         //note that this is simply a VERY tricky/weird method of determining
         //if the circle is in side the slope/face's voronio region, or that of the vertex.
 
-        num perp = (ox*-sy) + (oy*sx);
-        if (0 < (perp*signx*signy))
-        {
+        num perp = (ox * -sy) + (oy * sx);
+        if (0 < (perp * signx * signy)) {
           //collide vs. vertex
-          var len = Phaser.Math.sqrt(ox*ox + oy*oy);
+          var len = Phaser.Math.sqrt(ox * ox + oy * oy);
           var pen = r - len;
-          if (0 < pen)
-          {
+          if (0 < pen) {
             //note: if len=0, then perp=0 and we'll never reach here, so don't worry about div-by-0
             ox /= len;
             oy /= len;
 
-            obj.reportCollisionVsWorld(ox*pen, oy*pen, ox, oy);
+            obj.reportCollisionVsWorld(ox * pen, oy * pen, ox, oy);
 
             return COL_OTHER;
           }
-        }
-        else
-        {
+        } else {
           //collide vs. slope or vs axis
-          ox -= r*sx;//this gives us the vector from
-          oy -= r*sy;//a point on the slope to the innermost point on the circle
+          ox -= r * sx;//this gives us the vector from
+          oy -= r * sy;//a point on the slope to the innermost point on the circle
 
           //if the dotprod of (ox,oy) and (sx,sy) is negative, the point on the circle is in the slope
           //and we need toproject it out by the magnitude of the projection of (ox,oy) onto (sx,sy)
-          var dp = (ox*sx) + (oy*sy);
+          var dp = (ox * sx) + (oy * sy);
 
-          if (dp < 0)
-          {
+          if (dp < 0) {
             //collision; project delta onto slope and use this to displace the object
             sx *= -dp;//(sx,sy) is now the projection vector
             sy *= -dp;
 
-            var lenN = Phaser.Math.sqrt(sx*sx + sy*sy);
+            var lenN = Phaser.Math.sqrt(sx * sx + sy * sy);
 
             //find the smallest axial projection vector
-            if (x < y)
-            {
+            if (x < y) {
               //penetration in x is smaller
               lenP = x;
               y = 0;
               //get sign for projection along x-axis
-              if ((obj.pos.x - t.pos.x) < 0)
-              {
+              if ((obj.pos.x - t.pos.x) < 0) {
                 x *= -1;
               }
-            }
-            else
-            {
+            } else {
               //penetration in y is smaller
               lenP = y;
               x = 0;
               //get sign for projection along y-axis
-              if ((obj.pos.y - t.pos.y)< 0)
-              {
+              if ((obj.pos.y - t.pos.y) < 0) {
                 y *= -1;
               }
             }
 
-            if (lenP < lenN)
-            {
-              obj.reportCollisionVsWorld(x,y,x/lenP, y/lenP);
+            if (lenP < lenN) {
+              obj.reportCollisionVsWorld(x, y, x / lenP, y / lenP);
 
               return COL_AXIS;
-            }
-            else
-            {
-              obj.reportCollisionVsWorld(sx,sy,t.sx,t.sy);
+            } else {
+              obj.reportCollisionVsWorld(sx, sy, t.sx, t.sy);
 
               return COL_OTHER;
             }
@@ -1606,161 +1397,136 @@ class Circle extends Shape{
           }
         }
 
-      }
-      else
-      {
+      } else {
         //colliding vertically; we can assume that (signy*oV) < 0
         //due to the first conditional far above
 
-        obj.reportCollisionVsWorld(0,y*oV, 0, oV);
+        obj.reportCollisionVsWorld(0, y * oV, 0, oV);
 
         return COL_AXIS;
       }
-    }
-    else if (oV == 0)
-      {
-        //colliding horizontally
-        if ((signx*oH) < 0)
-        {
-          //colliding with face/edge OR with corner of wedge, depending on our position vertically
-
-          //collide vs. vertex
-          //get diag vertex position
-          var vx = t.pos.x - (signx*t.xw);
-          var vy = t.pos.y;
-
-          var dx = obj.pos.x - vx;//calc vert->circle vector
-          var dy = obj.pos.y - vy;
-
-          if ((dy*signy) < 0)
-          {
-            //colliding vs face
-            obj.reportCollisionVsWorld(x*oH, 0, oH, 0);
-
-            return COL_AXIS;
-          }
-          else
-          {
-            //colliding vs. vertex
-
-            var len = Phaser.Math.sqrt(dx*dx + dy*dy);
-            var pen = obj.radius - len;
-            if (0 < pen)
-            {
-              //vertex is in the circle; project outward
-              if (len == 0)
-              {
-                //project out by 45deg
-                dx = oH / Phaser.Math.SQRT2;
-                dy = oV / Phaser.Math.SQRT2;
-              }
-              else
-              {
-                dx /= len;
-                dy /= len;
-              }
-
-              obj.reportCollisionVsWorld(dx*pen, dy*pen, dx, dy);
-
-              return COL_OTHER;
-            }
-          }
-        }
-        else
-        {
-          //we could only be colliding vs the slope OR a vertex
-          //look at the vector form the closest vert to the circle to decide
-
-          num sx = t.sx;
-          num sy = t.sy;
-
-          num ox = obj.pos.x - (t.pos.x + (oH*t.xw));//this gives is the coordinates of the innermost
-          num oy = obj.pos.y - (t.pos.y - (signy*t.yw));//point on the circle, relative to the closest tile vert
-
-          //if the component of (ox,oy) parallel to the normal's righthand normal
-          //has the same sign as the slope of the slope (the sign of the slope's slope is signx*signy)
-          //then we project by the normal, otherwise by the vertex.
-          //(NOTE: this is the opposite logic of the vertical case;
-          // for vertical, if the perp prod and the slope's slope agree, it's outside.
-          // for horizontal, if the perp prod and the slope's slope agree, circle is inside.
-          //  ..but this is only a property of flahs' coord system (i.e the rules might swap
-          // in righthanded systems))
-          //note that this is simply a VERY tricky/weird method of determining
-          //if the circle is in side the slope/face's voronio region, or that of the vertex.
-          num perp = (ox*-sy) + (oy*sx);
-          if ((perp*signx*signy) < 0)
-          {
-            //collide vs. vertex
-            var len = Phaser.Math.sqrt(ox*ox + oy*oy);
-            var pen = obj.radius - len;
-            if (0 < pen)
-            {
-              //note: if len=0, then perp=0 and we'll never reach here, so don't worry about div-by-0
-              ox /= len;
-              oy /= len;
-
-              obj.reportCollisionVsWorld(ox*pen, oy*pen, ox, oy);
-
-              return COL_OTHER;
-            }
-          }
-          else
-          {
-            //collide vs. slope
-
-            //if the component of (ox,oy) parallel to the normal is less than the circle radius, we're
-            //penetrating the slope. note that this method of penetration calculation doesn't hold
-            //in general (i.e it won't work if the circle is in the slope), but works in this case
-            //because we know the circle is in a neighboring cell
-            var dp = (ox*sx) + (oy*sy);
-            var pen = obj.radius - Phaser.Math.abs(dp);//note: we don't need the abs because we know the dp will be positive, but just in case..
-
-            if (0 < pen)
-            {
-              //collision; circle out along normal by penetration amount
-              obj.reportCollisionVsWorld(sx*pen, sy*pen, sx, sy);
-
-              return COL_OTHER;
-            }
-          }
-        }
-      }
-      else
-      {
-
-        //colliding diagonally; due to the first conditional above,
-        //obj is vertically offset against slope, and offset in either direction horizontally
+    } else if (oV == 0) {
+      //colliding horizontally
+      if ((signx * oH) < 0) {
+        //colliding with face/edge OR with corner of wedge, depending on our position vertically
 
         //collide vs. vertex
         //get diag vertex position
-        var vx = t.pos.x + (oH*t.xw);
-        var vy = t.pos.y + (oV*t.yw);
+        var vx = t.pos.x - (signx * t.xw);
+        var vy = t.pos.y;
 
         var dx = obj.pos.x - vx;//calc vert->circle vector
         var dy = obj.pos.y - vy;
 
-        var len = Phaser.Math.sqrt(dx*dx + dy*dy);
-        var pen = obj.radius - len;
-        if (0 < pen)
-        {
-          //vertex is in the circle; project outward
-          if (len == 0)
-          {
-            //project out by 45deg
-            dx = oH / Phaser.Math.SQRT2;
-            dy = oV / Phaser.Math.SQRT2;
-          }
-          else
-          {
-            dx /= len;
-            dy /= len;
-          }
+        if ((dy * signy) < 0) {
+          //colliding vs face
+          obj.reportCollisionVsWorld(x * oH, 0, oH, 0);
 
-          obj.reportCollisionVsWorld(dx*pen, dy*pen, dx, dy);
+          return COL_AXIS;
+        } else {
+          //colliding vs. vertex
 
-          return COL_OTHER;
+          var len = Phaser.Math.sqrt(dx * dx + dy * dy);
+          var pen = obj.radius - len;
+          if (0 < pen) {
+            //vertex is in the circle; project outward
+            if (len == 0) {
+              //project out by 45deg
+              dx = oH / Phaser.Math.SQRT2;
+              dy = oV / Phaser.Math.SQRT2;
+            } else {
+              dx /= len;
+              dy /= len;
+            }
+
+            obj.reportCollisionVsWorld(dx * pen, dy * pen, dx, dy);
+
+            return COL_OTHER;
+          }
+        }
+      } else {
+        //we could only be colliding vs the slope OR a vertex
+        //look at the vector form the closest vert to the circle to decide
+
+        num sx = t.sx;
+        num sy = t.sy;
+
+        num ox = obj.pos.x - (t.pos.x + (oH * t.xw));//this gives is the coordinates of the innermost
+        num oy = obj.pos.y - (t.pos.y - (signy * t.yw));//point on the circle, relative to the closest tile vert
+
+        //if the component of (ox,oy) parallel to the normal's righthand normal
+        //has the same sign as the slope of the slope (the sign of the slope's slope is signx*signy)
+        //then we project by the normal, otherwise by the vertex.
+        //(NOTE: this is the opposite logic of the vertical case;
+        // for vertical, if the perp prod and the slope's slope agree, it's outside.
+        // for horizontal, if the perp prod and the slope's slope agree, circle is inside.
+        //  ..but this is only a property of flahs' coord system (i.e the rules might swap
+        // in righthanded systems))
+        //note that this is simply a VERY tricky/weird method of determining
+        //if the circle is in side the slope/face's voronio region, or that of the vertex.
+        num perp = (ox * -sy) + (oy * sx);
+        if ((perp * signx * signy) < 0) {
+          //collide vs. vertex
+          var len = Phaser.Math.sqrt(ox * ox + oy * oy);
+          var pen = obj.radius - len;
+          if (0 < pen) {
+            //note: if len=0, then perp=0 and we'll never reach here, so don't worry about div-by-0
+            ox /= len;
+            oy /= len;
+
+            obj.reportCollisionVsWorld(ox * pen, oy * pen, ox, oy);
+
+            return COL_OTHER;
+          }
+        } else {
+          //collide vs. slope
+
+          //if the component of (ox,oy) parallel to the normal is less than the circle radius, we're
+          //penetrating the slope. note that this method of penetration calculation doesn't hold
+          //in general (i.e it won't work if the circle is in the slope), but works in this case
+          //because we know the circle is in a neighboring cell
+          var dp = (ox * sx) + (oy * sy);
+          var pen = obj.radius - Phaser.Math.abs(dp);//note: we don't need the abs because we know the dp will be positive, but just in case..
+
+          if (0 < pen) {
+            //collision; circle out along normal by penetration amount
+            obj.reportCollisionVsWorld(sx * pen, sy * pen, sx, sy);
+
+            return COL_OTHER;
+          }
         }
       }
+    } else {
+
+      //colliding diagonally; due to the first conditional above,
+      //obj is vertically offset against slope, and offset in either direction horizontally
+
+      //collide vs. vertex
+      //get diag vertex position
+      var vx = t.pos.x + (oH * t.xw);
+      var vy = t.pos.y + (oV * t.yw);
+
+      var dx = obj.pos.x - vx;//calc vert->circle vector
+      var dy = obj.pos.y - vy;
+
+      var len = Phaser.Math.sqrt(dx * dx + dy * dy);
+      var pen = obj.radius - len;
+      if (0 < pen) {
+        //vertex is in the circle; project outward
+        if (len == 0) {
+          //project out by 45deg
+          dx = oH / Phaser.Math.SQRT2;
+          dy = oV / Phaser.Math.SQRT2;
+        } else {
+          dx /= len;
+          dy /= len;
+        }
+
+        obj.reportCollisionVsWorld(dx * pen, dy * pen, dx, dy);
+
+        return COL_OTHER;
+      }
+    }
 
     return COL_NONE;
 
@@ -1778,7 +1544,7 @@ class Circle extends Shape{
    * @param {Phaser.Physics.Ninja.Tile} t - The Tile involved in the collision.
    * @return {number} The result of the collision.
    */
-  projCircle_22DegB (num x, num y, num oH, num oV, Circle obj, Tile t) {
+  projCircle_22DegB(num x, num y, num oH, num oV, Circle obj, Tile t) {
 
     //if we're colliding diagonally:
     //  -if we're in the cell pointed at by the normal, collide vs slope, else
@@ -1796,161 +1562,132 @@ class Circle extends Shape{
     num signx = t.signx;
     num signy = t.signy;
 
-    if (oH == 0)
-    {
-      if (oV == 0)
-      {
+    if (oH == 0) {
+      if (oV == 0) {
         //colliding with current cell
 
         num sx = t.sx;
         num sy = t.sy;
 
         num r = obj.radius;
-        num ox = (obj.pos.x - (sx*r)) - (t.pos.x - (signx*t.xw));//this gives is the coordinates of the innermost
-        num oy = (obj.pos.y - (sy*r)) - (t.pos.y + (signy*t.yw));//point on the AABB, relative to a point on the slope
+        num ox = (obj.pos.x - (sx * r)) - (t.pos.x - (signx * t.xw));//this gives is the coordinates of the innermost
+        num oy = (obj.pos.y - (sy * r)) - (t.pos.y + (signy * t.yw));//point on the AABB, relative to a point on the slope
 
         //if the dotprod of (ox,oy) and (sx,sy) is negative, the point on the circle is in the slope
         //and we need toproject it out by the magnitude of the projection of (ox,oy) onto (sx,sy)
-        num dp = (ox*sx) + (oy*sy);
+        num dp = (ox * sx) + (oy * sy);
 
-        if (dp < 0)
-        {
+        if (dp < 0) {
           //collision; project delta onto slope and use this to displace the object
           sx *= -dp;//(sx,sy) is now the projection vector
           sy *= -dp;
 
-          num lenN = Phaser.Math.sqrt(sx*sx + sy*sy);
+          num lenN = Phaser.Math.sqrt(sx * sx + sy * sy);
 
           //find the smallest axial projection vector
-          if (x < y)
-          {
+          if (x < y) {
             //penetration in x is smaller
             lenP = x;
             y = 0;
             //get sign for projection along x-axis
-            if ((obj.pos.x - t.pos.x) < 0)
-            {
+            if ((obj.pos.x - t.pos.x) < 0) {
               x *= -1;
             }
-          }
-          else
-          {
+          } else {
             //penetration in y is smaller
             lenP = y;
             x = 0;
             //get sign for projection along y-axis
-            if ((obj.pos.y - t.pos.y)< 0)
-            {
+            if ((obj.pos.y - t.pos.y) < 0) {
               y *= -1;
             }
           }
 
-          if (lenP < lenN)
-          {
-            obj.reportCollisionVsWorld(x, y, x/lenP, y/lenP);
+          if (lenP < lenN) {
+            obj.reportCollisionVsWorld(x, y, x / lenP, y / lenP);
 
             return COL_AXIS;
-          }
-          else
-          {
+          } else {
             obj.reportCollisionVsWorld(sx, sy, t.sx, t.sy);
 
             return COL_OTHER;
           }
         }
-      }
-      else
-      {
+      } else {
         //colliding vertically
 
-        if ((signy*oV) < 0)
-        {
+        if ((signy * oV) < 0) {
           //colliding with face/edge
-          obj.reportCollisionVsWorld(0, y*oV, 0, oV);
+          obj.reportCollisionVsWorld(0, y * oV, 0, oV);
 
           return COL_AXIS;
-        }
-        else
-        {
+        } else {
           //we could only be colliding vs the slope OR a vertex
           //look at the vector form the closest vert to the circle to decide
 
           var sx = t.sx;
           var sy = t.sy;
 
-          var ox = obj.pos.x - (t.pos.x - (signx*t.xw));//this gives is the coordinates of the innermost
-          var oy = obj.pos.y - (t.pos.y + (signy*t.yw));//point on the circle, relative to the closest tile vert
+          var ox = obj.pos.x - (t.pos.x - (signx * t.xw));//this gives is the coordinates of the innermost
+          var oy = obj.pos.y - (t.pos.y + (signy * t.yw));//point on the circle, relative to the closest tile vert
 
           //if the component of (ox,oy) parallel to the normal's righthand normal
           //has the same sign as the slope of the slope (the sign of the slope's slope is signx*signy)
           //then we project by the vertex, otherwise by the normal.
           //note that this is simply a VERY tricky/weird method of determining
           //if the circle is in side the slope/face's voronio region, or that of the vertex.
-          num perp = (ox*-sy) + (oy*sx);
-          if (0 < (perp*signx*signy))
-          {
+          num perp = (ox * -sy) + (oy * sx);
+          if (0 < (perp * signx * signy)) {
             //collide vs. vertex
-            var len = Phaser.Math.sqrt(ox*ox + oy*oy);
+            var len = Phaser.Math.sqrt(ox * ox + oy * oy);
             var pen = obj.radius - len;
-            if (0 < pen)
-            {
+            if (0 < pen) {
               //note: if len=0, then perp=0 and we'll never reach here, so don't worry about div-by-0
               ox /= len;
               oy /= len;
 
-              obj.reportCollisionVsWorld(ox*pen, oy*pen, ox, oy);
+              obj.reportCollisionVsWorld(ox * pen, oy * pen, ox, oy);
 
               return COL_OTHER;
             }
-          }
-          else
-          {
+          } else {
             //collide vs. slope
 
             //if the component of (ox,oy) parallel to the normal is less than the circle radius, we're
             //penetrating the slope. note that this method of penetration calculation doesn't hold
             //in general (i.e it won't work if the circle is in the slope), but works in this case
             //because we know the circle is in a neighboring cell
-            var dp = (ox*sx) + (oy*sy);
+            var dp = (ox * sx) + (oy * sy);
             var pen = obj.radius - Phaser.Math.abs(dp);//note: we don't need the abs because we know the dp will be positive, but just in case..
-            if (0 < pen)
-            {
+            if (0 < pen) {
               //collision; circle out along normal by penetration amount
-              obj.reportCollisionVsWorld(sx*pen, sy*pen,sx, sy);
+              obj.reportCollisionVsWorld(sx * pen, sy * pen, sx, sy);
 
               return COL_OTHER;
             }
           }
         }
       }
-    }
-    else if (oV == 0)
-    {
+    } else if (oV == 0) {
       //colliding horizontally
 
-      if ((signx*oH) < 0)
-      {
+      if ((signx * oH) < 0) {
         //colliding with face/edge
-        obj.reportCollisionVsWorld(x*oH, 0, oH, 0);
+        obj.reportCollisionVsWorld(x * oH, 0, oH, 0);
 
         return COL_AXIS;
-      }
-      else
-      {
+      } else {
         //colliding with edge, slope, or vertex
 
-        var ox = obj.pos.x - (t.pos.x + (signx*t.xw));//this gives is the coordinates of the innermost
+        var ox = obj.pos.x - (t.pos.x + (signx * t.xw));//this gives is the coordinates of the innermost
         var oy = obj.pos.y - t.pos.y;//point on the circle, relative to the closest tile vert
 
-        if ((oy*signy) < 0)
-        {
+        if ((oy * signy) < 0) {
           //we're colliding with the halfface
-          obj.reportCollisionVsWorld(x*oH, 0, oH, 0);
+          obj.reportCollisionVsWorld(x * oH, 0, oH, 0);
 
           return COL_AXIS;
-        }
-        else
-        {
+        } else {
           //colliding with the vertex or slope
 
           var sx = t.sx;
@@ -1961,104 +1698,89 @@ class Circle extends Shape{
           //then we project by the slope, otherwise by the vertex.
           //note that this is simply a VERY tricky/weird method of determining
           //if the circle is in side the slope/face's voronio region, or that of the vertex.
-          var perp = (ox*-sy) + (oy*sx);
-          if ((perp*signx*signy) < 0)
-          {
+          var perp = (ox * -sy) + (oy * sx);
+          if ((perp * signx * signy) < 0) {
             //collide vs. vertex
-            var len = Phaser.Math.sqrt(ox*ox + oy*oy);
+            var len = Phaser.Math.sqrt(ox * ox + oy * oy);
             var pen = obj.radius - len;
-            if (0 < pen)
-            {
+            if (0 < pen) {
               //note: if len=0, then perp=0 and we'll never reach here, so don't worry about div-by-0
               ox /= len;
               oy /= len;
 
-              obj.reportCollisionVsWorld(ox*pen, oy*pen, ox, oy);
+              obj.reportCollisionVsWorld(ox * pen, oy * pen, ox, oy);
 
               return COL_OTHER;
             }
-          }
-          else
-          {
+          } else {
             //collide vs. slope
 
             //if the component of (ox,oy) parallel to the normal is less than the circle radius, we're
             //penetrating the slope. note that this method of penetration calculation doesn't hold
             //in general (i.e it won't work if the circle is in the slope), but works in this case
             //because we know the circle is in a neighboring cell
-            var dp = (ox*sx) + (oy*sy);
+            var dp = (ox * sx) + (oy * sy);
             var pen = obj.radius - Phaser.Math.abs(dp);//note: we don't need the abs because we know the dp will be positive, but just in case..
-            if (0 < pen)
-            {
+            if (0 < pen) {
               //collision; circle out along normal by penetration amount
-              obj.reportCollisionVsWorld(sx*pen, sy*pen, t.sx, t.sy);
+              obj.reportCollisionVsWorld(sx * pen, sy * pen, t.sx, t.sy);
 
               return COL_OTHER;
             }
           }
         }
       }
-    }
-    else
-    {
+    } else {
       //colliding diagonally
-      if ( 0 < ((signx*oH) + (signy*oV)) )
-      {
+      if (0 < ((signx * oH) + (signy * oV))) {
         //the dotprod of slope normal and cell offset is strictly positive,
         //therefore obj is in the diagonal neighb pointed at by the normal.
 
         //collide vs slope
 
         //we should really precalc this at compile time, but for now, fuck it
-        num slen = Phaser.Math.sqrt(2*2 + 1*1);//the raw slope is (-2,-1)
-        num sx = (signx*1) / slen;//get slope _unit_ normal;
-        num sy = (signy*2) / slen;//raw RH normal is (1,-2)
+        num slen = Phaser.Math.sqrt(2 * 2 + 1 * 1);//the raw slope is (-2,-1)
+        num sx = (signx * 1) / slen;//get slope _unit_ normal;
+        num sy = (signy * 2) / slen;//raw RH normal is (1,-2)
 
         num r = obj.radius;
-        num ox = (obj.pos.x - (sx*r)) - (t.pos.x - (signx*t.xw));//this gives is the coordinates of the innermost
-        num oy = (obj.pos.y - (sy*r)) - (t.pos.y + (signy*t.yw));//point on the circle, relative to a point on the slope
+        num ox = (obj.pos.x - (sx * r)) - (t.pos.x - (signx * t.xw));//this gives is the coordinates of the innermost
+        num oy = (obj.pos.y - (sy * r)) - (t.pos.y + (signy * t.yw));//point on the circle, relative to a point on the slope
 
         //if the dotprod of (ox,oy) and (sx,sy) is negative, the point on the circle is in the slope
         //and we need toproject it out by the magnitude of the projection of (ox,oy) onto (sx,sy)
-        num dp = (ox*sx) + (oy*sy);
+        num dp = (ox * sx) + (oy * sy);
 
-        if (dp < 0)
-        {
+        if (dp < 0) {
           //collision; project delta onto slope and use this to displace the object
           //(sx,sy)*-dp is the projection vector
-          obj.reportCollisionVsWorld(-sx*dp, -sy*dp, t.sx, t.sy);
+          obj.reportCollisionVsWorld(-sx * dp, -sy * dp, t.sx, t.sy);
 
           return COL_OTHER;
         }
         return COL_NONE;
-      }
-      else
-      {
+      } else {
         //collide vs the appropriate vertex
-        num vx = t.pos.x + (oH*t.xw);
-        num vy = t.pos.y + (oV*t.yw);
+        num vx = t.pos.x + (oH * t.xw);
+        num vy = t.pos.y + (oV * t.yw);
 
         num dx = obj.pos.x - vx;//calc vert->circle vector
         num dy = obj.pos.y - vy;
 
-        num len = Phaser.Math.sqrt(dx*dx + dy*dy);
+        num len = Phaser.Math.sqrt(dx * dx + dy * dy);
         num pen = obj.radius - len;
-        if (0 < pen)
-        {
+        if (0 < pen) {
           //vertex is in the circle; project outward
-          if (len == 0)
-          {
+          if (len == 0) {
             //project out by 45deg
             dx = oH / Phaser.Math.SQRT2;
             dy = oV / Phaser.Math.SQRT2;
-          }
-          else
-          {
+          } else {
             dx /= len;
             dy /= len;
           }
 
-          obj.reportCollisionVsWorld(dx*pen, dy*pen, dx, dy);
+          obj.reportCollisionVsWorld(dx * pen, dy * pen, dx, dy);
 
           return COL_OTHER;
         }
@@ -2081,7 +1803,7 @@ class Circle extends Shape{
    * @param {Phaser.Physics.Ninja.Tile} t - The Tile involved in the collision.
    * @return {number} The result of the collision.
    */
-  projCircle_67DegS (num x, num y,num oH,num oV,Circle obj, Tile t) {
+  projCircle_67DegS(num x, num y, num oH, num oV, Circle obj, Tile t) {
 
     //if the object is in a cell pointed at by signx, no collision will ever occur
     //otherwise,
@@ -2098,16 +1820,12 @@ class Circle extends Shape{
     num signx = t.signx;
     num signy = t.signy;
 
-    if (0 < (signx*oH))
-    {
+    if (0 < (signx * oH)) {
       //object will never collide vs tile, it can't reach that far
 
       return COL_NONE;
-    }
-    else if (oH == 0)
-    {
-      if (oV == 0)
-      {
+    } else if (oH == 0) {
+      if (oV == 0) {
         //colliding with current tile
         //we could only be colliding vs the slope OR a vertex
         //look at the vector form the closest vert to the circle to decide
@@ -2118,7 +1836,7 @@ class Circle extends Shape{
 
         num r = obj.radius;
         num ox = obj.pos.x - t.pos.x;//this gives is the coordinates of the innermost
-        num oy = obj.pos.y - (t.pos.y - (signy*t.yw));//point on the circle, relative to the tile corner
+        num oy = obj.pos.y - (t.pos.y - (signy * t.yw));//point on the circle, relative to the tile corner
 
         //if the component of (ox,oy) parallel to the normal's righthand normal
         //has the same sign as the slope of the slope (the sign of the slope's slope is signx*signy)
@@ -2126,229 +1844,191 @@ class Circle extends Shape{
         //note that this is simply a VERY tricky/weird method of determining
         //if the circle is in side the slope/face's voronoi region, or that of the vertex.
 
-        num perp = (ox*-sy) + (oy*sx);
-        if ((perp*signx*signy) < 0)
-        {
+        num perp = (ox * -sy) + (oy * sx);
+        if ((perp * signx * signy) < 0) {
           //collide vs. vertex
-          var len = Phaser.Math.sqrt(ox*ox + oy*oy);
+          var len = Phaser.Math.sqrt(ox * ox + oy * oy);
           var pen = r - len;
-          if (0 < pen)
-          {
+          if (0 < pen) {
             //note: if len=0, then perp=0 and we'll never reach here, so don't worry about div-by-0
             ox /= len;
             oy /= len;
 
-            obj.reportCollisionVsWorld(ox*pen, oy*pen, ox, oy);
+            obj.reportCollisionVsWorld(ox * pen, oy * pen, ox, oy);
             return COL_OTHER;
           }
-        }
-        else
-        {
+        } else {
           //collide vs. slope or vs axis
-          ox -= r*sx;//this gives us the vector from
-          oy -= r*sy;//a point on the slope to the innermost point on the circle
+          ox -= r * sx;//this gives us the vector from
+          oy -= r * sy;//a point on the slope to the innermost point on the circle
 
           //if the dotprod of (ox,oy) and (sx,sy) is negative, the point on the circle is in the slope
           //and we need toproject it out by the magnitude of the projection of (ox,oy) onto (sx,sy)
-          var dp = (ox*sx) + (oy*sy);
+          var dp = (ox * sx) + (oy * sy);
 
-          if (dp < 0)
-          {
+          if (dp < 0) {
             //collision; project delta onto slope and use this to displace the object
             sx *= -dp;//(sx,sy) is now the projection vector
             sy *= -dp;
 
-            var lenN = Phaser.Math.sqrt(sx*sx + sy*sy);
+            var lenN = Phaser.Math.sqrt(sx * sx + sy * sy);
 
             //find the smallest axial projection vector
-            if (x < y)
-            {
+            if (x < y) {
               //penetration in x is smaller
               lenP = x;
               y = 0;
               //get sign for projection along x-axis
-              if ((obj.pos.x - t.pos.x) < 0)
-              {
+              if ((obj.pos.x - t.pos.x) < 0) {
                 x *= -1;
               }
-            }
-            else
-            {
+            } else {
               //penetration in y is smaller
               lenP = y;
               x = 0;
               //get sign for projection along y-axis
-              if ((obj.pos.y - t.pos.y)< 0)
-              {
+              if ((obj.pos.y - t.pos.y) < 0) {
                 y *= -1;
               }
             }
 
-            if (lenP < lenN)
-            {
-              obj.reportCollisionVsWorld(x,y,x/lenP, y/lenP);
+            if (lenP < lenN) {
+              obj.reportCollisionVsWorld(x, y, x / lenP, y / lenP);
 
               return COL_AXIS;
-            }
-            else
-            {
-              obj.reportCollisionVsWorld(sx,sy,t.sx,t.sy);
+            } else {
+              obj.reportCollisionVsWorld(sx, sy, t.sx, t.sy);
 
               return COL_OTHER;
             }
           }
         }
 
-      }
-      else
-      {
+      } else {
         //colliding vertically
 
-        if ((signy*oV) < 0)
-        {
+        if ((signy * oV) < 0) {
           //colliding with face/edge OR with corner of wedge, depending on our position vertically
 
           //collide vs. vertex
           //get diag vertex position
           var vx = t.pos.x;
-          var vy = t.pos.y - (signy*t.yw);
+          var vy = t.pos.y - (signy * t.yw);
 
           var dx = obj.pos.x - vx;//calc vert->circle vector
           var dy = obj.pos.y - vy;
 
-          if ((dx*signx) < 0)
-          {
+          if ((dx * signx) < 0) {
             //colliding vs face
-            obj.reportCollisionVsWorld(0, y*oV, 0, oV);
+            obj.reportCollisionVsWorld(0, y * oV, 0, oV);
 
             return COL_AXIS;
-          }
-          else
-          {
+          } else {
             //colliding vs. vertex
 
-            var len = Phaser.Math.sqrt(dx*dx + dy*dy);
+            var len = Phaser.Math.sqrt(dx * dx + dy * dy);
             var pen = obj.radius - len;
-            if (0 < pen)
-            {
+            if (0 < pen) {
               //vertex is in the circle; project outward
-              if (len == 0)
-              {
+              if (len == 0) {
                 //project out by 45deg
                 dx = oH / Phaser.Math.SQRT2;
                 dy = oV / Phaser.Math.SQRT2;
-              }
-              else
-              {
+              } else {
                 dx /= len;
                 dy /= len;
               }
 
-              obj.reportCollisionVsWorld(dx*pen, dy*pen, dx, dy);
+              obj.reportCollisionVsWorld(dx * pen, dy * pen, dx, dy);
 
               return COL_OTHER;
             }
           }
-        }
-        else
-        {
+        } else {
           //we could only be colliding vs the slope OR a vertex
           //look at the vector form the closest vert to the circle to decide
 
           var sx = t.sx;
           var sy = t.sy;
 
-          var ox = obj.pos.x - (t.pos.x - (signx*t.xw));//this gives is the coordinates of the innermost
-          var oy = obj.pos.y - (t.pos.y + (oV*t.yw));//point on the circle, relative to the closest tile vert
+          var ox = obj.pos.x - (t.pos.x - (signx * t.xw));//this gives is the coordinates of the innermost
+          var oy = obj.pos.y - (t.pos.y + (oV * t.yw));//point on the circle, relative to the closest tile vert
 
           //if the component of (ox,oy) parallel to the normal's righthand normal
           //has the same sign as the slope of the slope (the sign of the slope's slope is signx*signy)
           //then we project by the vertex, otherwise by the normal.
           //note that this is simply a VERY tricky/weird method of determining
           //if the circle is in side the slope/face's voronio region, or that of the vertex.
-          var perp = (ox*-sy) + (oy*sx);
-          if (0 < (perp*signx*signy))
-          {
+          var perp = (ox * -sy) + (oy * sx);
+          if (0 < (perp * signx * signy)) {
             //collide vs. vertex
-            var len = Phaser.Math.sqrt(ox*ox + oy*oy);
+            var len = Phaser.Math.sqrt(ox * ox + oy * oy);
             var pen = obj.radius - len;
-            if (0 < pen)
-            {
+            if (0 < pen) {
               //note: if len=0, then perp=0 and we'll never reach here, so don't worry about div-by-0
               ox /= len;
               oy /= len;
 
-              obj.reportCollisionVsWorld(ox*pen, oy*pen, ox, oy);
+              obj.reportCollisionVsWorld(ox * pen, oy * pen, ox, oy);
 
               return COL_OTHER;
             }
-          }
-          else
-          {
+          } else {
             //collide vs. slope
 
             //if the component of (ox,oy) parallel to the normal is less than the circle radius, we're
             //penetrating the slope. note that this method of penetration calculation doesn't hold
             //in general (i.e it won't work if the circle is in the slope), but works in this case
             //because we know the circle is in a neighboring cell
-            var dp = (ox*sx) + (oy*sy);
+            var dp = (ox * sx) + (oy * sy);
             var pen = obj.radius - Phaser.Math.abs(dp);//note: we don't need the abs because we know the dp will be positive, but just in case..
 
-            if (0 < pen)
-            {
+            if (0 < pen) {
               //collision; circle out along normal by penetration amount
-              obj.reportCollisionVsWorld(sx*pen, sy*pen, t.sx, t.sy);
+              obj.reportCollisionVsWorld(sx * pen, sy * pen, t.sx, t.sy);
 
               return COL_OTHER;
             }
           }
         }
       }
-    }
-    else if (oV == 0)
-      {
-        //colliding horizontally; we can assume that (signy*oV) < 0
-        //due to the first conditional far above
+    } else if (oV == 0) {
+      //colliding horizontally; we can assume that (signy*oV) < 0
+      //due to the first conditional far above
 
-        obj.reportCollisionVsWorld(x*oH, 0, oH, 0);
+      obj.reportCollisionVsWorld(x * oH, 0, oH, 0);
 
-        return COL_AXIS;
-      }
-      else
-      {
-        //colliding diagonally; due to the first conditional above,
-        //obj is vertically offset against slope, and offset in either direction horizontally
+      return COL_AXIS;
+    } else {
+      //colliding diagonally; due to the first conditional above,
+      //obj is vertically offset against slope, and offset in either direction horizontally
 
-        //collide vs. vertex
-        //get diag vertex position
-        num vx = t.pos.x + (oH*t.xw);
-        num vy = t.pos.y + (oV*t.yw);
+      //collide vs. vertex
+      //get diag vertex position
+      num vx = t.pos.x + (oH * t.xw);
+      num vy = t.pos.y + (oV * t.yw);
 
-        num dx = obj.pos.x - vx;//calc vert->circle vector
-        num dy = obj.pos.y - vy;
+      num dx = obj.pos.x - vx;//calc vert->circle vector
+      num dy = obj.pos.y - vy;
 
-        num len = Phaser.Math.sqrt(dx*dx + dy*dy);
-        num pen = obj.radius - len;
-        if (0 < pen)
-        {
-          //vertex is in the circle; project outward
-          if (len == 0)
-          {
-            //project out by 45deg
-            dx = oH / Phaser.Math.SQRT2;
-            dy = oV / Phaser.Math.SQRT2;
-          }
-          else
-          {
-            dx /= len;
-            dy /= len;
-          }
-
-          obj.reportCollisionVsWorld(dx*pen, dy*pen, dx, dy);
-
-          return COL_OTHER;
+      num len = Phaser.Math.sqrt(dx * dx + dy * dy);
+      num pen = obj.radius - len;
+      if (0 < pen) {
+        //vertex is in the circle; project outward
+        if (len == 0) {
+          //project out by 45deg
+          dx = oH / Phaser.Math.SQRT2;
+          dy = oV / Phaser.Math.SQRT2;
+        } else {
+          dx /= len;
+          dy /= len;
         }
+
+        obj.reportCollisionVsWorld(dx * pen, dy * pen, dx, dy);
+
+        return COL_OTHER;
       }
+    }
 
     return COL_NONE;
 
@@ -2366,7 +2046,7 @@ class Circle extends Shape{
    * @param {Phaser.Physics.Ninja.Tile} t - The Tile involved in the collision.
    * @return {number} The result of the collision.
    */
-  projCircle_67DegB (num x,num y,num oH,num oV,Circle obj,Tile t) {
+  projCircle_67DegB(num x, num y, num oH, num oV, Circle obj, Tile t) {
 
     //if we're colliding diagonally:
     //  -if we're in the cell pointed at by the normal, collide vs slope, else
@@ -2383,10 +2063,8 @@ class Circle extends Shape{
     num signx = t.signx;
     num signy = t.signy;
 
-    if (oH == 0)
-    {
-      if (oV == 0)
-      {
+    if (oH == 0) {
+      if (oV == 0) {
         //colliding with current cell
 
         num lenP;
@@ -2394,87 +2072,70 @@ class Circle extends Shape{
         num sy = t.sy;
 
         num r = obj.radius;
-        num ox = (obj.pos.x - (sx*r)) - (t.pos.x + (signx*t.xw));//this gives is the coordinates of the innermost
-        num oy = (obj.pos.y - (sy*r)) - (t.pos.y - (signy*t.yw));//point on the AABB, relative to a point on the slope
+        num ox = (obj.pos.x - (sx * r)) - (t.pos.x + (signx * t.xw));//this gives is the coordinates of the innermost
+        num oy = (obj.pos.y - (sy * r)) - (t.pos.y - (signy * t.yw));//point on the AABB, relative to a point on the slope
 
         //if the dotprod of (ox,oy) and (sx,sy) is negative, the point on the circle is in the slope
         //and we need toproject it out by the magnitude of the projection of (ox,oy) onto (sx,sy)
-        num dp = (ox*sx) + (oy*sy);
+        num dp = (ox * sx) + (oy * sy);
 
-        if (dp < 0)
-        {
+        if (dp < 0) {
           //collision; project delta onto slope and use this to displace the object
           sx *= -dp;//(sx,sy) is now the projection vector
           sy *= -dp;
 
-          var lenN = Phaser.Math.sqrt(sx*sx + sy*sy);
+          var lenN = Phaser.Math.sqrt(sx * sx + sy * sy);
 
           //find the smallest axial projection vector
-          if (x < y)
-          {
+          if (x < y) {
             //penetration in x is smaller
             lenP = x;
             y = 0;
             //get sign for projection along x-axis
-            if ((obj.pos.x - t.pos.x) < 0)
-            {
+            if ((obj.pos.x - t.pos.x) < 0) {
               x *= -1;
             }
-          }
-          else
-          {
+          } else {
             //penetration in y is smaller
             lenP = y;
             x = 0;
             //get sign for projection along y-axis
-            if ((obj.pos.y - t.pos.y)< 0)
-            {
+            if ((obj.pos.y - t.pos.y) < 0) {
               y *= -1;
             }
           }
 
-          if (lenP < lenN)
-          {
-            obj.reportCollisionVsWorld(x,y,x/lenP, y/lenP);
+          if (lenP < lenN) {
+            obj.reportCollisionVsWorld(x, y, x / lenP, y / lenP);
 
             return COL_AXIS;
-          }
-          else
-          {
+          } else {
             obj.reportCollisionVsWorld(sx, sy, t.sx, t.sy);
 
             return COL_OTHER;
           }
 
         }
-      }
-      else
-      {
+      } else {
         //colliding vertically
 
-        if ((signy*oV) < 0)
-        {
+        if ((signy * oV) < 0) {
           //colliding with face/edge
-          obj.reportCollisionVsWorld(0, y*oV, 0, oV);
+          obj.reportCollisionVsWorld(0, y * oV, 0, oV);
 
           return COL_AXIS;
-        }
-        else
-        {
+        } else {
           //colliding with edge, slope, or vertex
 
           var ox = obj.pos.x - t.pos.x;//this gives is the coordinates of the innermost
-          var oy = obj.pos.y - (t.pos.y + (signy*t.yw));//point on the circle, relative to the closest tile vert
+          var oy = obj.pos.y - (t.pos.y + (signy * t.yw));//point on the circle, relative to the closest tile vert
 
-          if ((ox*signx) < 0)
-          {
+          if ((ox * signx) < 0) {
             //we're colliding with the halfface
-            obj.reportCollisionVsWorld(0, y*oV, 0, oV);
+            obj.reportCollisionVsWorld(0, y * oV, 0, oV);
 
             return COL_AXIS;
-          }
-          else
-          {
+          } else {
             //colliding with the vertex or slope
 
             var sx = t.sx;
@@ -2485,37 +2146,32 @@ class Circle extends Shape{
             //then we project by the vertex, otherwise by the slope.
             //note that this is simply a VERY tricky/weird method of determining
             //if the circle is in side the slope/face's voronio region, or that of the vertex.
-            var perp = (ox*-sy) + (oy*sx);
-            if (0 < (perp*signx*signy))
-            {
+            var perp = (ox * -sy) + (oy * sx);
+            if (0 < (perp * signx * signy)) {
               //collide vs. vertex
-              var len = Phaser.Math.sqrt(ox*ox + oy*oy);
+              var len = Phaser.Math.sqrt(ox * ox + oy * oy);
               var pen = obj.radius - len;
-              if (0 < pen)
-              {
+              if (0 < pen) {
                 //note: if len=0, then perp=0 and we'll never reach here, so don't worry about div-by-0
                 ox /= len;
                 oy /= len;
 
-                obj.reportCollisionVsWorld(ox*pen, oy*pen, ox, oy);
+                obj.reportCollisionVsWorld(ox * pen, oy * pen, ox, oy);
 
                 return COL_OTHER;
               }
-            }
-            else
-            {
+            } else {
               //collide vs. slope
 
               //if the component of (ox,oy) parallel to the normal is less than the circle radius, we're
               //penetrating the slope. note that this method of penetration calculation doesn't hold
               //in general (i.e it won't work if the circle is in the slope), but works in this case
               //because we know the circle is in a neighboring cell
-              var dp = (ox*sx) + (oy*sy);
+              var dp = (ox * sx) + (oy * sy);
               var pen = obj.radius - Phaser.Math.abs(dp);//note: we don't need the abs because we know the dp will be positive, but just in case..
-              if (0 < pen)
-              {
+              if (0 < pen) {
                 //collision; circle out along normal by penetration amount
-                obj.reportCollisionVsWorld(sx*pen, sy*pen, sx, sy);
+                obj.reportCollisionVsWorld(sx * pen, sy * pen, sx, sy);
 
                 return COL_OTHER;
               }
@@ -2523,77 +2179,64 @@ class Circle extends Shape{
           }
         }
       }
-    }
-    else if (oV == 0)
-    {
+    } else if (oV == 0) {
       //colliding horizontally
 
-      if ((signx*oH) < 0)
-      {
+      if ((signx * oH) < 0) {
         //colliding with face/edge
-        obj.reportCollisionVsWorld(x*oH, 0, oH, 0);
+        obj.reportCollisionVsWorld(x * oH, 0, oH, 0);
 
         return COL_AXIS;
-      }
-      else
-      {
+      } else {
         //we could only be colliding vs the slope OR a vertex
         //look at the vector form the closest vert to the circle to decide
 
-        var slen = Phaser.Math.sqrt(2*2 + 1*1);//the raw slope is (-2,-1)
-        var sx = (signx*2) / slen;//get slope _unit_ normal;
-        var sy = (signy*1) / slen;//raw RH normal is (1,-2)
+        var slen = Phaser.Math.sqrt(2 * 2 + 1 * 1);//the raw slope is (-2,-1)
+        var sx = (signx * 2) / slen;//get slope _unit_ normal;
+        var sy = (signy * 1) / slen;//raw RH normal is (1,-2)
 
-        var ox = obj.pos.x - (t.pos.x + (signx*t.xw));//this gives is the coordinates of the innermost
-        var oy = obj.pos.y - (t.pos.y - (signy*t.yw));//point on the circle, relative to the closest tile vert
+        var ox = obj.pos.x - (t.pos.x + (signx * t.xw));//this gives is the coordinates of the innermost
+        var oy = obj.pos.y - (t.pos.y - (signy * t.yw));//point on the circle, relative to the closest tile vert
 
         //if the component of (ox,oy) parallel to the normal's righthand normal
         //has the same sign as the slope of the slope (the sign of the slope's slope is signx*signy)
         //then we project by the slope, otherwise by the vertex.
         //note that this is simply a VERY tricky/weird method of determining
         //if the circle is in side the slope/face's voronio region, or that of the vertex.
-        var perp = (ox*-sy) + (oy*sx);
-        if ((perp*signx*signy) < 0)
-        {
+        var perp = (ox * -sy) + (oy * sx);
+        if ((perp * signx * signy) < 0) {
           //collide vs. vertex
-          var len = Phaser.Math.sqrt(ox*ox + oy*oy);
+          var len = Phaser.Math.sqrt(ox * ox + oy * oy);
           var pen = obj.radius - len;
-          if (0 < pen)
-          {
+          if (0 < pen) {
             //note: if len=0, then perp=0 and we'll never reach here, so don't worry about div-by-0
             ox /= len;
             oy /= len;
 
-            obj.reportCollisionVsWorld(ox*pen, oy*pen, ox, oy);
+            obj.reportCollisionVsWorld(ox * pen, oy * pen, ox, oy);
 
             return COL_OTHER;
           }
-        }
-        else
-        {
+        } else {
           //collide vs. slope
 
           //if the component of (ox,oy) parallel to the normal is less than the circle radius, we're
           //penetrating the slope. note that this method of penetration calculation doesn't hold
           //in general (i.e it won't work if the circle is in the slope), but works in this case
           //because we know the circle is in a neighboring cell
-          var dp = (ox*sx) + (oy*sy);
+          var dp = (ox * sx) + (oy * sy);
           var pen = obj.radius - Phaser.Math.abs(dp);//note: we don't need the abs because we know the dp will be positive, but just in case..
-          if (0 < pen)
-          {
+          if (0 < pen) {
             //collision; circle out along normal by penetration amount
-            obj.reportCollisionVsWorld(sx*pen, sy*pen, t.sx, t.sy);
+            obj.reportCollisionVsWorld(sx * pen, sy * pen, t.sx, t.sy);
 
             return COL_OTHER;
           }
         }
       }
-    }
-    else
-    {
+    } else {
       //colliding diagonally
-      if ( 0 < ((signx*oH) + (signy*oV)) )
-      {
+      if (0 < ((signx * oH) + (signy * oV))) {
         //the dotprod of slope normal and cell offset is strictly positive,
         //therefore obj is in the diagonal neighb pointed at by the normal.
 
@@ -2603,52 +2246,45 @@ class Circle extends Shape{
         var sy = t.sy;
 
         var r = obj.radius;
-        var ox = (obj.pos.x - (sx*r)) - (t.pos.x + (signx*t.xw));//this gives is the coordinates of the innermost
-        var oy = (obj.pos.y - (sy*r)) - (t.pos.y - (signy*t.yw));//point on the circle, relative to a point on the slope
+        var ox = (obj.pos.x - (sx * r)) - (t.pos.x + (signx * t.xw));//this gives is the coordinates of the innermost
+        var oy = (obj.pos.y - (sy * r)) - (t.pos.y - (signy * t.yw));//point on the circle, relative to a point on the slope
 
         //if the dotprod of (ox,oy) and (sx,sy) is negative, the point on the circle is in the slope
         //and we need toproject it out by the magnitude of the projection of (ox,oy) onto (sx,sy)
-        var dp = (ox*sx) + (oy*sy);
+        var dp = (ox * sx) + (oy * sy);
 
-        if (dp < 0)
-        {
+        if (dp < 0) {
           //collision; project delta onto slope and use this to displace the object
           //(sx,sy)*-dp is the projection vector
 
-          obj.reportCollisionVsWorld(-sx*dp, -sy*dp, t.sx, t.sy);
+          obj.reportCollisionVsWorld(-sx * dp, -sy * dp, t.sx, t.sy);
 
           return COL_OTHER;
         }
         return COL_NONE;
-      }
-      else
-      {
+      } else {
 
         //collide vs the appropriate vertex
-        var vx = t.pos.x + (oH*t.xw);
-        var vy = t.pos.y + (oV*t.yw);
+        var vx = t.pos.x + (oH * t.xw);
+        var vy = t.pos.y + (oV * t.yw);
 
         var dx = obj.pos.x - vx;//calc vert->circle vector
         var dy = obj.pos.y - vy;
 
-        var len = Phaser.Math.sqrt(dx*dx + dy*dy);
+        var len = Phaser.Math.sqrt(dx * dx + dy * dy);
         var pen = obj.radius - len;
-        if (0 < pen)
-        {
+        if (0 < pen) {
           //vertex is in the circle; project outward
-          if (len == 0)
-          {
+          if (len == 0) {
             //project out by 45deg
             dx = oH / Phaser.Math.SQRT2;
             dy = oV / Phaser.Math.SQRT2;
-          }
-          else
-          {
+          } else {
             dx /= len;
             dy /= len;
           }
 
-          obj.reportCollisionVsWorld(dx*pen, dy*pen, dx, dy);
+          obj.reportCollisionVsWorld(dx * pen, dy * pen, dx, dy);
 
           return COL_OTHER;
         }
@@ -2679,20 +2315,17 @@ class Circle extends Shape{
    * @param {string} color - color of the debug shape to be rendered. (format is css color string).
    * @param {boolean} filled - Render the shape as solid (true) or hollow (false).
    */
-  render(dom.CanvasRenderingContext2D context,num xOffset,num yOffset, String color,bool filled) {
+  render(dom.CanvasRenderingContext2D context, num xOffset, num yOffset, String color, bool filled) {
     var x = this.pos.x - xOffset;
     var y = this.pos.y - yOffset;
 
     context.beginPath();
     context.arc(x, y, this.radius, 0, 2 * Phaser.Math.PI, false);
 
-    if (filled)
-    {
+    if (filled) {
       context.fillStyle = color;
       context.fill();
-    }
-    else
-    {
+    } else {
       context.strokeStyle = color;
       context.stroke();
     }

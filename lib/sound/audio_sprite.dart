@@ -65,8 +65,7 @@ class AudioSprite {
      * An object containing the Phaser.Sound objects for the Audio Sprite.
      * @property {object} sounds
      */
-    this.sounds = {
-    };
+    this.sounds = {};
 
     for (String k in this.config['spritemap'].keys) {
       Marker marker = this.config['spritemap'][k];
@@ -74,8 +73,7 @@ class AudioSprite {
 
       if (marker.loop) {
         sound.addMarker(k, marker.start, (marker.end - marker.start), null, true);
-      }
-      else {
+      } else {
         sound.addMarker(k, marker.start, (marker.end - marker.start), null, false);
       }
 
@@ -121,8 +119,7 @@ class AudioSprite {
       for (String key in this.sounds.keys) {
         this.sounds[key].stop();
       }
-    }
-    else {
+    } else {
       this.sounds[marker].stop();
     }
 

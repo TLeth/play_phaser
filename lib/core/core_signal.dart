@@ -132,8 +132,7 @@ class Signal<T extends Function> {
 
     if (arguments is List || arguments == null) {
       paramsArr = arguments;
-    }
-    else {
+    } else {
       paramsArr = [arguments];
     }
 

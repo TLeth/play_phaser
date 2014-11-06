@@ -329,12 +329,11 @@ class Stage extends PIXI.Stage implements GameObject {
   *
   * @name Phaser.Stage#destroy
   */
-  destroy ([bool destroyChildren = true]) {
-      if (this._hiddenVar != null)
-      {
-          document.removeEventListener(this._hiddenVar, this._onChange, false);
-      }
-      
+  destroy([bool destroyChildren = true]) {
+    if (this._hiddenVar != null) {
+      document.removeEventListener(this._hiddenVar, this._onChange, false);
+    }
+
 //      window.onPageHide.close();.onpagehide = null;
 //      window.onpageshow = null;
 //

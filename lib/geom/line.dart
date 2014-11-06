@@ -1,8 +1,12 @@
 part of Phaser;
 
 class Line {
-  num x1, x2, y1, y2;
-  Point start, end;
+  num x1;
+  num x2;
+  num y1;
+  num y2;
+  Point start;
+  Point end;
 
   Line([this.x1 = 0, this.y1 = 0, this.x2 = 0, this.y2 = 0]) {
     /**

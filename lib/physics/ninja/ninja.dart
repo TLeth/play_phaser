@@ -268,18 +268,24 @@ class Ninja {
     //  If the bodies array is already populated we need to nuke it
     this.clearTilemapLayerBodies(map, layer);
 
-    for (int y = 0,
-        h = map.layers[layer].height; y < h; y++) {
-      for (int x = 0,
-          w = map.layers[layer].width; x < w; x++) {
-        Phaser.Tile tile = map.layers[layer].data[y][x];
+    {
+      int y = 0;
+      int h = map.layers[layer].height;
+      for ( ; y < h; y++) {
+        {
+          int x = 0;
+          int w = map.layers[layer].width;
+          for ( ; x < w; x++) {
+            Phaser.Tile tile = map.layers[layer].data[y][x];
 //        if (tile != null) {
 //          print(tile.index);
 //        }
-        if (tile != null && slopeMap.containsKey(tile.index)) {
-          Body body = new Body(this, null, 3, slopeMap[tile.index], 0, tile.worldX + tile.centerX, tile.worldY + tile.centerY, tile.width, tile.height);
+            if (tile != null && slopeMap.containsKey(tile.index)) {
+              Body body = new Body(this, null, 3, slopeMap[tile.index], 0, tile.worldX + tile.centerX, tile.worldY + tile.centerY, tile.width, tile.height);
 
-          map.layers[layer].bodies.add(body);
+              map.layers[layer].bodies.add(body);
+            }
+          }
         }
       }
     }
@@ -313,9 +319,12 @@ class Ninja {
     this._total = 0;
 
     if (object2 is List) {
-      for (var i = 0,
-          len = object2.length; i < len; i++) {
-        this.collideHandler(object1, object2[i], overlapCallback, processCallback, true);
+      {
+        var i = 0;
+        var len = object2.length;
+        for ( ; i < len; i++) {
+          this.collideHandler(object1, object2[i], overlapCallback, processCallback, true);
+        }
       }
     } else {
       this.collideHandler(object1, object2, overlapCallback, processCallback, true);
@@ -352,9 +361,12 @@ class Ninja {
     this._total = 0;
 
     if (object2 is List) {
-      for (int i = 0,
-          len = object2.length; i < len; i++) {
-        this.collideHandler(object1, object2[i], collideCallback, processCallback, false);
+      {
+        int i = 0;
+        int len = object2.length;
+        for ( ; i < len; i++) {
+          this.collideHandler(object1, object2[i], collideCallback, processCallback, false);
+        }
       }
     } else {
       this.collideHandler(object1, object2, collideCallback, processCallback, false);
@@ -462,24 +474,36 @@ class Ninja {
       return;
     }
 
-    //  What is the sprite colliding with in the quadtree?
-    // this.quadTree.clear();
 
-    // this.quadTree = new Phaser.QuadTree(this.game.world.bounds.x, this.game.world.bounds.y, this.game.world.bounds.width, this.game.world.bounds.height, this.maxObjects, this.maxLevels);
 
-    // this.quadTree.populate(group);
 
-    // this._potentials = this.quadTree.retrieve(sprite);
 
-    for (var i = 0,
-        len = group.children.length; i < len; i++) {
-      //  We have our potential suspects, are they in this group?
-      if (group.children[i].exists && group.children[i].body && this.separate(sprite.body as Body, group.children[i].body as Body)) {
-        if (collideCallback != null) {
-          collideCallback(sprite, group.children[i]);
+
+
+
+
+
+    {
+      var i = 0;
+      var len = group.children.length;
+      //  What is the sprite colliding with in the quadtree?
+      // this.quadTree.clear();
+
+      // this.quadTree = new Phaser.QuadTree(this.game.world.bounds.x, this.game.world.bounds.y, this.game.world.bounds.width, this.game.world.bounds.height, this.maxObjects, this.maxLevels);
+
+      // this.quadTree.populate(group);
+
+      // this._potentials = this.quadTree.retrieve(sprite);
+
+      for ( ; i < len; i++) {
+        //  We have our potential suspects, are they in this group?
+        if (group.children[i].exists && group.children[i].body && this.separate(sprite.body as Body, group.children[i].body as Body)) {
+          if (collideCallback != null) {
+            collideCallback(sprite, group.children[i]);
+          }
+
+          this._total++;
         }
-
-        this._total++;
       }
     }
 
@@ -523,10 +547,13 @@ class Ninja {
       return;
     }
 
-    for (var i = 0,
-        len = group1.children.length; i < len; i++) {
-      if (group1.children[i].exists) {
-        this.collideSpriteVsGroup(group1.children[i], group2, collideCallback, processCallback, overlapOnly);
+    {
+      var i = 0;
+      var len = group1.children.length;
+      for ( ; i < len; i++) {
+        if (group1.children[i].exists) {
+          this.collideSpriteVsGroup(group1.children[i], group2, collideCallback, processCallback, overlapOnly);
+        }
       }
     }
 

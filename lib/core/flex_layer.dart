@@ -78,7 +78,7 @@ class FlexLayer extends Group {
 
   debug() {
 
-    this.game.debug.text(this.bounds.width.toString()  + ' x ' + this.bounds.height.toString() , this.bounds.x + 4, this.bounds.y + 16);
+    this.game.debug.text(this.bounds.width.toString() + ' x ' + this.bounds.height.toString(), this.bounds.x + 4, this.bounds.y + 16);
     this.game.debug.geom(this.bounds, 'rgba(0,0,255,0.9', false);
 
     this.game.debug.geom(this.topLeft, 'rgba(255,255,255,0.9');

@@ -12,10 +12,12 @@ abstract class SpriteInterface implements CoreInterfact {
   setTexture(PIXI.Texture texture);
   Body body;
   Point anchor;
-  num width,height,rotation;
+  num width;
+  num height;
+  num rotation;
 }
 
-abstract class AnimationInterface implements SpriteInterface{
+abstract class AnimationInterface implements SpriteInterface {
   CanvasPattern __tilePattern;
   setFrame(Frame frame);
   //setTexture(PIXI.Texture texture);
@@ -83,7 +85,7 @@ abstract class GameObject implements PIXI.DisplayInterface, CoreInterfact {
   bool get destroyPhase;
 
   bool get worldVisible;
-  
+
   PIXI.Matrix get worldTransform;
 }
 

@@ -254,7 +254,7 @@ class BitmapData {
   resize(num width, num height) {
     width = width.toInt();
     height = height.toInt();
-    
+
     if (width != this.width || height != this.height) {
       this.width = width;
       this.height = height;

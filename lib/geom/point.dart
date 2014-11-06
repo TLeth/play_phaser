@@ -599,20 +599,18 @@ class Point extends PIXI.Point {
    * @param {string} [yProp='y'] - The property used to set the Point.y value.
    * @return {Phaser.Point} The new Point object.
    */
-  Point parse(obj, [String xProp='x', String yProp='y']) {
+  Point parse(obj, [String xProp = 'x', String yProp = 'y']) {
 
     //xProp = xProp || 'x';
     //yProp = yProp || 'y';
 
     Point point = new Point();
 
-    if (obj[xProp])
-    {
+    if (obj[xProp]) {
       point.x = int.parse(obj[xProp]);
     }
 
-    if (obj[yProp])
-    {
+    if (obj[yProp]) {
       point.y = int.parse(obj[yProp]);
     }
 

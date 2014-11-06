@@ -25,18 +25,16 @@ class Utils {
     if (direction == 90 || direction == -270 || direction == 'rotateLeft') {
       matrix = Utils.transposeArray(matrix);
       matrix = matrix.reversed.toList();
-    }
-    else if (direction == -90 || direction == 270 || direction == 'rotateRight') {
+    } else if (direction == -90 || direction == 270 || direction == 'rotateRight') {
       matrix = matrix.reversed.toList();
       matrix = Utils.transposeArray(matrix);
-    }
-    else if (Math.abs(direction) == 180 || direction == 'rotate180') {
-        for (var i = 0; i < matrix.length; i++) {
-          matrix[i].reversed.toList();
-        }
-
-        matrix = matrix.reversed.toList();
+    } else if (Math.abs(direction) == 180 || direction == 'rotate180') {
+      for (var i = 0; i < matrix.length; i++) {
+        matrix[i].reversed.toList();
       }
+
+      matrix = matrix.reversed.toList();
+    }
 
     return matrix;
 
@@ -55,16 +53,13 @@ class Utils {
 
         if (dimension == 0) {
           px = window.innerWidth * f;
-        }
-        else {
+        } else {
           px = window.innerHeight * f;
         }
-      }
-      else {
+      } else {
         px = int.parse(size);
       }
-    }
-    else {
+    } else {
       px = size;
     }
 

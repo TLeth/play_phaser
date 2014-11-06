@@ -266,7 +266,7 @@ class Tile extends Shape {
    * @param {number} obj - Object this Tile collided with
    */
 
-  reportCollisionVsWorld(num px,num py,num dx,num dy) {
+  reportCollisionVsWorld(num px, num py, num dx, num dy) {
     Phaser.Point p = this.pos;
     Phaser.Point o = this.oldpos;
 
@@ -284,7 +284,15 @@ class Tile extends Shape {
     num ty = vy - ny;
 
     //  We only want to apply collision response forces if the object is travelling into, and not out of, the collision
-    num b, bx, by, fx, fy;
+    num b;
+    //  We only want to apply collision response forces if the object is travelling into, and not out of, the collision
+    num fy;
+    //  We only want to apply collision response forces if the object is travelling into, and not out of, the collision
+    num fx;
+    //  We only want to apply collision response forces if the object is travelling into, and not out of, the collision
+    num by;
+    //  We only want to apply collision response forces if the object is travelling into, and not out of, the collision
+    num bx;
 
     if (dp < 0) {
       fx = tx * this.body.friction;

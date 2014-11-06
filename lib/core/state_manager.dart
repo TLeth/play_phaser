@@ -352,13 +352,10 @@ class StateManager {
       this.setCurrentState(this._pendingStateKey);
 
       //this._pendingState = null;
-      if (this.current != this._pendingState)
-      {
+      if (this.current != this._pendingState) {
         // console.log('-> init called StateManager.start(', this._pendingState, ') so bail out');
         return;
-      }
-      else
-      {
+      } else {
         this._pendingState = null;
         // console.log('pending nulled');
       }
@@ -395,10 +392,9 @@ class StateManager {
    * @param {string} key - State key.
    * @protected
    */
-  unlink (String key) {
+  unlink(String key) {
 
-    if (this.states[key]!= null)
-    {
+    if (this.states[key] != null) {
       this.states[key].game = null;
       this.states[key].add = null;
       this.states[key].make = null;
@@ -571,8 +567,7 @@ class StateManager {
 
 
     //  If they no longer do then the init callback hit StateManager.start
-    if (this.states[key] == this._pendingState)
-    {
+    if (this.states[key] == this._pendingState) {
       this._args = [];
     }
   }

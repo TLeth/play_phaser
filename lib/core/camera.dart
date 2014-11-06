@@ -310,12 +310,7 @@ class Camera {
    */
 
   updateTarget() {
-    this._targetPosition
-    .copyFrom(this.target)
-    .multiply(
-        this.target.parent != null ? this.target.parent.worldTransform.a : 1,
-        this.target.parent != null ? this.target.parent.worldTransform.d : 1
-    );
+    this._targetPosition.copyFrom(this.target).multiply(this.target.parent != null ? this.target.parent.worldTransform.a : 1, this.target.parent != null ? this.target.parent.worldTransform.d : 1);
 
 
     if (this.deadzone != null) {

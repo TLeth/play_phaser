@@ -920,10 +920,13 @@ class Input {
       }
     }
 
-    for (var i = 0,
-        len = displayObject.children.length; i < len; i++) {
-      if (this.hitTest(displayObject.children[i], pointer, localPoint)) {
-        return true;
+    {
+      var i = 0;
+      var len = displayObject.children.length;
+      for ( ; i < len; i++) {
+        if (this.hitTest(displayObject.children[i], pointer, localPoint)) {
+          return true;
+        }
       }
     }
 

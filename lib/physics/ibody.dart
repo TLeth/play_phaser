@@ -1,7 +1,12 @@
 part of Phaser;
 
 class CollisionInfo {
-  bool up, down, left, right, none, any;
+  bool up;
+  bool down;
+  bool left;
+  bool right;
+  bool none;
+  bool any;
 
   //bool get none => !(up || down || left || right);
 
@@ -31,19 +36,19 @@ abstract class Body extends Rectangle {
   var drag;
   num angularDrag;
   bool immovable;
-  
+
   num x;
   num y;
   num speed;
   CollisionInfo blocked;
   num angle;
-  
+
   bool moves;
-  
+
   int phase;
   bool _reset;
   bool safeRemove;
-  
+
   setSize(num x, num y, num width, num height);
   //onFloor();
   reset(num x, num y, [bool a1, bool a2]);
@@ -54,7 +59,7 @@ abstract class Body extends Rectangle {
   preUpdate();
   //render(CanvasRenderingContext2D context, [String color='rgba(0,255,0,0.4)', bool filled=true]);
   //renderBodyInfo(Debug debug);
-  
+
   CollisionInfo touching;
 
   moveLeft(num speed);

@@ -73,11 +73,11 @@ class Group<T extends GameObject> extends PIXI.DisplayObjectContainer implements
 
   Rectangle _currentBounds;
   Point position = new Point();
-  
+
   Signal<DestroyGroup> onDestroy;
 
   Group(Game game, [Group parent, this.name = 'group', this.addToStage = false, this.enableBody = false, this.physicsBodyType = 0])
-  : super() {
+      : super() {
     this.game = game;
 
 
@@ -176,7 +176,7 @@ class Group<T extends GameObject> extends PIXI.DisplayObjectContainer implements
     * @property {Phaser.Signal} onDestroy - This signal is dispatched when the parent is destoyed.
     */
     this.onDestroy = new Signal<DestroyGroup>();
-    
+
     /**
      * @property {string} _sortProperty - The property on which children are sorted.
      * @private
@@ -280,15 +280,15 @@ class Group<T extends GameObject> extends PIXI.DisplayObjectContainer implements
    * @param {boolean} [checkExists=false] - If set only children with exists=true will be passed to the callback, otherwise all children will be passed.
    * @return {Phaser.ArrayList} Returns an array list containing all the children that the predicate returned true for
    */
-  List<T> filter(Function predicate, [bool checkExists=false]) {
-    int index = -1,
-    length = this.children.length;
+  List<T> filter(Function predicate, [bool checkExists = false]) {
+    int index = -1;
+    int length = this.children.length;
     List result = new List<T>();
 
-    while(++index < length) {
+    while (++index < length) {
       T child = this.children[index];
-      if(!checkExists || (checkExists && child.exists)) {
-        if(predicate(child, index, this.children)) {
+      if (!checkExists || (checkExists && child.exists)) {
+        if (predicate(child, index, this.children)) {
           result.add(child);
         }
       }
@@ -306,15 +306,13 @@ class Group<T extends GameObject> extends PIXI.DisplayObjectContainer implements
   * @param {boolean} [silent=false] - If the silent parameter is `true` the children will not dispatch the onAddedToGroup event.
   * @return {*} The array of children that were added to the Group.
   */
-  List<T> addMultiple (List<T> children, [bool silent=false]) {
-      if (children is List)
-      {
-          for (var i = 0; i < children.length; i++)
-          {
-              this.add(children[i], silent);
-          }
+  List<T> addMultiple(List<T> children, [bool silent = false]) {
+    if (children is List) {
+      for (var i = 0; i < children.length; i++) {
+        this.add(children[i], silent);
       }
-      return children;
+    }
+    return children;
   }
 
 
@@ -354,8 +352,8 @@ class Group<T extends GameObject> extends PIXI.DisplayObjectContainer implements
     //var child = new this.classType(this.game, x, y, key, frame);
     //GameObject child = reflectClass(classType).newInstance(const Symbol(""), [this.game, x, y, key, frame]).reflectee;
     T child = creator()
-      ..x = x
-      ..y = y;
+        ..x = x
+        ..y = y;
 
     if (child is Sprite) {
       (child as Sprite).loadTexture(key, frame);
@@ -615,12 +613,15 @@ class Group<T extends GameObject> extends PIXI.DisplayObjectContainer implements
   }
 
   forEach(Function callback, [bool checkExists = false]) {
-    for (int i = 0,
-    len = this.children.length; i < len; i++) {
-      if (checkExists == false) {
-        callback(this.children[i]);
-      } else if (this.children[i].exists) {
-        callback(this.children[i]);
+    {
+      int i = 0;
+      int len = this.children.length;
+      for ( ; i < len; i++) {
+        if (checkExists == false) {
+          callback(this.children[i]);
+        } else if (this.children[i].exists) {
+          callback(this.children[i]);
+        }
       }
     }
   }
@@ -683,7 +684,8 @@ class Group<T extends GameObject> extends PIXI.DisplayObjectContainer implements
   }
 
   int ascendingSortHandler(GameObject a, GameObject b) {
-    var va, vb;
+    var va;
+    var vb;
     va = reflect(a).getField(new Symbol(this._sortProperty)).reflectee;
     vb = reflect(b).getField(new Symbol(this._sortProperty)).reflectee;
 
@@ -698,7 +700,8 @@ class Group<T extends GameObject> extends PIXI.DisplayObjectContainer implements
 
 
   int descendingSortHandler(GameObject a, GameObject b) {
-    var va, vb;
+    var va;
+    var vb;
     va = reflect(a).getField(new Symbol(this._sortProperty)).reflectee;
     vb = reflect(b).getField(new Symbol(this._sortProperty)).reflectee;
 
@@ -852,7 +855,7 @@ class Group<T extends GameObject> extends PIXI.DisplayObjectContainer implements
   removeBetween(int startIndex, [int endIndex, bool destroy = false, bool silent = false]) {
 
     if (endIndex == null) {
-      endIndex = this.children.length -1;
+      endIndex = this.children.length - 1;
     }
 
 

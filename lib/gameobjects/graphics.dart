@@ -239,7 +239,7 @@ class Graphics extends PIXI.Graphics implements GameObject {
    * @param {boolean} [destroyChildren=true] - Should every child of this object have its destroy method called?
    */
 
-  destroy([bool destroyChildren=true]) {
+  destroy([bool destroyChildren = true]) {
 
     if (this.game == null || this.destroyPhase) {
       return;
@@ -395,9 +395,9 @@ class Graphics extends PIXI.Graphics implements GameObject {
       }
     }
   }
-  
-  Rectangle getBounds([PIXI.Matrix matrix]){
+
+  Rectangle getBounds([PIXI.Matrix matrix]) {
     return new Rectangle().copyFrom(super.getBounds(matrix));
   }
-  
+
 }

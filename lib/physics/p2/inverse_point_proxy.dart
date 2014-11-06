@@ -68,7 +68,7 @@ class InversePointProxy extends Phaser.Point {
 
   //});
 
-  InversePointProxy(this.world, this.destination):super() {
+  InversePointProxy(this.world, this.destination) : super() {
 //    this.world = world;
 //    this.destination = destination;
   }

@@ -2,9 +2,9 @@ part of Phaser;
 
 class Particles {
   Map Arcade = {};
-  static int ID=0;
+  static int ID = 0;
   Game game;
-  Map<String,Emitter> emitters;
+  Map<String, Emitter> emitters;
 //  int ID;
 
   Particles(this.game) {
@@ -12,8 +12,7 @@ class Particles {
     /**
      * @property {object} emitters - Internal emitters store.
      */
-    this.emitters = {
-    };
+    this.emitters = {};
 
     /**
      * @property {number} ID -

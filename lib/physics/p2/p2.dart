@@ -1,14 +1,17 @@
 part of P2;
 
 class Walls {
-  p2.Body left, right, top, bottom;
+  p2.Body left;
+  p2.Body right;
+  p2.Body top;
+  p2.Body bottom;
 }
 
 class vec2 extends p2.vec2 {
   vec2(num x, num y) : super(x.toDouble(), y.toDouble()) {
 
   }
-  
+
   num operator [](int v) {
     if (v == 0) {
       return x;
@@ -190,7 +193,7 @@ class P2 {
   Walls walls;
 
 
-  P2(Phaser.Game game, {p2.Solver solver, List gravity:const [0.0,0.0], bool doProfiling: false, p2.Broadphase broadphase, bool islandSplit: false, bool fake: false}) {
+  P2(Phaser.Game game, {p2.Solver solver, List gravity: const [0.0, 0.0], bool doProfiling: false, p2.Broadphase broadphase, bool islandSplit: false, bool fake: false}) {
     /**
      * @property {Phaser.Game} game - Local reference to game.
      */
@@ -1539,23 +1542,26 @@ class P2 {
 
     List output = [];
 
-    for (int i = 0,
-        len = map.collision[layer].length; i < len; i++) {
-      // name: json.layers[i].objects[v].name,
-      // x: json.layers[i].objects[v].x,
-      // y: json.layers[i].objects[v].y,
-      // width: json.layers[i].objects[v].width,
-      // height: json.layers[i].objects[v].height,
-      // visible: json.layers[i].objects[v].visible,
-      // properties: json.layers[i].objects[v].properties,
-      // polyline: json.layers[i].objects[v].polyline
+    {
+      int i = 0;
+      int len = map.collision[layer].length;
+      for ( ; i < len; i++) {
+        // name: json.layers[i].objects[v].name,
+        // x: json.layers[i].objects[v].x,
+        // y: json.layers[i].objects[v].y,
+        // width: json.layers[i].objects[v].width,
+        // height: json.layers[i].objects[v].height,
+        // visible: json.layers[i].objects[v].visible,
+        // properties: json.layers[i].objects[v].properties,
+        // polyline: json.layers[i].objects[v].polyline
 
-      Map object = map.collision[layer][i];
+        Map object = map.collision[layer][i];
 
-      Body body = this.createBody(object['x'], object['y'], 0, object['polyline'], addToWorld: addToWorld);
+        Body body = this.createBody(object['x'], object['y'], 0, object['polyline'], addToWorld: addToWorld);
 
-      if (body != null) {
-        output.add(body);
+        if (body != null) {
+          output.add(body);
+        }
       }
     }
 
@@ -1617,49 +1623,55 @@ class P2 {
     num sx = 0;
     num sy = 0;
 
-    for (int y = 0,
-        h = map.layers[layer].height; y < h; y++) {
-      width = 0;
+    {
+      int y = 0;
+      int h = map.layers[layer].height;
+      for ( ; y < h; y++) {
+        width = 0;
 
-      for (int x = 0,
-          w = map.layers[layer].width; x < w; x++) {
-        var tile = map.layers[layer].data[y][x];
+        {
+          int x = 0;
+          int w = map.layers[layer].width;
+          for ( ; x < w; x++) {
+            var tile = map.layers[layer].data[y][x];
 
-        if (tile != null && tile.index > -1 && tile.collides) {
-          if (optimize) {
-            var right = map.getTileRight(layer, x, y);
+            if (tile != null && tile.index > -1 && tile.collides) {
+              if (optimize) {
+                var right = map.getTileRight(layer, x, y);
 
-            if (width == 0) {
-              sx = tile.x * tile.width;
-              sy = tile.y * tile.height;
-              width = tile.width;
-            }
+                if (width == 0) {
+                  sx = tile.x * tile.width;
+                  sy = tile.y * tile.height;
+                  width = tile.width;
+                }
 
-            if (right && right.collides) {
-              width += tile.width;
-            } else {
-              var body = this.createBody(sx, sy, 0, false);
+                if (right && right.collides) {
+                  width += tile.width;
+                } else {
+                  var body = this.createBody(sx, sy, 0, false);
 
-              body.addRectangle(width, tile.height, width / 2, tile.height / 2, 0);
+                  body.addRectangle(width, tile.height, width / 2, tile.height / 2, 0);
 
-              if (addToWorld) {
-                this.addBody(body);
+                  if (addToWorld) {
+                    this.addBody(body);
+                  }
+
+                  map.layers[layer].bodies.add(body);
+
+                  width = 0;
+                }
+              } else {
+                var body = this.createBody(tile.x * tile.width, tile.y * tile.height, 0, false);
+
+                body.addRectangle(tile.width, tile.height, tile.width / 2, tile.height / 2, 0);
+
+                if (addToWorld) {
+                  this.addBody(body);
+                }
+
+                map.layers[layer].bodies.add(body);
               }
-
-              map.layers[layer].bodies.add(body);
-
-              width = 0;
             }
-          } else {
-            var body = this.createBody(tile.x * tile.width, tile.y * tile.height, 0, false);
-
-            body.addRectangle(tile.width, tile.height, tile.width / 2, tile.height / 2, 0);
-
-            if (addToWorld) {
-              this.addBody(body);
-            }
-
-            map.layers[layer].bodies.add(body);
           }
         }
       }

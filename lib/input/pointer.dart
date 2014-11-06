@@ -609,7 +609,7 @@ class Pointer {
     //  We know they'll be valid for input detection but not which is the top just yet
 
     //InputHandler currentNode = this.game.input.interactiveItems.first;
-    this.game.input.interactiveItems.forEach((InputHandler currentNode){
+    this.game.input.interactiveItems.forEach((InputHandler currentNode) {
       if (currentNode != null && currentNode.validForInput(this._highestInputPriorityID, this._highestRenderOrderID, false)) {
         //  Flag it as checked so we don't re-scan it on the next phase
         currentNode.checked = true;
@@ -628,8 +628,8 @@ class Pointer {
 
     //currentNode = this.game.input.interactiveItems.first;
 
-    this.game.input.interactiveItems.forEach((InputHandler currentNode){
-      if (currentNode != null  && !currentNode.checked && currentNode.validForInput(this._highestInputPriorityID, this._highestRenderOrderID, true)) {
+    this.game.input.interactiveItems.forEach((InputHandler currentNode) {
+      if (currentNode != null && !currentNode.checked && currentNode.validForInput(this._highestInputPriorityID, this._highestRenderOrderID, true)) {
         if ((fromClick && currentNode.checkPointerDown(this, false)) || (!fromClick && currentNode.checkPointerOver(this, false))) {
           this._highestRenderOrderID = currentNode.sprite._cache[3]; // renderOrderID
           this._highestInputPriorityID = currentNode.priorityID;
@@ -797,7 +797,7 @@ class Pointer {
 
     this.pointerId = null;
     this.identifier = null;
-    this.dirty= false; 
+    this.dirty = false;
     this.isDown = false;
     this.isUp = true;
     this.totalTouches = 0;

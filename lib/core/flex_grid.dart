@@ -45,7 +45,7 @@ class FlexGrid {
   Point scaleFluidInversed;
   Point scaleFull;
   Point scaleNone;
-  
+
   num customWidth;
   num customHeight;
   num customOffsetX;
@@ -122,9 +122,11 @@ class FlexGrid {
    * @param {array} [children] - An array of children that are used to populate the FlexLayer.
    * @return {Phaser.FlexLayer} The Layer object.
    */
-  FlexLayer createCustomLayer (num width, num height, List children, [bool addToWorld]) {
+  FlexLayer createCustomLayer(num width, num height, List children, [bool addToWorld]) {
 
-    if (addToWorld == null) { addToWorld = true; }
+    if (addToWorld == null) {
+      addToWorld = true;
+    }
 
     this.customWidth = width;
     this.customHeight = height;
@@ -134,15 +136,13 @@ class FlexGrid {
 
     FlexLayer layer = new FlexLayer(this, this.positionCustom, this.boundsCustom, this.scaleCustom);
 
-    if (addToWorld)
-    {
+    if (addToWorld) {
       this.game.world.add(layer);
     }
 
     this.layers.add(layer);
 
-    if (children != null)
-    {
+    if (children != null) {
       layer.addMultiple(children);
     }
 

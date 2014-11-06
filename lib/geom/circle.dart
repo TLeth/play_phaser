@@ -30,8 +30,7 @@ class Circle extends PIXI.Circle {
     if (value > this.x) {
       this._radius = 0;
       this._diameter = 0;
-    }
-    else {
+    } else {
       this.radius = this.x - value;
     }
   }
@@ -42,8 +41,7 @@ class Circle extends PIXI.Circle {
     if (value < this.x) {
       this._radius = 0;
       this._diameter = 0;
-    }
-    else {
+    } else {
       this.radius = value - this.x;
     }
   }
@@ -54,8 +52,7 @@ class Circle extends PIXI.Circle {
     if (value > this.y) {
       this._radius = 0;
       this._diameter = 0;
-    }
-    else {
+    } else {
       this.radius = this.y - value;
     }
   }
@@ -66,8 +63,7 @@ class Circle extends PIXI.Circle {
     if (value < this.y) {
       this._radius = 0;
       this._diameter = 0;
-    }
-    else {
+    } else {
       this.radius = value - this.y;
     }
   }
@@ -75,8 +71,7 @@ class Circle extends PIXI.Circle {
   num get area {
     if (this._radius > 0) {
       return Math.PI * this._radius * this._radius;
-    }
-    else {
+    } else {
       return 0;
     }
   }
@@ -91,11 +86,10 @@ class Circle extends PIXI.Circle {
   }
 
 
-  Circle([this.x=0, this.y=0, this._diameter=0]) {
+  Circle([this.x = 0, this.y = 0, this._diameter = 0]) {
     if (_diameter > 0) {
       this._radius = _diameter * 0.5;
-    }
-    else {
+    } else {
       this._radius = 0;
     }
   }
@@ -155,11 +149,10 @@ class Circle extends PIXI.Circle {
    * @return {number} The distance between this Point object and the destination Point object.
    */
 
-  distance(dest, [bool round=false]) {
+  distance(dest, [bool round = false]) {
     if (round) {
       return Math.distanceRounded(this.x, this.y, dest.x, dest.y);
-    }
-    else {
+    } else {
       return Math.distance(this.x, this.y, dest.x, dest.y);
     }
   }
@@ -175,8 +168,7 @@ class Circle extends PIXI.Circle {
 
     if (output == null) {
       output = new Circle(this.x, this.y, this._diameter);
-    }
-    else {
+    } else {
       output.setTo(this.x, this.y, this._diameter);
     }
     return output;
@@ -196,8 +188,7 @@ class Circle extends PIXI.Circle {
       var dy = (y - y) * (y - y);
 
       return (dx + dy) <= (radius * radius);
-    }
-    else {
+    } else {
       return false;
     }
   }
@@ -211,7 +202,7 @@ class Circle extends PIXI.Circle {
    * @return {Phaser.Point} The Point object holding the result.
    */
 
-  Point circumferencePoint(angle, [asDegrees =false, out]) {
+  Point circumferencePoint(angle, [asDegrees = false, out]) {
     if (out == null) {
       out = new Point();
     }

@@ -773,17 +773,18 @@ class Emitter extends Group {
 
     if (rate > 0 && min != max) {
       Map tweenData = {
-          'v': min
+        'v': min
       };
       Tween tween = this.game.make.tween(tweenData).to({
-          'v': max
+        'v': max
       }, rate, ease);
       tween.yoyo(yoyo);
 
       this.alphaData = tween.generateData(60);
 
       //  Inverse it so we don't have to do array length look-ups in Particle update loops
-      this.alphaData=this.alphaData.reversed.toList();;
+      this.alphaData = this.alphaData.reversed.toList();
+      ;
       this.autoAlpha = true;
     }
 
@@ -839,20 +840,20 @@ class Emitter extends Group {
 
     if (rate > 0 && (minX != maxX) || (minY != maxY)) {
       Map tweenData = {
-          'x' : minX,
-          'y' : minY
+        'x': minX,
+        'y': minY
       };
 
       Tween tween = this.game.make.tween(tweenData).to({
-          'x': maxX,
-          'y': maxY
+        'x': maxX,
+        'y': maxY
       }, rate, ease);
       tween.yoyo(yoyo);
 
       this.scaleData = tween.generateData(60);
 
       //  Inverse it so we don't have to do array length look-ups in Particle update loops
-      this.scaleData=this.scaleData.reversed.toList();
+      this.scaleData = this.scaleData.reversed.toList();
       this.autoScale = true;
     }
 

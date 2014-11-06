@@ -185,8 +185,7 @@ class Tile {
     /**
      * @property {object} properties - Tile specific properties.
      */
-    this.properties = {
-    };
+    this.properties = {};
 
     /**
      * @property {boolean} scanned - Has this tile been walked / turned into a poly?
@@ -237,7 +236,7 @@ class Tile {
      */
     this.collideDown = false;
 
-   
+
     /**
      * @property {function} collisionCallback - Tile collision callback.
      * @default
@@ -345,7 +344,7 @@ class Tile {
     this.collideRight = right;
     this.collideUp = up;
     this.collideDown = down;
-    
+
     this.faceLeft = left;
     this.faceRight = right;
     this.faceTop = up;
@@ -387,15 +386,13 @@ class Tile {
     if (collides && faces) {
       //  Does this tile have any collide flags OR interesting face?
       return (this.collideLeft || this.collideRight || this.collideUp || this.collideDown || this.faceTop || this.faceBottom || this.faceLeft || this.faceRight || this.collisionCallback != null);
-    }
-    else if (collides) {
+    } else if (collides) {
       //  Does this tile collide?
       return (this.collideLeft || this.collideRight || this.collideUp || this.collideDown);
+    } else if (faces) {
+      //  Does this tile have an interesting face?
+      return (this.faceTop || this.faceBottom || this.faceLeft || this.faceRight);
     }
-    else if (faces) {
-        //  Does this tile have an interesting face?
-        return (this.faceTop || this.faceBottom || this.faceLeft || this.faceRight);
-      }
 
     return false;
 

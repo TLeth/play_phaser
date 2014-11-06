@@ -67,13 +67,19 @@ class BodyDebug extends Phaser.Group {
 
     num angle;
     p2.Shape child;
-    num color, i, j, lineColor, lw;
+    num color;
+    num lw;
+    num lineColor;
+    num j;
+    num i;
     p2.Body obj = this.body;
     p2.vec2 offset;
     Phaser.Graphics sprite = this.canvas;
-    p2.vec2 v, vrot;
+    p2.vec2 v;
+    p2.vec2 vrot;
     List verts;
-    num _j, _ref1;
+    num _j;
+    num _ref1;
 
 
     sprite.clear();
@@ -99,11 +105,14 @@ class BodyDebug extends Phaser.Group {
           verts = [];
           vrot = p2.vec2.create();
 
-          for (num j = _j = 0,
-              _ref1 = (child as p2.Convex).vertices.length; 0 <= _ref1 ? _j < _ref1 : _j > _ref1; j = 0 <= _ref1 ? ++_j : --_j) {
-            v = (child as p2.Convex).vertices[j];
-            p2.vec2.rotate(vrot, v, angle);
-            verts.add(new p2.vec2((vrot.x + offset.x) * this.ppu, -(vrot.y + offset.y) * this.ppu));
+          {
+            num j = _j = 0;
+            num _ref1 = (child as p2.Convex).vertices.length;
+            for ( ; 0 <= _ref1 ? _j < _ref1 : _j > _ref1; j = 0 <= _ref1 ? ++_j : --_j) {
+              v = (child as p2.Convex).vertices[j];
+              p2.vec2.rotate(vrot, v, angle);
+              verts.add(new p2.vec2((vrot.x + offset.x) * this.ppu, -(vrot.y + offset.y) * this.ppu));
+            }
           }
 
           this.drawConvex(sprite, verts, (child as p2.Convex).triangles, lineColor, color, lw, debugPolygons, [offset.x * this.ppu, -offset.y * this.ppu]);
@@ -194,7 +203,17 @@ class BodyDebug extends Phaser.Group {
 
   drawConvex(Phaser.Graphics g, verts, triangles, color, fillColor, lineWidth, debug, offset) {
 
-    var colors, i, v, v0, v1, x, x0, x1, y, y0, y1;
+    var colors;
+    var y1;
+    var y0;
+    var y;
+    var x1;
+    var x0;
+    var x;
+    var v1;
+    var v0;
+    var v;
+    var i;
 
     if (lineWidth == null) {
       lineWidth = 1;
@@ -260,7 +279,19 @@ class BodyDebug extends Phaser.Group {
 
   drawPath(Phaser.Graphics g, path, color, fillColor, lineWidth) {
 
-    var area, i, lastx, lasty, p1x, p1y, p2x, p2y, p3x, p3y, v, x, y;
+    var area;
+    var y;
+    var x;
+    var v;
+    var p3y;
+    var p3x;
+    var p2y;
+    var p2x;
+    var p1y;
+    var p1x;
+    var lasty;
+    var lastx;
+    var i;
     if (lineWidth == null) {
       lineWidth = 1;
     }
@@ -326,7 +357,9 @@ class BodyDebug extends Phaser.Group {
 
   drawPlane(g, x0, x1, color, lineColor, lineWidth, diagMargin, diagSize, maxLength, angle) {
 
-    var max, xd, yd;
+    var max;
+    var yd;
+    var xd;
     if (lineWidth == null) {
       lineWidth = 1;
     }
@@ -358,7 +391,9 @@ class BodyDebug extends Phaser.Group {
 
   randomPastelHex() {
     Math.Random random = new Math.Random();
-    num blue, green, red;
+    num blue;
+    num red;
+    num green;
     List mix = const [255, 255, 255];
 
     red = random.nextInt(256);
